@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Payroll";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="@Url.Content("~/css/payroll-info.css")" />
+    <script src="@Url.Content("~/js/tabs.js")"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Payroll Information</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Payroll</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Employee" asp-action="PayrollInfo">Payroll</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="form-header">
+                <div class="row">
+                    <label>Company Code:</label>
+                    <input type="text" value="Demo1" readonly>
+
+                    <label>Employee ID:</label>
+                    <input type="text" value="00 02">
+
+                    <label>Employee Name:</label>
+                    <input type="text" value="LINDA BT MOHAMMAD">
+                </div>
+            </div>
+
+            <!-- Tabbed Section -->
+            <div class="tabs">
+                <button class="tab-link" data-tab="earning">Earning/Deduction</button>
+                <button class="tab-link" data-tab="payroll">Payroll Details</button>
+                <button class="tab-link" data-tab="tax">Tax Details</button>
+            </div>
+
+            <!-- Earning/Deduction Content -->
+            <div class="tab-content" id="earning" style="display:block;">
+                <div class="row">
+                    <label>Gross Pay:</label>
+                    <input type="text">
+                </div>
+
+                <div class="row">
+                    <label>PAYE:</label>
+                    <input type="text">
+                </div>
+
+                <div class="row">
+                    <label>Retirement Contributions:</label>
+                    <input type="text">
+                </div>
+
+                <div class="row">
+                    <label>UIF:</label>
+                    <input type="text">
+                </div>
+
+                <div class="row">
+                    <label>Net Pay:</label>
+                    <input type="text">
+                </div>
+            </div>
+
+            <!-- Payroll Details Content -->
+            <div class="tab-content" id="payroll" style="display:none;">
+                <div class="row">
+                    <label>Gross Pay:</label>
+                    <input type="text">
+
+                    <label>Net Pay:</label>
+                    <input type="text">
+
+                    <label>Payment Date:</label>
+                    <input type="date">
+
+                    <label>Payment Method:</label>
+                    <select>
+                        <option>Bank Transfer</option>
+                        <option>Cash</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <label>Bank:</label>
+                    <select>
+                        <option>Select Bank</option>
+                        <option>Bank A</option>
+                        <option>Bank B</option>
+                    </select>
+
+                    <label>Bank Account Number:</label>
+                    <input type="text">
+
+                    <label>Account Type:</label>
+                    <select>
+                        <option>Savings</option>
+                        <option>Checking</option>
+                    </select>
+
+                    <label>Branch Code:</label>
+                    <input type="text">
+                </div>
+            </div>
+
+            <!-- Tax Details Content -->
+            <div class="tab-content" id="tax" style="display:none;">
+                <div class="row">
+                    <label>Income Tax Reference Number:</label>
+                    <input type="text">
+                </div>
+                <div class="row">
+                    <label>Proof of Tax Registration:</label>
+                    <input type="file">
+                </div>
+                <div class="row">
+                    <label>ID or Passport:</label>
+                    <input type="file">
+                </div>
+                <div class="row">
+                    <label>Proof of Address:</label>
+                    <input type="file">
+                </div>
+                <div class="row">
+                    <label>Completed IRP5 Information:</label>
+                    <input type="file">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn save">Save</button>
+                <button class="btn delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="@Url.Content("~/js/tabs.js")"></script>
+
+    <!-- Confirm Logout script -->
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+    </script>
+</body>
+</html>
