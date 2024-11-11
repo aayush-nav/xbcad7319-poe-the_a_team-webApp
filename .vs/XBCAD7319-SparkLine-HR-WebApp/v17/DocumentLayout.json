@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\employee\\payrollinfo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\payrollinfo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\employee\\onboarding.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\onboarding.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\home\\maindashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\home\\maindashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -55,40 +47,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "PayrollInfo.cshtml",
-              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\PayrollInfo.cshtml",
-              "RelativeDocumentMoniker": "Views\\Employee\\PayrollInfo.cshtml",
-              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\PayrollInfo.cshtml",
-              "RelativeToolTip": "Views\\Employee\\PayrollInfo.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAGAAAA",
+              "Title": "MainDashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Home\\MainDashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\MainDashboard.cshtml",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Home\\MainDashboard.cshtml",
+              "RelativeToolTip": "Views\\Home\\MainDashboard.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-11T14:04:10.715Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Onboarding.cshtml",
-              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Onboarding.cshtml",
-              "RelativeDocumentMoniker": "Views\\Employee\\Onboarding.cshtml",
-              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Onboarding.cshtml",
-              "RelativeToolTip": "Views\\Employee\\Onboarding.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-11T14:03:54.535Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Management.cshtml",
-              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Management.cshtml",
-              "RelativeDocumentMoniker": "Views\\Employee\\Management.cshtml",
-              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Management.cshtml",
-              "RelativeToolTip": "Views\\Employee\\Management.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-11T14:03:41.384Z",
+              "WhenOpened": "2024-11-11T14:11:51.805Z",
               "EditorCaption": ""
             }
           ]
