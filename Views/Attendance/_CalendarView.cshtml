@@ -1,0 +1,72 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.AttendanceViewModel
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/calendar.css" />
+</head>
+<body>
+    <!-- Calendar Container -->
+    <div class="calendar-container">
+        <!-- Month/Year Navigation -->
+        <div class="calendar-navigation d-flex justify-content-between align-items-center mb-3">
+            <form method="get" action="@Url.Action("GetCalenderView", "Attendance")" class="d-inline-flex">
+                <input type="hidden" name="employeeName" value="@ViewBag.EmployeeName" />
+                <input type="hidden" name="month" value="@((Model.CurrentMonth == 1 ? 12 : Model.CurrentMonth - 1))" />
+                <input type="hidden" name="year" value="@((Model.CurrentMonth == 1 ? Model.CurrentYear - 1 : Model.CurrentYear))" />
+                <button id="prev-month" type="submit" class="btn btn-light">&#9664; Previous</button>
+            </form>
+
+            <h3 class="current-month">
+                @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.CurrentMonth) @Model.CurrentYear
+            </h3>
+
+            <form method="get" action="@Url.Action("GetCalenderView", "Attendance")" class="d-inline-flex">
+                <input type="hidden" name="employeeName" value="@ViewBag.EmployeeName" />
+                <input type="hidden" name="month" value="@((Model.CurrentMonth == 12 ? 1 : Model.CurrentMonth + 1))" />
+                <input type="hidden" name="year" value="@((Model.CurrentMonth == 12 ? Model.CurrentYear + 1 : Model.CurrentYear))" />
+                <button id="next-month" type="submit" class="btn btn-light">Next &#9654;</button>
+            </form>
+        </div>
+
+        <!-- Calendar Table -->
+        <div class="calendar">
+            <table class="table table-bordered text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                    </tr>
+                </thead>
+
+                <!-- Added id="calendar-body" here for JavaScript to work correctly -->
+                <tbody id="calendar-body">
+                    @foreach (var week in Model.Weeks)
+                    {
+                        <tr>
+                            @foreach (var day in week.Days)
+                            {
+                                <td class="attendance-day" data-date="@day.Date">
+                                    <div class="day-content">
+                                        <span class="day-number">@day.Date.ToString("dd")</span>
+                                        <br />
+                                        <span class="attendance-status">@day.Status</span>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Placeholder for Attendance Summary -->
+        <div id="attendance-summary-placeholder" class="mt-4">
+            <!-- Attendance summary for a specific date will be loaded here -->
+        </div>
+    </div>
+    <script src="~/js/Calendar.js"></script>
+</body>
