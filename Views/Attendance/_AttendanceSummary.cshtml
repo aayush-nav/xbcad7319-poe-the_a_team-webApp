@@ -1,0 +1,11 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.AttendanceDay
+
+<div class="attendance-summary mt-4">
+    <h3>Attendance Summary for @Model.Date.ToString("dd/MM/yyyy")</h3>
+    <ul>
+        <li>Status: @Model.Status</li>
+        <li>Check-In: @Model.CheckIn</li>
+        <li>Check-Out: @Model.CheckOut</li>
+        <li>Hours Worked: @Model.HoursWorked</li>
+    </ul>
+</div>
