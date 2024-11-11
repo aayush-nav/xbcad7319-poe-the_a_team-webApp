@@ -1,0 +1,32 @@
+﻿.calendar-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.thead-light th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.attendance-day {
+    position: relative;
+}
+
+    .attendance-day.present {
+        color: green;
+    }
+
+    .attendance-day.absent {
+        color: red;
+    }
