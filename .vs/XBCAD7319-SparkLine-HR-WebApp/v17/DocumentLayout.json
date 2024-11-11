@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,6 +43,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-11T13:08:41.895Z",
+              "EditorCaption": ""
             }
           ]
         }
