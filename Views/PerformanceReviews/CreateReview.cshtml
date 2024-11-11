@@ -1,0 +1,214 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance</title>
+
+    <!-- External Styles and Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="~/css/employee-details.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Performance Reviews</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Performance</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Employee" asp-action="PayrollInfo">Payroll</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <form asp-action="SaveReview" method="post">
+            <!-- Employee Dropdown -->
+            <div class="form-group-employee-list">
+                <label for="EmployeeName">Employee</label>
+                <select asp-for="EmployeeName" class="form-control">
+                    <option value="">Select Employee</option>
+                    <option value="Mike Thompson">Mike Thompson</option>
+                    <option value="Jane Doe">Jane Doe</option>
+                    <option value="John Smith">John Smith</option>
+                    <!-- Add more employees as needed -->
+                </select>
+            </div>
+
+            <!-- Review Date (Editable) -->
+            <div class="form-group">
+                <label for="ReviewDate">Review Date</label>
+                <input asp-for="ReviewDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            </div>
+
+            <!-- Performance Rating -->
+            <div class="form-group">
+                <label for="PerformanceRating">Performance Rating</label>
+                <select asp-for="PerformanceRating" class="form-control">
+                    <option value="Excellent">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Satisfactory">Satisfactory</option>
+                    <option value="Needs Improvement">Needs Improvement</option>
+                </select>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="form-group">
+                <label for="Feedback">Feedback</label>
+                <textarea asp-for="Feedback" class="form-control" rows="4" placeholder="Provide feedback..."></textarea>
+            </div>
+
+            <!-- Save Review Button -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save And Submit Review To Employee</button>
+            </div>
+        </form>
+
+        <h3>View Past Reviews</h3>
+
+        <!-- Search Section -->
+        <div class="form-group">
+            <label for="searchTerm">Search Employee Reviews</label>
+            <input type="text" id="searchTerm" class="form-control" placeholder="Enter employee name..." />
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-secondary" onclick="searchReviews()">Search</button>
+            <button type="button" class="btn btn-light" onclick="clearSearch()">Clear</button>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="employee-column">Employee</th>
+                        <th class="date-column">Review Date</th>
+                        <th class="rating-column">Performance Rating</th>
+                        <th class="feedback-column">Feedback</th>
+                    </tr>
+                </thead>
+                <tbody id="reviewTableBody">
+                    @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
+                    {
+                        <tr>
+                            <td class="employee-column">@review.EmployeeName</td>
+                            <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
+                            <td class="rating-column">@review.PerformanceRating</td>
+                            <td class="feedback-column">@review.Feedback</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <style>
+            .container {
+                max-width: 1000px; /* Wider container */
+                margin: 0 auto;
+            }
+
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-group-employee-list {
+                margin-bottom: 10px;
+                margin-left: 270px;
+                /*             max-width: 200px;
+             */ margin-right: 10px
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+                margin-left: 270px;
+                margin-right: 10px
+            }
+
+            label {
+                margin-bottom: 0.5rem;
+            }
+
+            /* Table Styles */
+            .table-container {
+                margin-left: 270px;
+                margin-right: 10px;
+            }
+
+            .table-bordered {
+                width: 100%;
+                border: 1px solid #ddd;
+                border-collapse: collapse;
+            }
+
+                .table-bordered th, .table-bordered td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                .table-bordered th {
+                    background-color: #f2f2f2;
+                }
+
+            /* Column widths */
+            .employee-column {
+                width: 15%;
+            }
+
+            .date-column {
+                width: 15%;
+            }
+
+            .rating-column {
+                width: 20%;
+            }
+
+            .feedback-column {
+                width: 25%;
+            }
+        </style>
+
+        <script>
+            function searchReviews() {
+                var searchTerm = document.getElementById("searchTerm").value;
+                // Redirect to CreateReview action with the search term as a parameter
+                window.location.href = '@Url.Action("CreateReview", "PerformanceReviews")?searchTerm=' + encodeURIComponent(searchTerm);
+            }
+
+            function clearSearch() {
+                document.getElementById("searchTerm").value = ''; // Clear the input field
+                // Redirect to CreateReview action without search term
+                window.location.href = '@Url.Action("CreateReview", "PerformanceReviews")';
+            }
+
+        </script>
+    </div>
+    <!-- Confirm Logout script -->
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+    </script>
+</body>
+</html>
