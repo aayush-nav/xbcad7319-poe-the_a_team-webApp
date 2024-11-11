@@ -1,0 +1,134 @@
+﻿/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hr-logo {
+    width: 70px;
+    height: 70px;
+    background-image: url('/images/hr-app-logo-no-wording.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Dashboard Container styling */
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Dashboard grid layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    gap: 50px;
+}
+
+/* Button styling */
+.dashboard-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 250px; /* Set a fixed width */
+    height: 150px; /* Set a fixed height */
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    background-color: #fff;
+    border: 3px solid transparent;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .dashboard-button i {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-button:hover {
+        transform: scale(1.15);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+/* Specific colors for each button */
+.employee {
+    background-color: #7ed957; /* Green */
+    border-color: #56b036;
+}
+
+.attendance {
+    background-color: #a8e6cf; /* Light Green */
+    border-color: #80bfa0;
+}
+
+.payroll {
+    background-color: #b3e5fc; /* Light Blue */
+    border-color: #82c8e6;
+}
+
+.onboarding {
+    background-color: #ffcccb; /* Light Red */
+    border-color: #e59795;
+}
+
+.performance {
+    background-color: #d1c4e9; /* Light Purple */
+    border-color: #b39ddb;
+}
+
+.logout {
+    background-color: #ffecb3; /* Light Yellow */
+    border-color: #f4d07e;
+}

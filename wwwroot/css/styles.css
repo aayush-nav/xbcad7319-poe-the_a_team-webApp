@@ -1,0 +1,73 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 20px;
+}
+
+.dashboard-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 120px;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+    text-align: center;
+}
+
+    .dashboard-button i {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+.employee {
+    background-color: #7ed957; /* Green */
+    border-color: #56b036;
+}
+
+.attendance {
+    background-color: #a8e6cf; /* Light Green */
+    border-color: #80bfa0;
+}
+
+.payroll {
+    background-color: #b3e5fc; /* Light Blue */
+    border-color: #82c8e6;
+}
+
+.onboarding {
+    background-color: #ffcccb; /* Light Red */
+    border-color: #e59795;
+}
+
+.performance {
+    background-color: #d1c4e9; /* Light Purple */
+    border-color: #b39ddb;
+}
+
+.logout {
+    background-color: #ffecb3; /* Light Yellow */
+    border-color: #f4d07e;
+}

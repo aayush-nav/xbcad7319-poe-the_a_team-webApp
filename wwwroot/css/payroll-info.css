@@ -1,0 +1,195 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Content wrapper to align sidebar and main content */
+.content-wrapper {
+    display: flex;
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 82%;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-right: 40px;
+    margin-left: 270px; /* Matches sidebar width + some spacing */
+    border-radius: 10px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hr-logo {
+    width: 70px;
+    height: 70px;
+    background-image: url('/images/hr-app-logo-no-wording.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #ddd;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+    .sidebar-menu li {
+        margin: 10px 0;
+    }
+
+        .sidebar-menu li a {
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            background: #eaeaea;
+            border-radius: 5px;
+            color: #333;
+        }
+
+            .sidebar-menu li a:hover {
+                background: #007bff;
+                color: white;
+            }
+
+/* Main content styling */
+.main-content {
+    flex-grow: 1;
+    max-width: 82%;
+    margin-left: 270px; /* Matches sidebar width + some spacing */
+    padding: 20px;
+    background: white;
+}
+
+/* Additional styles for tabs, form, and buttons */
+.form-header {
+    margin-bottom: 20px;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+label {
+    width: 180px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"],
+select {
+    width: 300px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-link {
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+    .tab-link.active {
+        background: #0056b3;
+    }
+
+.tab-content {
+    display: none;
+}
+
+    .tab-content.active {
+        display: block;
+    }
+
+.form-actions {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .btn.back {
+        background-color: #ccc;
+    }
+
+    .btn.save {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn.delete {
+        background-color: #dc3545;
+        color: white;
+    }
