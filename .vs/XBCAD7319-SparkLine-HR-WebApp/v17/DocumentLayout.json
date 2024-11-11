@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,6 +45,10 @@
               "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "attendance.css",
@@ -52,7 +56,7 @@
               "RelativeDocumentMoniker": "wwwroot\\css\\attendance.css",
               "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\attendance.css",
               "RelativeToolTip": "wwwroot\\css\\attendance.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2024-11-11T08:35:39.203Z",
               "EditorCaption": ""
