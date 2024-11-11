@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Employee Management";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="~/css/employee-management.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/payroll-info.css")"
+    <link rel="stylesheet" href="@Url.Content("~/css/employee-management.css")"
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Employee Management</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Management</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Employee" asp-action="PayrollInfo">Payroll</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Employee List Heading -->
+            <h2 class="employee-list-heading">Employee List</h2>
+
+            <!-- Search and Filter Section -->
+            <div class="search-filter-container">
+                <input type="text" class="search-bar" placeholder="Search Employee" />
+                <div class="filters">
+                    <select>
+                        <option>Department</option>
+                        <option>IT</option>
+                        <option>HR</option>
+                    </select>
+                    <select>
+                        <option>Role</option>
+                        <option>Developer</option>
+                        <option>Analyst</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Employee Table -->
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Dept</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <img src="~/images/jake-smith.jpg" alt="Jake Smith" class="employee-img">
+                                Jake Smith
+                            </div>
+                        </td>
+                        <td>Developer</td>
+                        <td>IT</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="employee-info">
+                                <img src="~/images/kate-clark.jpg" alt="Kate Clark" class="employee-img">
+                                Kate Clark
+                            </div>
+                        </td>
+                        <td>Analyst</td>
+                        <td>HR</td>
+                        <td><span class="status inactive">Inactive</span></td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Actions Container -->
+            <div class="actions-container">
+                <button class="add-btn">Add new Employee</button>
+                <button class="remove-btn">Remove Employee</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Logout script -->
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+    </script>
+</body>
+</html>

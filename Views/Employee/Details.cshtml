@@ -1,0 +1,357 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.ViewModel.EmployeeDetailsViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+
+    <!-- External Styles and Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="~/css/employee-details.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Employee Onboarding</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Onboarding</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Employee" asp-action="PayrollInfo">Payroll</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#personal-info" data-toggle="tab">Personal Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#job-details" data-toggle="tab">Job Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#attendance" data-toggle="tab">Attendance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#payroll" data-toggle="tab">Payroll</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#reviews" data-toggle="tab">Reviews</a>
+                </li>
+            </ul>
+
+            <!-- Personal Information (Editable) -->
+            <div class="tab-content mt-3">
+                <div id="personal-info" class="tab-pane fade show active" style="margin-top: 15px;">
+                    <h2>Personal Information</h2>
+                    <div class="card">
+                        <div class="card-header">Edit Personal Information</div>
+                        <div class="card-body">
+                            <form method="post" action="/Employee/UpdatePersonalInfo">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Name:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Name" class="form-control" value="@Model.Employee.Name" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Date of Birth:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="date" name="DateOfBirth" class="form-control" value="@Model.Employee.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                    </dd>
+                                    <dt class="col-sm-3">Contact:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Contact" class="form-control" value="@Model.Employee.Contact" />
+                                    </dd>
+                                    <dt class="col-sm-3">Email:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="email" name="Email" class="form-control" value="@Model.Employee.Email" />
+                                    </dd>
+                                    <dt class="col-sm-3">Address:</dt>
+                                    <dd class="col-sm-9">
+                                        <textarea name="Address" class="form-control">@Model.Employee.Address</textarea>
+                                    </dd>
+                                </dl>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Details (Editable) -->
+                <div id="job-details" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Job Details</h2>
+                    <div class="card">
+                        <div class="card-header">Edit Job Details</div>
+                        <div class="card-body">
+                            <form method="post" action="/Employee/UpdateJobDetails">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Job Title:</dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.RoleOptions, "Select Role", new { @class = "form-control" })
+                                    </dd>
+                                    <dt class="col-sm-3">Department:</dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.DepartmentOptions, "Select Department", new { @class = "form-control" })
+                                    </dd>
+                                    <dt class="col-sm-3">Manager:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Manager" class="form-control" value="@Model.JobDetails.Manager" />
+                                    </dd>
+                                    <dt class="col-sm-3">Employment Type:</dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.EmployeeTypeOptions, "Select Employee Type", new { @class = "form-control" })
+                                    </dd>
+                                    <dt class="col-sm-3">Hire Date:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="date" name="HireDate" class="form-control" value="@Model.JobDetails.HireDate.ToString("yyyy-MM-dd")" />
+                                    </dd>
+                                    <dt class="col-sm-3">Status:</dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.StatusOptions, "Select Status", new { @class = "form-control" })
+                                    </dd>
+                                    <dt class="col-sm-3">Job Description:</dt>
+                                    <dd class="col-sm-9">
+                                        <textarea name="JobDescription" class="form-control">@Model.JobDetails.JobDescription</textarea>
+                                    </dd>
+                                </dl>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Section -->
+                <div id="attendance" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Attendance</h2>
+                    <form asp-action="FilterAttendance" method="get">
+                        <div class="form-group row">
+                            <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fromDate" name="fromDate" value="@ViewBag.FromDate?.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="toDate" name="toDate" value="@ViewBag.ToDate?.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var record in Model.AttendanceRecords)
+                            {
+                                <tr>
+                                    <td>@record.Date.ToString("MM/dd/yyyy")</td>
+                                    <td>@record.CheckIn</td>
+                                    <td>@record.CheckOut</td>
+                                    <td>@record.Status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Payroll (Read-only) -->
+                <div id="payroll" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Payroll</h2>
+                    <table class="table">
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Gross Pay:</td>
+                            <td><input type="text" value="@Model.Payroll.GrossPay" class="form-control" readonly /></td>
+                            <td style="background-color: #ADD8E6;">Bank:</td>
+                            <td><input type="text" value="@Model.Payroll.Bank" class="form-control" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Net Pay:</td>
+                            <td><input type="text" value="@Model.Payroll.NetPay" class="form-control" readonly /></td>
+                            <td style="background-color: #ADD8E6;">Bank Account Number:</td>
+                            <td><input type="text" value="@Model.Payroll.BankAccountNumber" class="form-control" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Payment Date:</td>
+                            <td><input type="text" value="@Model.Payroll.PaymentDate.ToString("yyyy-MM-dd")" class="form-control" readonly /></td>
+                            <td style="background-color: #ADD8E6;">Account Type:</td>
+                            <td><input type="text" value="@Model.Payroll.AccountType" class="form-control" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Payment Method:</td>
+                            <td><input type="text" value="@Model.Payroll.PaymentMethod" class="form-control" readonly /></td>
+                            <td style="background-color: #ADD8E6;">Branch Code:</td>
+                            <td><input type="text" value="@Model.Payroll.BranchCode" class="form-control" readonly /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Filter Section: From Date - To Date -->
+                <div id="attendance" class="tab-pane fade">
+                    <h2>Attendance</h2>
+
+                    <!-- Date Filter Form -->
+                    <form asp-action="FilterAttendance" method="get">
+                        <div class="form-group row">
+                            <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="fromDate" name="fromDate" value="@ViewBag.FromDate?.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="toDate" name="toDate" value="@ViewBag.ToDate?.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Filtered Attendance Records -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var record in Model.AttendanceRecords)
+                            {
+                                <tr>
+                                    <td>@record.Date.ToString("MM/dd/yyyy")</td>
+                                    <td>@record.CheckIn</td>
+                                    <td>@record.CheckOut</td>
+                                    <td>@record.Status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Payroll (Editable) -->
+                <div id="payroll" class="tab-pane fade">
+                    <h2>Payroll</h2>
+                    <table class="table">
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Gross Pay :</td>
+                            <td><input type="text" asp-for="Payroll.GrossPay" /></td>
+                            <td style="background-color: #ADD8E6;">Bank :</td>
+                            <td>
+                                <select asp-for="Payroll.Bank">
+                                    <option value="">Select Bank</option>
+                                    <!-- Add bank options here -->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Net Pay :</td>
+                            <td><input type="text" asp-for="Payroll.NetPay" /></td>
+                            <td style="background-color: #ADD8E6;">Bank Account Number :</td>
+                            <td><input type="text" asp-for="Payroll.BankAccountNumber" /></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Payment Date :</td>
+                            <td><input type="date" asp-for="Payroll.PaymentDate" /></td>
+                            <td style="background-color: #ADD8E6;">Account Type :</td>
+                            <td>
+                                <select asp-for="Payroll.AccountType">
+                                    <option value="">Select Account Type</option>
+                                    <option value="Savings">Savings</option>
+                                    <option value="Current">Current</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Payment Method :</td>
+                            <td>
+                                <select asp-for="Payroll.PaymentMethod">
+                                    <option value="EFT">EFT</option>
+                                    <option value="Cheque">Cheque</option>
+                                    <!-- Add more payment methods if needed -->
+                                </select>
+                            </td>
+                            <td style="background-color: #ADD8E6;">Branch Code :</td>
+                            <td><input type="text" asp-for="Payroll.BranchCode" /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Reviews Section -->
+                <div id="reviews" class="tab-pane fade">
+                    <h2>Reviews</h2>
+                    <div class="card">
+                        <div class="card-header">Performance Reviews</div>
+                        <div class="card-body">
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <dl class="row">
+                                    <dt class="col-sm-3">Review Date:</dt>
+                                    <dd class="col-sm-9">@review.ReviewDate.ToString("MM/dd/yyyy")</dd>
+                                    <dt class="col-sm-3">Rating:</dt>
+                                    <dd class="col-sm-9">@review.Rating</dd>
+                                    <dt class="col-sm-3">Reviewer:</dt>
+                                    <dd class="col-sm-9">@review.Reviewer</dd>
+                                    <dt class="col-sm-3">Feedback:</dt>
+                                    <dd class="col-sm-9">@review.Feedback</dd>
+                                </dl>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .container {
+            max-width: 1000px; /* Wider container */
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+    </script>
+</body>
+</html>
