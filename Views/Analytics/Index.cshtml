@@ -1,0 +1,141 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.Analytics
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+
+    <!-- External Styles and Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/attendance.css" />
+    <link rel="stylesheet" href="~/css/calendar.css" />
+    <script src="~/js/Calendar.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Analytics Summary</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Analytics</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container mt-5">
+            <h3>Daily Hours Worked</h3>
+            <canvas id="hoursWorkedChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            let hoursWorked = [8, 7.5, 8, 6, 7, 0, 0]; // Sample data (replace with dynamic data as needed)
+
+            function renderHoursWorkedChart(labels, data) {
+                const ctx = document.getElementById('hoursWorkedChart').getContext('2d');
+                const hoursWorkedChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Hours Worked',
+                            data: data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Hours'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Days of the Week'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initial chart rendering
+            renderHoursWorkedChart(daysOfWeek, hoursWorked);
+
+            // Function to fetch hours for a given week
+            function fetchHoursForWeek(startDate) {
+                $.ajax({
+                    url: '/Attendance/GetHoursForWeek',
+                    type: 'GET',
+                    data: { startDate: startDate.toISOString().split('T')[0] },
+                    success: function (data) {
+                        hoursWorked = data;
+                        renderHoursWorkedChart(daysOfWeek, hoursWorked);
+                    },
+                    error: function () {
+                        alert("Error fetching data for the selected week.");
+                    }
+                });
+            }
+
+            $('#filterWeekButton').click(function () {
+                const selectedDate = new Date($('#weekPicker').val());
+                if (isNaN(selectedDate)) {
+                    alert("Please select a valid date.");
+                    return;
+                }
+
+                const startOfWeek = new Date(selectedDate);
+                const dayOfWeek = startOfWeek.getDay();
+                const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+                startOfWeek.setDate(diff);
+
+                fetchHoursForWeek(startOfWeek);
+            });
+        });
+
+
+            function confirmLogout() {
+                if (confirm("Are you sure you want to log out?")) {
+                    window.location.href = '@Url.Action("Logout", "Account")';
+                }
+            }
+    </script>
+
+    <!-- Include Bootstrap JS at the end of the body -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

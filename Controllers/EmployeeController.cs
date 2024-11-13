@@ -133,5 +133,51 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadDocuments(EmployeeDocuments model)
+        {
+            if (ModelState.IsValid)
+            {
+                //replace the below path with the database storage path after you connect the database to the app
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                // Ensure the upload directory exists
+                Directory.CreateDirectory(uploadPath);
+
+                // Save each file if it's provided
+                if (model.IDOrPassport != null)
+                    await SaveFileAsync(model.IDOrPassport, uploadPath, "IDOrPassport");
+
+                if (model.CV != null)
+                    await SaveFileAsync(model.CV, uploadPath, "CV");
+
+                if (model.ProofOfAddress != null)
+                    await SaveFileAsync(model.ProofOfAddress, uploadPath, "ProofOfAddress");
+
+                if (model.ProofOfTaxRegistration != null)
+                    await SaveFileAsync(model.ProofOfTaxRegistration, uploadPath, "ProofOfTaxRegistration");
+
+                if (model.CompletedIRP5 != null)
+                    await SaveFileAsync(model.CompletedIRP5, uploadPath, "CompletedIRP5");
+
+                if (model.ProofOfBank != null)
+                    await SaveFileAsync(model.ProofOfBank, uploadPath, "ProofOfBank");
+
+                TempData["Message"] = "Documents uploaded successfully.";
+                return RedirectToAction("Index");
+            }
+
+            return View("DocumentUpload", model);
+        }
+
+        private async Task SaveFileAsync(IFormFile file, string uploadPath, string fileName)
+        {
+            var filePath = Path.Combine(uploadPath, fileName + Path.GetExtension(file.FileName));
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+        }
     }
 }
