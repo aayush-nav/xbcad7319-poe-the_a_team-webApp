@@ -28,7 +28,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=MainDashboard}/{id?}");
 
             app.Run();
         }

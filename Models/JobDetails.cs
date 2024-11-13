@@ -5,6 +5,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
     public class JobDetails
     {
+        public string EmployeeId { get; set; }
         public string JobTitle { get; set; }
         public string Department { get; set; }
         public string Manager { get; set; }

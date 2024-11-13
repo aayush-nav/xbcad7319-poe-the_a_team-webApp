@@ -33,7 +33,7 @@
                     <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
                     <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
                     <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
-                    <li><a asp-controller="Employee" asp-action="PayrollInfo">Payroll</a></li>
+                    <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
                     <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
                     <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
                     <li><a href="#" onclick="confirmLogout()">Logout</a></li>
@@ -51,13 +51,10 @@
                     <a class="nav-link" href="#job-details" data-toggle="tab">Job Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#attendance" data-toggle="tab">Attendance</a>
+                    <a class="nav-link" href="#document-upload" data-toggle="tab">Upload Documents</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#payroll" data-toggle="tab">Payroll</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#reviews" data-toggle="tab">Reviews</a>
                 </li>
             </ul>
 
@@ -79,17 +76,35 @@
                                     <dd class="col-sm-9">
                                         <input type="date" name="DateOfBirth" class="form-control" value="@Model.Employee.DateOfBirth.ToString("yyyy-MM-dd")" />
                                     </dd>
+
                                     <dt class="col-sm-3">Contact:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="Contact" class="form-control" value="@Model.Employee.Contact" />
+                                        <input type="number" name="Contact" class="form-control" value="@Model.Employee.Contact" />
                                     </dd>
+
                                     <dt class="col-sm-3">Email:</dt>
                                     <dd class="col-sm-9">
                                         <input type="email" name="Email" class="form-control" value="@Model.Employee.Email" />
                                     </dd>
+
                                     <dt class="col-sm-3">Address:</dt>
                                     <dd class="col-sm-9">
                                         <textarea name="Address" class="form-control">@Model.Employee.Address</textarea>
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Name:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmergencyContactName" class="form-control" value="@Model.Employee.EmergencyContactName" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Number:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="number" name="EmergencyContactNumber" class="form-control" value="@Model.Employee.EmergencyContactNumber" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Relationship:</dt>
+                                    <dd class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.Employee.EmergencyContactRelationship, Model.Employee.RelationshipOptions, "Select Relationship", new { @class = "form-control" })
                                     </dd>
                                 </dl>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -106,30 +121,36 @@
                         <div class="card-body">
                             <form method="post" action="/Employee/UpdateJobDetails">
                                 <dl class="row">
+                                    <dt class="col-sm-3">Employee ID:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmployeeId" class="form-control" value="@Model.JobDetails.EmployeeId" />
+                                    </dd>
+
                                     <dt class="col-sm-3">Job Title:</dt>
                                     <dd class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.RoleOptions, "Select Role", new { @class = "form-control" })
+                                        <input type="text" name="JobTitle" class="form-control" value="@Model.JobDetails.JobTitle" />
                                     </dd>
+
                                     <dt class="col-sm-3">Department:</dt>
                                     <dd class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.DepartmentOptions, "Select Department", new { @class = "form-control" })
+                                        <input type="text" name="Department" class="form-control" value="@Model.JobDetails.Department" />
                                     </dd>
+
                                     <dt class="col-sm-3">Manager:</dt>
                                     <dd class="col-sm-9">
                                         <input type="text" name="Manager" class="form-control" value="@Model.JobDetails.Manager" />
                                     </dd>
+
                                     <dt class="col-sm-3">Employment Type:</dt>
                                     <dd class="col-sm-9">
                                         @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.EmployeeTypeOptions, "Select Employee Type", new { @class = "form-control" })
                                     </dd>
+
                                     <dt class="col-sm-3">Hire Date:</dt>
                                     <dd class="col-sm-9">
                                         <input type="date" name="HireDate" class="form-control" value="@Model.JobDetails.HireDate.ToString("yyyy-MM-dd")" />
                                     </dd>
-                                    <dt class="col-sm-3">Status:</dt>
-                                    <dd class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.StatusOptions, "Select Status", new { @class = "form-control" })
-                                    </dd>
+                                    
                                     <dt class="col-sm-3">Job Description:</dt>
                                     <dd class="col-sm-9">
                                         <textarea name="JobDescription" class="form-control">@Model.JobDetails.JobDescription</textarea>
@@ -141,49 +162,48 @@
                     </div>
                 </div>
 
-                <!-- Attendance Section -->
-                <div id="attendance" class="tab-pane fade" style="margin-top: 15px;">
-                    <h2>Attendance</h2>
-                    <form asp-action="FilterAttendance" method="get">
-                        <div class="form-group row">
-                            <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="fromDate" name="fromDate" value="@ViewBag.FromDate?.ToString("yyyy-MM-dd")">
-                            </div>
+                <!-- Document Upload Section -->
+                <div id="document-upload" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Document Upload</h2>
+                    <div class="card">
+                        <div class="card-header">Upload Employee Documents</div>
+                        <div class="card-body">
+                        <form asp-action="UploadDocuments" method="post" enctype="multipart/form-data">
+                            <dl class="row">
+                                <dt class="col-sm-3">ID or Passport:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="IDOrPassport" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                </dd>
+
+                                <dt class="col-sm-3">CV:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="CV" class="form-control-file" accept=".pdf,.doc,.docx" />
+                                </dd>
+
+                                <dt class="col-sm-3">Proof of Address:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="ProofOfAddress" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                </dd>
+
+                                <dt class="col-sm-3">Proof of Tax Registration:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="ProofOfTaxRegistration" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                </dd>
+
+                                <dt class="col-sm-3">Completed IRP5 Information:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="CompletedIRP5" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                </dd>
+
+                                <dt class="col-sm-3">Proof of Bank Account:</dt>
+                                <dd class="col-sm-9">
+                                    <input type="file" name="ProofOfBank" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                </dd>
+                            </dl>
+                            <button type="submit" class="btn btn-primary">Upload Documents</button>
+                        </form>
                         </div>
-                        <div class="form-group row">
-                            <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="toDate" name="toDate" value="@ViewBag.ToDate?.ToString("yyyy-MM-dd")">
-                            </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary">Filter</button>
-                            </div>
-                        </div>
-                    </form>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var record in Model.AttendanceRecords)
-                            {
-                                <tr>
-                                    <td>@record.Date.ToString("MM/dd/yyyy")</td>
-                                    <td>@record.CheckIn</td>
-                                    <td>@record.CheckOut</td>
-                                    <td>@record.Status</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
                 </div>
 
                 <!-- Payroll (Read-only) -->
@@ -192,77 +212,35 @@
                     <table class="table">
                         <tr>
                             <td style="background-color: #ADD8E6;">Gross Pay:</td>
-                            <td><input type="text" value="@Model.Payroll.GrossPay" class="form-control" readonly /></td>
+                            <td><input type="text" value="@Model.Payroll.GrossPay" class="form-control" /></td>
+                            <td style="background-color: #ADD8E6;">Account Name:</td>
+                            <td><input type="text" value="@Model.Payroll.AccountName" class="form-control" /></td>
+                        </tr>
+                            <td style="background-color: #ADD8E6;">PAYE:</td>
+                            <td><input type="text" value="@Model.Payroll.PAYETax" class="form-control" /></td>
                             <td style="background-color: #ADD8E6;">Bank:</td>
-                            <td><input type="text" value="@Model.Payroll.Bank" class="form-control" readonly /></td>
+                            <td><input type="text" value="@Model.Payroll.Bank" class="form-control" /></td>
                         </tr>
                         <tr>
-                            <td style="background-color: #ADD8E6;">Net Pay:</td>
-                            <td><input type="text" value="@Model.Payroll.NetPay" class="form-control" readonly /></td>
+                            <td style="background-color: #ADD8E6;">UIF:</td>
+                            <td><input type="text" value="@Model.Payroll.UIFContribution" class="form-control" /></td>
                             <td style="background-color: #ADD8E6;">Bank Account Number:</td>
-                            <td><input type="text" value="@Model.Payroll.BankAccountNumber" class="form-control" readonly /></td>
+                            <td><input type="text" value="@Model.Payroll.BankAccountNumber" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #ADD8E6;">Retirement:</td>
+                            <td><input type="text" value="@Model.Payroll.RetirementContribution" class="form-control" /></td>
+                            <td style="background-color: #ADD8E6;">Account Type:</td>
+                            <td><input type="text" value="@Model.Payroll.AccountType" class="form-control" /></td>
                         </tr>
                         <tr>
                             <td style="background-color: #ADD8E6;">Payment Date:</td>
-                            <td><input type="text" value="@Model.Payroll.PaymentDate.ToString("yyyy-MM-dd")" class="form-control" readonly /></td>
-                            <td style="background-color: #ADD8E6;">Account Type:</td>
-                            <td><input type="text" value="@Model.Payroll.AccountType" class="form-control" readonly /></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Payment Method:</td>
-                            <td><input type="text" value="@Model.Payroll.PaymentMethod" class="form-control" readonly /></td>
+                            <td><input type="text" value="@Model.Payroll.PaymentDate.ToString("yyyy-MM-dd")" class="form-control" /></td>
                             <td style="background-color: #ADD8E6;">Branch Code:</td>
-                            <td><input type="text" value="@Model.Payroll.BranchCode" class="form-control" readonly /></td>
+                            <td><input type="text" value="@Model.Payroll.BranchCode" class="form-control" /></td>
                         </tr>
-                    </table>
-                </div>
-
-                <!-- Filter Section: From Date - To Date -->
-                <div id="attendance" class="tab-pane fade">
-                    <h2>Attendance</h2>
-
-                    <!-- Date Filter Form -->
-                    <form asp-action="FilterAttendance" method="get">
-                        <div class="form-group row">
-                            <label for="fromDate" class="col-sm-2 col-form-label">From Date:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="fromDate" name="fromDate" value="@ViewBag.FromDate?.ToString("yyyy-MM-dd")">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="toDate" class="col-sm-2 col-form-label">To Date:</label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="toDate" name="toDate" value="@ViewBag.ToDate?.ToString("yyyy-MM-dd")">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary">Filter</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Filtered Attendance Records -->
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var record in Model.AttendanceRecords)
-                            {
-                                <tr>
-                                    <td>@record.Date.ToString("MM/dd/yyyy")</td>
-                                    <td>@record.CheckIn</td>
-                                    <td>@record.CheckOut</td>
-                                    <td>@record.Status</td>
-                                </tr>
-                            }
-                        </tbody>
+                            <td style="background-color: #ADD8E6;">Tax Number:</td>
+                            <td><input type="text" value="@Model.Payroll.TaxNumber" class="form-control" /></td>
                     </table>
                 </div>
 
@@ -312,29 +290,6 @@
                             <td><input type="text" asp-for="Payroll.BranchCode" /></td>
                         </tr>
                     </table>
-                </div>
-
-                <!-- Reviews Section -->
-                <div id="reviews" class="tab-pane fade">
-                    <h2>Reviews</h2>
-                    <div class="card">
-                        <div class="card-header">Performance Reviews</div>
-                        <div class="card-body">
-                            @foreach (var review in Model.Reviews)
-                            {
-                                <dl class="row">
-                                    <dt class="col-sm-3">Review Date:</dt>
-                                    <dd class="col-sm-9">@review.ReviewDate.ToString("MM/dd/yyyy")</dd>
-                                    <dt class="col-sm-3">Rating:</dt>
-                                    <dd class="col-sm-9">@review.Rating</dd>
-                                    <dt class="col-sm-3">Reviewer:</dt>
-                                    <dd class="col-sm-9">@review.Reviewer</dd>
-                                    <dt class="col-sm-3">Feedback:</dt>
-                                    <dd class="col-sm-9">@review.Feedback</dd>
-                                </dl>
-                            }
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
