@@ -1,0 +1,8 @@
+﻿.chart-container {
+    width: 1500px;
+    max-height:2200px;
+    margin-left: 270px;
+    padding: 5px;
+    place-content:center;
+    margin-right: 270px;
+}
