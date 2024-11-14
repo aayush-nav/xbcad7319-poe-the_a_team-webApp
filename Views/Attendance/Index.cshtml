@@ -54,6 +54,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="leave-requests-tab" data-toggle="tab" href="#leave-requests" role="tab" aria-controls="leave-requests" aria-selected="false">Leave Requests</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="overtime-approval-tab" data-toggle="tab" href="#overtime-approval" role="tab" aria-controls="overtime-approval" aria-selected="false">Overtime Approval</a>
+                </li>
             </ul>
 
             <!-- Tab Content -->
@@ -119,7 +122,7 @@
                     </div>
 
                     <!-- Chart Container -->
-                    <div class="chart-container mt-5">
+                    <div class="attendance-chart-container mt-5">
                         <h3>Daily Hours Worked</h3>
                         <canvas id="hoursWorkedChart"></canvas>
                     </div>
@@ -159,6 +162,37 @@
                                         }
                                     </td>
                                     <td>@leaveRequest.Status</td>
+                                    <td>
+                                        <button class="btn btn-success">Approve</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Aslam Updated -->
+                <!-- Overtime Approval Tab -->
+                <div class="tab-pane fade" id="overtime-approval" role="tabpanel" aria-labelledby="overtime-approval-tab">
+                    <h2>Overtime Approval</h2>
+                    <table class="table table-bordered table-striped" id="overtimeApprovalTable">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Hours Worked</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row (Replace with dynamic data as needed) -->
+                            @foreach (var overtime in Model.OvertimeRequests)
+                            {
+                                <tr>
+                                    <td>@overtime.EmployeeName</td>
+                                    <td>@overtime.HoursWorked</td>
+                                    <td>@overtime.Status</td>
                                     <td>
                                         <button class="btn btn-success">Approve</button>
                                         <button class="btn btn-danger">Reject</button>

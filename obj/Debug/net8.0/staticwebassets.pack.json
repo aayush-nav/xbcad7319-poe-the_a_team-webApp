@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\XBCAD7319-SparkLine-HR-WebApp.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\analytics.css",
+      "PackagePath": "staticwebassets\\css\\analytics.css"
+    },
+    {
       "Id": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\attendance.css",
       "PackagePath": "staticwebassets\\css\\attendance.css"
     },

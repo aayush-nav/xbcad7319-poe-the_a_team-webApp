@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tOOpJAPrLg0S0dpk4xFz3QqFCn+Qdg8SCv8yR6m8IyA=",
+  "Hash": "muDsTkKZaT6GzXfwBLrkN8G2Er+ahas8ddK1PZozOKg=",
   "Source": "XBCAD7319-SparkLine-HR-WebApp",
   "BasePath": "_content/XBCAD7319-SparkLine-HR-WebApp",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\XBCAD7319-SparkLine-HR-WebApp.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\analytics.css",
+      "SourceId": "XBCAD7319-SparkLine-HR-WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\",
+      "BasePath": "_content/XBCAD7319-SparkLine-HR-WebApp",
+      "RelativePath": "css/analytics.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\analytics.css"
     },
     {
       "Identity": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\attendance.css",

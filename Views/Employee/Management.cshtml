@@ -40,75 +40,107 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Aslam Updated -->
+        <!-- Main Content with Tabs -->
         <div class="main-content">
-            <!-- Employee List Heading -->
-            <h2 class="employee-list-heading">Employee List</h2>
+            <div class="tabs">
+                <div class="tab-link active" data-tab="employee-list">Employee List</div>
+                <div class="tab-link" data-tab="previous-employees">Previous Employees</div>
+            </div>
 
-            <!-- Search and Filter Section -->
-            <div class="search-filter-container">
-                <input type="text" class="search-bar" placeholder="Search Employee" />
-                <div class="filters">
-                    <select>
-                        <option>Department</option>
-                        <option>IT</option>
-                        <option>HR</option>
-                    </select>
-                    <select>
-                        <option>Role</option>
-                        <option>Developer</option>
-                        <option>Analyst</option>
-                    </select>
+        <!-- Aslam Updated -->
+            <!-- Employee List Content -->
+            <div class="tab-content" id="employee-list" style="display:block;">
+                <!-- Employee List Heading -->
+                <h2 class="employee-list-heading">Employee List</h2>
+
+                <!-- Search and Filter Section -->
+                <div class="search-filter-container">
+                    <input type="text" class="search-bar" placeholder="Search Employee" />
+                    <div class="filters">
+                        <select>
+                            <option>Department</option>
+                            <option>IT</option>
+                            <option>HR</option>
+                        </select>
+                        <select>
+                            <option>Role</option>
+                            <option>Developer</option>
+                            <option>Analyst</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Employee Table -->
+                <table class="employee-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Dept</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeListTable">
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <img src="~/images/jake-smith.jpg" alt="Jake Smith" class="employee-img">
+                                    Jake Smith
+                                </div>
+                            </td>
+                            <td>Developer</td>
+                            <td>IT</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="remove-btn" onclick="removeEmployee(this)">Remove</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="employee-info">
+                                    <img src="~/images/kate-clark.jpg" alt="Kate Clark" class="employee-img">
+                                    Kate Clark
+                                </div>
+                            </td>
+                            <td>Analyst</td>
+                            <td>HR</td>
+                            <td><span class="status inactive">Inactive</span></td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="remove-btn" onclick="removeEmployee(this)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Actions Container -->
+                <div class="actions-container">
+                    <button class="add-btn">Add new Employee</button>
                 </div>
             </div>
 
-            <!-- Employee Table -->
-            <table class="employee-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Dept</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="employee-info">
-                                <img src="~/images/jake-smith.jpg" alt="Jake Smith" class="employee-img">
-                                Jake Smith
-                            </div>
-                        </td>
-                        <td>Developer</td>
-                        <td>IT</td>
-                        <td><span class="status active">Active</span></td>
-                        <td>
-                            <button class="edit-btn">Edit</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="employee-info">
-                                <img src="~/images/kate-clark.jpg" alt="Kate Clark" class="employee-img">
-                                Kate Clark
-                            </div>
-                        </td>
-                        <td>Analyst</td>
-                        <td>HR</td>
-                        <td><span class="status inactive">Inactive</span></td>
-                        <td>
-                            <button class="edit-btn">Edit</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Actions Container -->
-            <div class="actions-container">
-                <button class="add-btn">Add new Employee</button>
-                <button class="remove-btn">Remove Employee</button>
+            <!-- Aslam Updated -->
+            <!-- Previous Employees Content -->
+            <div class="tab-content" id="previous-employees" style="display:none;">
+                <h3>Previous Employees</h3>
+                <table class="employee-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Dept</th>
+                            <th>Status</th>
+                            <th>Termination Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="previousEmployeesTable">
+                        <!-- Removed employees will appear here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -119,6 +151,77 @@
             if (confirm("Are you sure you want to log out?")) {
                 window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
             }
+        }
+
+        // Tab switching logic
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabLinks = document.querySelectorAll(".tab-link");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            tabLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    const tabId = this.getAttribute("data-tab");
+
+                    // Hide all tab content
+                    tabContents.forEach(content => content.style.display = "none");
+
+                    // Remove active class from all tabs
+                    tabLinks.forEach(tab => tab.classList.remove("active"));
+
+                    // Show the selected tab content
+                    document.getElementById(tabId).style.display = "block";
+
+                    // Add active class to the clicked tab
+                    this.classList.add("active");
+                });
+            });
+        });
+
+        //Aslam Updated
+
+        // Function to remove an employee and add to previous employees
+        function removeEmployee(button) {
+            const row = button.closest("tr");
+            const employeeTable = document.getElementById("previousEmployeesTable");
+
+            // Get current date for termination
+            const terminationDate = new Date().toLocaleDateString();
+
+            // Change status to "Removed" for previous employee table
+            row.querySelector(".status").textContent = "Removed";
+
+            // Remove the 'Remove' button in the row and add "Rehire" button
+            const actionCell = row.querySelector("td:last-child");
+            actionCell.innerHTML = '<button class="rehire-btn" onclick="rehireEmployee(this)">Rehire</button>';
+
+            // Add the termination date to the new cell
+            const terminationDateCell = document.createElement("td");
+            terminationDateCell.textContent = terminationDate;
+            row.insertBefore(terminationDateCell, actionCell);
+
+            // Move row to Previous Employees
+            employeeTable.appendChild(row);
+        }
+
+        //Aslam Updated
+
+        // Function to rehire an employee
+        function rehireEmployee(button) {
+            const row = button.closest("tr");
+            const employeeListTable = document.getElementById("employeeListTable");
+
+            // Remove the termination date cell
+            row.removeChild(row.querySelector("td:nth-last-child(2)")); // Adjust to match "Termination Date" position
+
+            // Update the status to "Active"
+            row.querySelector(".status").textContent = "Active";
+
+            // Replace "Rehire" button with "Edit" and "Remove" buttons
+            const actionCell = row.querySelector("td:last-child");
+            actionCell.innerHTML = '<button class="edit-btn">Edit</button> <button class="remove-btn" onclick="removeEmployee(this)">Remove</button>';
+
+            // Move the row back to the Employee List
+            employeeListTable.appendChild(row);
         }
     </script>
 </body>

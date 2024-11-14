@@ -10,6 +10,18 @@
         public AttendanceSummary AttendanceSummary { get; set; }
         public AttendanceDay SelectedDay { get; set; } // Day clicked from the calendar
         public List<LeaveRequest> LeaveRequests { get; set; }
+
+        // Aslam Updated
+        // Add this property for Overtime Requests
+        public List<OvertimeRequest> OvertimeRequests { get; set; } = new List<OvertimeRequest>();
+    }
+
+    // Aslam Updated
+    public class OvertimeRequest
+    {
+        public string EmployeeName { get; set; }
+        public double HoursWorked { get; set; }
+        public string Status { get; set; } // e.g., "Pending", "Approved", "Rejected"
     }
 
     public class AttendanceLog

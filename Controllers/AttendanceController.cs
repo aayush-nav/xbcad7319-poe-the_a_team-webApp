@@ -14,7 +14,16 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                 AttendanceCalendar = GetAttendanceCalendar(),
                 AttendanceSummary = GetAttendanceSummary(),
                 LeaveRequests = GetLeaveRequests(),
-                SelectedDay = null
+                SelectedDay = null,
+
+                // Aslam Updated
+                // Adding mock data for OvertimeRequests
+                OvertimeRequests = new List<OvertimeRequest>
+                {
+                    new OvertimeRequest { EmployeeName = "John Doe", HoursWorked = 45, Status = "Pending" },
+                    new OvertimeRequest { EmployeeName = "Jane Smith", HoursWorked = 42, Status = "Approved" }
+                    // Add more sample data as needed
+                }
             };
 
             return View(viewModel);
