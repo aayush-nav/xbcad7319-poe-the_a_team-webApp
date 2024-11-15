@@ -41,173 +41,289 @@
             </div>
         </div>
 
-        <form asp-action="SaveReview" method="post">
-            <!-- Employee Dropdown -->
-            <div class="form-group-employee-list">
-                <label for="EmployeeName">Employee</label>
-                <select asp-for="EmployeeName" class="form-control">
-                    <option value="">Select Employee</option>
-                    <option value="Mike Thompson">Mike Thompson</option>
-                    <option value="Jane Doe">Jane Doe</option>
-                    <option value="John Smith">John Smith</option>
-                    <!-- Add more employees as needed -->
-                </select>
+        <!-- Tabs -->
+        <div class="main-content">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="create-review-tab" data-bs-toggle="tab" href="#create-review" role="tab" aria-controls="create-review" aria-selected="true">Create Review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="view-reviews-tab" data-bs-toggle="tab" href="#view-reviews" role="tab" aria-controls="view-reviews" aria-selected="false">View Past Reviews</a>
+                </li>
+                <!-- New Tabs for Training -->
+                <li class="nav-item">
+                    <a class="nav-link" id="create-training-tab" data-bs-toggle="tab" href="#create-training" role="tab" aria-controls="create-training" aria-selected="false">Create Training</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="view-trainings-tab" data-bs-toggle="tab" href="#view-trainings" role="tab" aria-controls="view-trainings" aria-selected="false">View Past Trainings</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3">
+                <!-- Create Review Tab -->
+                <div class="tab-pane fade show active" id="create-review" role="tabpanel" aria-labelledby="create-review-tab">
+                    <div class="card">
+                        <div class="card-header">Create Review</div>
+                        <div class="card-body">
+                            <form asp-action="SaveReview" method="post">
+                                <!-- Employee Dropdown -->
+                                <div class="form-group-employee-list">
+                                    <label for="EmployeeName">Employee</label>
+                                    <select asp-for="EmployeeName" class="form-control">
+                                        <option value="">Select Employee</option>
+                                        <option value="Mike Thompson">Mike Thompson</option>
+                                        <option value="Jane Doe">Jane Doe</option>
+                                        <option value="John Smith">John Smith</option>
+                                    </select>
+                                </div>
+
+                                <!-- Review Date (Editable) -->
+                                <div class="form-group">
+                                    <label for="ReviewDate">Review Date</label>
+                                    <input asp-for="ReviewDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                </div>
+
+                                <!-- Performance Rating -->
+                                <div class="form-group">
+                                    <label for="PerformanceRating">Performance Rating</label>
+                                    <select asp-for="PerformanceRating" class="form-control">
+                                        <option value="Excellent">Excellent</option>
+                                        <option value="Good">Good</option>
+                                        <option value="Satisfactory">Satisfactory</option>
+                                        <option value="Needs Improvement">Needs Improvement</option>
+                                    </select>
+                                </div>
+
+                                <!-- Feedback Section -->
+                                <div class="form-group">
+                                    <label for="Feedback">Feedback</label>
+                                    <textarea asp-for="Feedback" class="form-control" rows="4" placeholder="Provide feedback..."></textarea>
+                                </div>
+
+                                <!-- Save Review Button -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Save And Submit Review To Employee</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Past Reviews Tab -->
+                <div class="tab-pane fade" id="view-reviews" role="tabpanel" aria-labelledby="view-reviews-tab">
+                    <div class="card">
+                        <div class="card-header">View Past Reviews</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="searchTerm">Search Employee Reviews</label>
+                                <input type="text" id="searchTerm" class="form-control" placeholder="Enter employee name..." />
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="searchReviews()">Search</button>
+                                <button type="button" class="btn btn-light" onclick="clearSearch()">Clear</button>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="employee-column">Employee</th>
+                                            <th class="date-column">Review Date</th>
+                                            <th class="rating-column">Performance Rating</th>
+                                            <th class="feedback-column">Feedback</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reviewTableBody">
+                                        @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
+                                        {
+                                            <tr>
+                                                <td class="employee-column">@review.EmployeeName</td>
+                                                <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
+                                                <td class="rating-column">@review.PerformanceRating</td>
+                                                <td class="feedback-column">@review.Feedback</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Training Tab -->
+                <div class="tab-pane fade" id="create-training" role="tabpanel" aria-labelledby="create-training-tab">
+                    <div class="card">
+                        <div class="card-header">Create Training</div>
+                        <div class="card-body">
+                            <form asp-action="SaveTraining" method="post">
+                                <!-- Select Employee Dropdown -->
+                                <div class="form-group">
+                                    <label for="EmployeeName">Select Employee</label>
+                                    <select id="EmployeeName" class="form-control" name="EmployeeName">
+                                        <option value="">Select Employee</option>
+                                        <option value="Mike Thompson">Mike Thompson</option>
+                                        <option value="Jane Doe">Jane Doe</option>
+                                        <option value="John Smith">John Smith</option>
+                                    </select>
+                                </div>
+
+                                <!-- Course Name -->
+                                <div class="form-group">
+                                    <label for="CourseName">Course Name</label>
+                                    <input type="text" id="CourseName" class="form-control" name="CourseName" placeholder="Enter course name" />
+                                </div>
+
+                                <!-- Add Course Link -->
+                                <div class="form-group">
+                                    <label for="CourseLink">Add Course Link</label>
+                                    <input type="text" id="CourseLink" class="form-control" name="CourseLink" placeholder="Enter course link" />
+                                </div>
+
+                                <!-- Completion Date -->
+                                <div class="form-group">
+                                    <label for="CompletionDate">Completion Date</label>
+                                    <input type="date" id="CompletionDate" class="form-control" name="CompletionDate" />
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Submit Training</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Past Trainings Tab -->
+                <div class="tab-pane fade" id="view-trainings" role="tabpanel" aria-labelledby="view-trainings-tab">
+                    <div class="card">
+                        <div class="card-header">View Past Trainings</div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="employee-column">Employee</th>
+                                            <th class="course-column">Course</th>
+                                            <th class="date-column">Completion Date</th>
+                                            <th class="status-column">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var training in (List<XBCAD7319_SparkLine_HR_WebApp.Models.Training>)ViewData["Trainings"])
+                                        {
+                                            <tr>
+                                                <td>@training.EmployeeName</td>
+                                                <td>@(training.Status ? "Completed" : "Incomplete")</td>
+                                                <td><a href="@training.CourseLink" target="_blank">View Document</a></td>
+                                                <td>@training.CompletionDate.ToString("yyyy-MM-dd")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- Review Date (Editable) -->
-            <div class="form-group">
-                <label for="ReviewDate">Review Date</label>
-                <input asp-for="ReviewDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-            </div>
-
-            <!-- Performance Rating -->
-            <div class="form-group">
-                <label for="PerformanceRating">Performance Rating</label>
-                <select asp-for="PerformanceRating" class="form-control">
-                    <option value="Excellent">Excellent</option>
-                    <option value="Good">Good</option>
-                    <option value="Satisfactory">Satisfactory</option>
-                    <option value="Needs Improvement">Needs Improvement</option>
-                </select>
-            </div>
-
-            <!-- Feedback Section -->
-            <div class="form-group">
-                <label for="Feedback">Feedback</label>
-                <textarea asp-for="Feedback" class="form-control" rows="4" placeholder="Provide feedback..."></textarea>
-            </div>
-
-            <!-- Save Review Button -->
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save And Submit Review To Employee</button>
-            </div>
-        </form>
-
-        <h3>View Past Reviews</h3>
-
-        <!-- Search Section -->
-        <div class="form-group">
-            <label for="searchTerm">Search Employee Reviews</label>
-            <input type="text" id="searchTerm" class="form-control" placeholder="Enter employee name..." />
         </div>
-        <div class="form-group">
-            <button type="button" class="btn btn-secondary" onclick="searchReviews()">Search</button>
-            <button type="button" class="btn btn-light" onclick="clearSearch()">Clear</button>
-        </div>
 
-        <div class="table-container">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th class="employee-column">Employee</th>
-                        <th class="date-column">Review Date</th>
-                        <th class="rating-column">Performance Rating</th>
-                        <th class="feedback-column">Feedback</th>
-                    </tr>
-                </thead>
-                <tbody id="reviewTableBody">
-                    @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
-                    {
-                        <tr>
-                            <td class="employee-column">@review.EmployeeName</td>
-                            <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
-                            <td class="rating-column">@review.PerformanceRating</td>
-                            <td class="feedback-column">@review.Feedback</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <style>
-            .container {
-                max-width: 1000px; /* Wider container */
-                margin: 0 auto;
-            }
-
-            .content-wrapper {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .form-group-employee-list {
-                margin-bottom: 10px;
-                margin-left: 270px;
-                /*             max-width: 200px;
-             */ margin-right: 10px
-            }
-
-            .form-group {
-                margin-bottom: 10px;
-                margin-left: 270px;
-                margin-right: 10px
-            }
-
-            label {
-                margin-bottom: 0.5rem;
-            }
-
-            /* Table Styles */
-            .table-container {
-                margin-left: 270px;
-                margin-right: 10px;
-            }
-
-            .table-bordered {
-                width: 100%;
-                border: 1px solid #ddd;
-                border-collapse: collapse;
-            }
-
-                .table-bordered th, .table-bordered td {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    text-align: left;
-                }
-
-                .table-bordered th {
-                    background-color: #f2f2f2;
-                }
-
-            /* Column widths */
-            .employee-column {
-                width: 15%;
-            }
-
-            .date-column {
-                width: 15%;
-            }
-
-            .rating-column {
-                width: 20%;
-            }
-
-            .feedback-column {
-                width: 25%;
-            }
-        </style>
-
-        <script>
-            function searchReviews() {
-                var searchTerm = document.getElementById("searchTerm").value;
-                // Redirect to CreateReview action with the search term as a parameter
-                window.location.href = '@Url.Action("CreateReview", "PerformanceReviews")?searchTerm=' + encodeURIComponent(searchTerm);
-            }
-
-            function clearSearch() {
-                document.getElementById("searchTerm").value = ''; // Clear the input field
-                // Redirect to CreateReview action without search term
-                window.location.href = '@Url.Action("CreateReview", "PerformanceReviews")';
-            }
-
-        </script>
     </div>
-    <!-- Confirm Logout script -->
-    <script>
-        function confirmLogout() {
-            if (confirm("Are you sure you want to log out?")) {
-                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+
+    <style>
+        .container {
+            max-width: 1000px; /* Wider container */
+            margin: 0 auto;
+            background-color: white;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group-employee-list {
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Table Styles */
+        .table-container {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .table-bordered {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+            .table-bordered th, .table-bordered td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
             }
+
+            .table-bordered th {
+                background-color: white;
+            }
+
+        /* Column widths */
+        .employee-column {
+            width: 15%;
+        }
+
+        .date-column {
+            width: 15%;
+        }
+
+        .rating-column {
+            width: 20%;
+        }
+
+        .feedback-column {
+            width: 25%;
+        }
+    </style>
+
+    <script>
+        // Search reviews function
+        function searchReviews() {
+            var searchTerm = document.getElementById("searchTerm").value;
+            if (searchTerm) {
+                // Modify the action to filter reviews based on search term
+                window.location.href = '/PerformanceReviews/Index?searchTerm=' + searchTerm;
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById("searchTerm").value = "";
+            searchReviews();
+        }
+
+        // Example script to dynamically add new training entries (could be server-side, or handled by JavaScript)
+        function addTrainingRow(trainingData) {
+            let tableBody = document.getElementById("trainingTableBody");
+            let newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                        <td>${trainingData.EmployeeName}</td>
+                        <td>${trainingData.Status ? "Complete" : "Incomplete"}</td>
+                        <td><a href="${trainingData.CourseLink}" target="_blank">View Document</a></td>
+                        <td>${trainingData.CompletionDate}</td>
+                    `;
         }
     </script>
 </body>
