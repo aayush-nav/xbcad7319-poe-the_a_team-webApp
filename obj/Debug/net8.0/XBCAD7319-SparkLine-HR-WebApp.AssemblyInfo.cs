@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("XBCAD7319-SparkLine-HR-WebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad6f28b96d59f625dd9b81631cf8a1d2d68bfe42")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e86e6d22e197fcdc1aafccf809ecc9453a8d9ba")]
 [assembly: System.Reflection.AssemblyProductAttribute("XBCAD7319-SparkLine-HR-WebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("XBCAD7319-SparkLine-HR-WebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
