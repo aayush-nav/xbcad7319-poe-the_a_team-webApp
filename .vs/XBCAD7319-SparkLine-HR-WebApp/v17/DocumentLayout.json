@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\wwwroot\\css\\employee-details.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:wwwroot\\css\\employee-details.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\analytics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\analytics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\wwwroot\\css\\bootstrap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:wwwroot\\css\\bootstrap.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\wwwroot\\css\\analytics.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:wwwroot\\css\\analytics.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,41 +58,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "bootstrap.css",
-              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\bootstrap.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\bootstrap.css",
-              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\bootstrap.css",
-              "RelativeToolTip": "wwwroot\\css\\bootstrap.css",
-              "ViewState": "AQIAAEoHAAAAAAAAAAD4v1oHAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-11-15T07:09:35.479Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "employee-details.css",
-              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\employee-details.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\employee-details.css",
-              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\employee-details.css",
-              "RelativeToolTip": "wwwroot\\css\\employee-details.css",
-              "ViewState": "AQIAAJgAAAAAAAAAAAD4v6UAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-11-15T07:04:01.073Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\Employee\\Details.cshtml",
               "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Details.cshtml",
               "RelativeToolTip": "Views\\Employee\\Details.cshtml",
-              "ViewState": "AQIAAOcAAAAAAAAAAAAAAPQAAABWAAAA",
+              "ViewState": "AQIAAOEAAAAAAAAAAAAAAO0AAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-15T06:54:33.727Z",
+              "WhenOpened": "2024-11-15T09:35:01.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "analytics.css",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\analytics.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\analytics.css",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\wwwroot\\css\\analytics.css",
+              "RelativeToolTip": "wwwroot\\css\\analytics.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-15T09:04:55.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Analytics\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Analytics\\Index.cshtml",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Analytics\\Index.cshtml",
+              "RelativeToolTip": "Views\\Analytics\\Index.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAowEgAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-15T08:20:48.257Z",
               "EditorCaption": ""
             }
           ]
