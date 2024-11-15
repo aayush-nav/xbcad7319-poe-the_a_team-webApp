@@ -30,27 +30,46 @@
     </div>
 
     <div class="content-wrapper">
-        <!-- Sidebar Container -->
-        <div class="sidebar-container">
-            <div class="sidebar">
-                <h2>Analytics</h2>
-                <ul class="sidebar-menu">
-                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
-                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
-                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
-                    <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
-                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
-                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
-                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
-                </ul>
-            </div>
-        </div>
+        <!-- Table for Filters and Graph -->
+        <table class="table table-bordered mt-5">
+            <tr>
+                <!-- Filters Section -->
+                <td>
+                    <h4>Filter</h4>
+                    <form id="filterForm" class="form-inline">
+                        <div class="form-group mb-3">
+                            <label for="employeeSelect" class="mr-2">Select Employee:</label>
+                            <select id="employeeSelect" class="form-control">
+                                <option value="">-- Select Employee --</option>
+                                <!-- Populate dynamically with employee data -->
+                                <option value="1">Employee 1</option>
+                                <option value="2">Employee 2</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="weekPicker" class="mr-2">Select Week:</label>
+                            <input type="date" id="weekPicker" class="form-control" />
+                        </div>
+                        <button type="button" id="filterButton" class="btn btn-primary">Apply Filter</button>
+                    </form>
+                    <div id="totalHoursContainer" class="mt-3">
+                        <h5>Total Hours Worked: <span id="totalHours">0</span></h5>
+                    </div>
+                </td>
 
-        <!-- Chart Container -->
-        <div class="chart-container mt-5">
-            <h3>Daily Hours Worked</h3>
-            <canvas id="hoursWorkedChart"></canvas>
-        </div>
+                <!-- Empty Placeholder Cell -->
+                <td rowspan="2"></td>
+            </tr>
+            <tr>
+                <!-- Graph Section -->
+                <td>
+                    <h4>Daily Hours Worked</h4>
+                    <div class="chart-container">
+                        <canvas id="hoursWorkedChart"></canvas>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <script>
