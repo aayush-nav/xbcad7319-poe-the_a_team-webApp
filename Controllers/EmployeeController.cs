@@ -1,132 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firebase.Storage;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using XBCAD7319_SparkLine_HR_WebApp.Models;
-using XBCAD7319_SparkLine_HR_WebApp.ViewModel;
 
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 {
     public class EmployeeController : Controller
     {
-        public IActionResult Details(int id)
+
+        private readonly OnboardingService _onboardingService;
+        private readonly FirebaseService _firebaseService;
+        //private readonly OnboardingManager _onboardingManager;
+
+        public EmployeeController()
         {
-            // Mock Employee data
-            var employee = new Employee
-            {
-                Name = "Jake Smith",
-                Department = "IT",
-                Contact = "+27789293745",
-                Email = "jakesmith@example.com",
-                Address = "123 Main st, city, country",
-                DateOfBirth = new DateTime(1990, 1, 1)
-            };
-
-            // Mock Attendance Records
-            var attendanceRecords = new List<AttendanceRecord>
-            {
-                new AttendanceRecord { Id = 1, Date = DateTime.Now.AddDays(-2), CheckIn = new TimeSpan(9, 0, 0), CheckOut = new TimeSpan(17, 0, 0), Status = "Present" },
-                new AttendanceRecord { Id = 2, Date = DateTime.Now.AddDays(-1), CheckIn = new TimeSpan(9, 10, 0), CheckOut = new TimeSpan(16, 50, 0), Status = "Present" }
-            };
-
-            // Mock Job Details
-            var jobDetails = new JobDetails
-            {
-                JobTitle = "Senior Developer",
-                Department = "IT",
-                Manager = "Jane Steve",
-                EmploymentType = "Full-time",
-                HireDate = new DateTime(2020, 1, 1),
-                Status = "Active",
-                JobDescription = "Responsible for software development and managing the team.",
-
-                // Populate Dropdown Options
-                RoleOptions = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "Developer", Text = "Developer" },
-                    new SelectListItem { Value = "Manager", Text = "Manager" },
-                    new SelectListItem { Value = "Analyst", Text = "Analyst" }
-                },
-                DepartmentOptions = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "HR", Text = "HR" },
-                    new SelectListItem { Value = "IT", Text = "IT" },
-                    new SelectListItem { Value = "Finance", Text = "Finance" }
-                },
-                EmployeeTypeOptions = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "FullTime", Text = "Full-Time" },
-                    new SelectListItem { Value = "PartTime", Text = "Part-Time" },
-                    new SelectListItem { Value = "Contract", Text = "Contract" }
-                },
-                StatusOptions = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "Active", Text = "Active" },
-                    new SelectListItem { Value = "Inactive", Text = "Inactive" },
-                    new SelectListItem { Value = "OnLeave", Text = "On Leave" }
-                }
-            };
-
-            // Mock Reviews
-            var reviews = new List<Review>
-            {
-                new Review { Id = 1, ReviewDate = new DateTime(2024, 8, 1), Rating = "Excellent", Reviewer = "Jane Steve", Feedback = "Smith has shown exceptional performance" }
-            };
-
-            // Mock Payroll
-            var payroll = new Payroll
-            {
-                Salary = 70000,
-                Bonus = 5000,
-                Deductions = 2000,
-                GrossPay = 75000,                // Example Gross Pay
-                NetPay = 68000,                  // Example Net Pay
-                PaymentDate = DateTime.Now,      // Example Payment Date
-                PaymentMethod = "EFT",           // Example Payment Method
-                Bank = "ABC Bank",               // Example Bank
-                BankAccountNumber = "12345678",  // Example Bank Account Number
-                AccountType = "Savings",         // Example Account Type
-                BranchCode = "000123"            // Example Branch Code
-            };
-
-            // Create ViewModel
-            var viewModel = new EmployeeDetailsViewModel
-            {
-                Employee = employee,
-                JobDetails = jobDetails,
-                AttendanceRecords = attendanceRecords,
-                Payroll = payroll,
-                Reviews = reviews
-            };
-
-            return View(viewModel);
-        }
-        public IActionResult Management()
-        {
-            return View();
-        }
-
-        public IActionResult Onboarding()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult SaveEmployeeDetails(EmployeeModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Save employee details logic here
-                return RedirectToAction("EmployeeMaster");
-            }
-            return View("EmployeeMaster", model);
+            _onboardingService = new OnboardingService();
+            _firebaseService = new FirebaseService();
+            //_onboardingManager = onboardingManager;
         }
 
         [HttpGet]
-        public ActionResult PayrollInfo()
+        public async Task<JsonResult> GetNextEmployeeId()
         {
-            // Load employee details or return a blank form
-            return View(new EmployeeModel());
+            try
+            {
+                var nextEmployeeId = await _onboardingService.GetNextEmployeeIdAsync();
+                return Json(new { success = true, employeeId = nextEmployeeId });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
         }
 
         public IActionResult Index()
@@ -134,50 +40,186 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View();
         }
 
+
+        public IActionResult Details()
+        {
+            return View();
+        }
+
+
         [HttpPost]
-        public async Task<IActionResult> UploadDocuments(EmployeeDocuments model)
+        public JsonResult PersonalInformationCaptureAJAX(Employee model)
         {
             if (ModelState.IsValid)
             {
-                //replace the below path with the database storage path after you connect the database to the app
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-                // Ensure the upload directory exists
-                Directory.CreateDirectory(uploadPath);
-
-                // Save each file if it's provided
-                if (model.IDOrPassport != null)
-                    await SaveFileAsync(model.IDOrPassport, uploadPath, "IDOrPassport");
-
-                if (model.CV != null)
-                    await SaveFileAsync(model.CV, uploadPath, "CV");
-
-                if (model.ProofOfAddress != null)
-                    await SaveFileAsync(model.ProofOfAddress, uploadPath, "ProofOfAddress");
-
-                if (model.ProofOfTaxRegistration != null)
-                    await SaveFileAsync(model.ProofOfTaxRegistration, uploadPath, "ProofOfTaxRegistration");
-
-                if (model.CompletedIRP5 != null)
-                    await SaveFileAsync(model.CompletedIRP5, uploadPath, "CompletedIRP5");
-
-                if (model.ProofOfBank != null)
-                    await SaveFileAsync(model.ProofOfBank, uploadPath, "ProofOfBank");
-
-                TempData["Message"] = "Documents uploaded successfully.";
-                return RedirectToAction("Index");
+                OnboardingManager._employee = model;
+                // Return a success response
+                return Json(new { success = true });
             }
 
-            return View("DocumentUpload", model);
+            // If validation fails, return an error message
+            return Json(new { success = false, message = "There were validation errors." });
         }
 
-        private async Task SaveFileAsync(IFormFile file, string uploadPath, string fileName)
+
+
+        [HttpPost]
+        public JsonResult JobInformationCaptureAJAX(JobDetails jobDetails)
         {
-            var filePath = Path.Combine(uploadPath, fileName + Path.GetExtension(file.FileName));
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            if (ModelState.IsValid)
             {
-                await file.CopyToAsync(stream);
+                // Save the job details (this could be saving to a database, Firebase, etc.)
+                OnboardingManager._jobDetails = jobDetails;
+
+                // Return success response
+                return Json(new { success = true });
             }
+
+            // If validation fails, return an error message
+            return Json(new { success = false, message = "There were validation errors." });
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UploadDocumentsAJAX(List<IFormFile> IDOrPassport, List<IFormFile> CV, List<IFormFile> ProofOfAddress, List<IFormFile> ProofOfTaxRegistration, List<IFormFile> CompletedIRP5, List<IFormFile> ProofOfBank)
+        {
+            var documentFiles = new List<IFormFile>();
+            if (IDOrPassport != null) documentFiles.AddRange(IDOrPassport);
+            if (CV != null) documentFiles.AddRange(CV);
+            if (ProofOfAddress != null) documentFiles.AddRange(ProofOfAddress);
+            if (ProofOfTaxRegistration != null) documentFiles.AddRange(ProofOfTaxRegistration);
+            if (CompletedIRP5 != null) documentFiles.AddRange(CompletedIRP5);
+            if (ProofOfBank != null) documentFiles.AddRange(ProofOfBank);
+
+            if (documentFiles == null || documentFiles.Count == 0 || documentFiles.Count < 6)
+            {
+                return Json(new { success = false, message = "Please select documents to upload." });
+            }
+
+            try
+            {
+                // Debug: Log the file names and sizes
+                foreach (var documentFile in documentFiles)
+                {
+                    Console.WriteLine($"File: {documentFile.FileName}, Size: {documentFile.Length}");
+                }
+
+                DocumentLinks documentLinks = new DocumentLinks();
+                var empID = await _onboardingService.GetNextEmployeeIdAsync();
+
+                int count = 0;
+
+                foreach (var documentFile in documentFiles)
+                {
+
+                    if (documentFile.Length > 0)
+                    {
+
+                        var filePath = $"employee-documents/{empID}_{documentFile.FileName}";
+
+                        var firebaseStorage = new FirebaseStorage("hrappstorage.appspot.com").Child(filePath);
+
+                        // Upload the file
+                        using (var fileStream = documentFile.OpenReadStream())
+                        {
+
+                            string downloadUrl = await firebaseStorage.PutAsync(fileStream);
+                            Console.WriteLine($"Uploaded to: {downloadUrl}");
+
+                            // Map the file to the correct document type
+                            if (count == 0)
+                            {
+                                documentLinks.IDOrPassport = downloadUrl;
+                            }
+                            else if (count == 1)
+                            {
+                                documentLinks.CV = downloadUrl;
+                            }
+                            else if (count == 2)
+                            {
+                                documentLinks.ProofOfAddress = downloadUrl;
+                            }
+                            else if (count == 3)
+                            {
+                                documentLinks.ProofOfTaxRegistration = downloadUrl;
+                            }
+                            else if (count == 4)
+                            {
+                                documentLinks.CompletedIRP5 = downloadUrl;
+                            }
+                            else if (count == 5)
+                            {
+                                documentLinks.ProofOfBank = downloadUrl;
+                            }
+                        }
+                    }
+                    count++;
+                }
+
+                OnboardingManager._documentLinks = documentLinks;
+
+                return Json(new { success = true, message = "Documents uploaded successfully.", documentLinks });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error uploading documents: {ex.Message}");
+                return Json(new { success = false, message = "Failed to upload documents. Please try again." });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult PayrollInformationCaptureAJAX(Payroll payroll)
+        {
+            if (ModelState.IsValid)
+            {
+                // Store the payroll information (simulated database save)
+                OnboardingManager._payroll = payroll;
+
+                // Return success response
+                return Json(new { success = true, message = "Payroll information saved successfully." });
+            }
+
+            // If validation fails, return an error message with validation errors
+            var errorMessages = ModelState.Values
+                                           .SelectMany(v => v.Errors)
+                                           .Select(e => e.ErrorMessage)
+                                           .ToList();
+
+            return Json(new { success = false, message = "Failed to save payroll information.", errors = errorMessages });
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> OnboardEmployee()
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Generate Employee ID
+                    var empID = await _onboardingService.GetNextEmployeeIdAsync();
+                    // Create the Employee Details ViewModel
+                    EmployeeDetailsViewModelAllFour employeeDetailsViewModel = new EmployeeDetailsViewModelAllFour(empID, OnboardingManager._employee, OnboardingManager._jobDetails, OnboardingManager._documentLinks, OnboardingManager._payroll);
+
+                    // Save the employee to Firebase
+                    await _firebaseService.SaveEmployee(empID, employeeDetailsViewModel);
+
+                    // Send onboarding email (or any other process)
+                    string email = OnboardingManager._employee.Email;
+                    await _onboardingService.OnboardEmployeeAsync(email);
+
+                    // Return success response with a message
+                    return Json(new { success = true, message = "Employee onboarded successfully." });
+                }
+                catch (Exception ex)
+                {
+                    // Return failure response if an error occurs
+                    return Json(new { success = false, message = $"Error during onboarding: {ex.Message}" });
+                }
+            }
+
+            // Return failure response if model state is not valid
+            return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
     }
 }

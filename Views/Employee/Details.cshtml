@@ -1,5 +1,4 @@
-﻿@model XBCAD7319_SparkLine_HR_WebApp.ViewModel.EmployeeDetailsViewModel
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,52 +58,55 @@
             </ul>
 
             <!-- Personal Information (Editable) -->
+            @*  <form method="post" asp-controller="Employee" asp-action="OnboardEmployee"> *@
             <div class="tab-content mt-3">
                 <div id="personal-info" class="tab-pane fade show active" style="margin-top: 15px;">
                     <h2>Personal Information</h2>
                     <div class="card">
                         <div class="card-header">Edit Personal Information</div>
                         <div class="card-body">
-                            <form method="post" action="/Employee/UpdatePersonalInfo">
+                            <form id="personalInfoForm" method="post">
+                                @Html.AntiForgeryToken()
+
                                 <dl class="row">
                                     <dt class="col-sm-3">Name:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="Name" class="form-control" value="@Model.Employee.Name" />
+                                        <input type="text" name="Name" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Date of Birth:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="date" name="DateOfBirth" class="form-control" value="@Model.Employee.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                        <input type="date" name="DateOfBirth" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Contact:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="number" name="Contact" class="form-control" value="@Model.Employee.Contact" />
+                                        <input type="number" name="Contact" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Email:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="email" name="Email" class="form-control" value="@Model.Employee.Email" />
+                                        <input type="email" name="Email" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Address:</dt>
                                     <dd class="col-sm-9">
-                                        <textarea name="Address" class="form-control">@Model.Employee.Address</textarea>
+                                        <textarea name="Address" class="form-control"></textarea>
                                     </dd>
 
                                     <dt class="col-sm-3">Emergency Contact Name:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="EmergencyContactName" class="form-control" value="@Model.Employee.EmergencyContactName" />
+                                        <input type="text" name="EmergencyContactName" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Emergency Contact Number:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="number" name="EmergencyContactNumber" class="form-control" value="@Model.Employee.EmergencyContactNumber" />
+                                        <input type="number" name="EmergencyContactNumber" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Emergency Contact Relationship:</dt>
                                     <dd class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.Employee.EmergencyContactRelationship, Model.Employee.RelationshipOptions, "Select Relationship", new { @class = "form-control" })
+                                        <input type="text" name="EmergencyContactRelationship" class="form-control" />
                                     </dd>
                                 </dl>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -119,41 +121,46 @@
                     <div class="card">
                         <div class="card-header">Edit Job Details</div>
                         <div class="card-body">
-                            <form method="post" action="/Employee/UpdateJobDetails">
+                            <form id="jobInfoForm" method="post">
                                 <dl class="row">
                                     <dt class="col-sm-3">Employee ID:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="EmployeeId" class="form-control" value="@Model.JobDetails.EmployeeId" />
+                                        <input type="text" id="employeeId" name="EmployeeId" class="form-control" readonly />
                                     </dd>
 
                                     <dt class="col-sm-3">Job Title:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="JobTitle" class="form-control" value="@Model.JobDetails.JobTitle" />
+                                        <input type="text" name="JobTitle" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Department:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="Department" class="form-control" value="@Model.JobDetails.Department" />
+                                        <input type="text" name="Department" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Manager:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="Manager" class="form-control" value="@Model.JobDetails.Manager" />
+                                        <input type="text" name="Manager" class="form-control" />
                                     </dd>
 
                                     <dt class="col-sm-3">Employment Type:</dt>
                                     <dd class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.JobDetails, Model.JobDetails.EmployeeTypeOptions, "Select Employee Type", new { @class = "form-control" })
+
+                                        <select name="employmenttype" id="employmenttype" class="form-control">
+                                            <option value="parttime">Part-Time</option>
+                                            <option value="fulltime">Full-Time</option>
+                                            <option value="contract">Contract</option>
+                                        </select>
                                     </dd>
 
                                     <dt class="col-sm-3">Hire Date:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="date" name="HireDate" class="form-control" value="@Model.JobDetails.HireDate.ToString("yyyy-MM-dd")" />
+                                        <input type="date" name="HireDate" class="form-control" />
                                     </dd>
-                                    
+
                                     <dt class="col-sm-3">Job Description:</dt>
                                     <dd class="col-sm-9">
-                                        <textarea name="JobDescription" class="form-control">@Model.JobDetails.JobDescription</textarea>
+                                        <textarea name="JobDescription" class="form-control"></textarea>
                                     </dd>
                                 </dl>
                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -168,134 +175,113 @@
                     <div class="card">
                         <div class="card-header">Upload Employee Documents</div>
                         <div class="card-body">
-                        <form asp-action="UploadDocuments" method="post" enctype="multipart/form-data">
-                            <dl class="row">
-                                <dt class="col-sm-3">ID or Passport:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="IDOrPassport" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
-                                </dd>
+                            <form id="uploadDocumentsForm" method="post" enctype="multipart/form-data">
+                                <dl class="row">
+                                    <dt class="col-sm-3">ID or Passport:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="IDOrPassport" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                    </dd>
 
-                                <dt class="col-sm-3">CV:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="CV" class="form-control-file" accept=".pdf,.doc,.docx" />
-                                </dd>
+                                    <dt class="col-sm-3">CV:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="CV" class="form-control-file" accept=".pdf,.doc,.docx" />
+                                    </dd>
 
-                                <dt class="col-sm-3">Proof of Address:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="ProofOfAddress" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
-                                </dd>
+                                    <dt class="col-sm-3">Proof of Address:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="ProofOfAddress" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                    </dd>
 
-                                <dt class="col-sm-3">Proof of Tax Registration:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="ProofOfTaxRegistration" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
-                                </dd>
+                                    <dt class="col-sm-3">Proof of Tax Registration:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="ProofOfTaxRegistration" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                    </dd>
 
-                                <dt class="col-sm-3">Completed IRP5 Information:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="CompletedIRP5" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
-                                </dd>
+                                    <dt class="col-sm-3">Completed IRP5 Information:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="CompletedIRP5" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                    </dd>
 
-                                <dt class="col-sm-3">Proof of Bank Account:</dt>
-                                <dd class="col-sm-9">
-                                    <input type="file" name="ProofOfBank" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
-                                </dd>
-                            </dl>
-                            <button type="submit" class="btn btn-primary">Upload Documents</button>
-                        </form>
+                                    <dt class="col-sm-3">Proof of Bank Account:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="file" name="ProofOfBank" class="form-control-file" accept=".pdf,.jpg,.jpeg,.png" />
+                                    </dd>
+                                </dl>
+                                <button type="submit" id="uploadDocumentsButton" class="btn btn-primary">Upload Documents</button>
+                            </form>
                         </div>
-                        </div>
+                    </div>
                 </div>
 
-                <!-- Payroll (Read-only) -->
+                <!-- Payroll-->
                 <div id="payroll" class="tab-pane fade" style="margin-top: 15px;">
                     <h2>Payroll</h2>
-                    <table class="table">
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Gross Pay:</td>
-                            <td><input type="text" value="@Model.Payroll.GrossPay" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">Account Name:</td>
-                            <td><input type="text" value="@Model.Payroll.AccountName" class="form-control" /></td>
-                        </tr>
-                            <td style="background-color: #ADD8E6;">PAYE:</td>
-                            <td><input type="text" value="@Model.Payroll.PAYETax" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">Bank:</td>
-                            <td><input type="text" value="@Model.Payroll.Bank" class="form-control" /></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">UIF:</td>
-                            <td><input type="text" value="@Model.Payroll.UIFContribution" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">Bank Account Number:</td>
-                            <td><input type="text" value="@Model.Payroll.BankAccountNumber" class="form-control" /></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Retirement:</td>
-                            <td><input type="text" value="@Model.Payroll.RetirementContribution" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">Account Type:</td>
-                            <td><input type="text" value="@Model.Payroll.AccountType" class="form-control" /></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Payment Date:</td>
-                            <td><input type="text" value="@Model.Payroll.PaymentDate.ToString("yyyy-MM-dd")" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">Branch Code:</td>
-                            <td><input type="text" value="@Model.Payroll.BranchCode" class="form-control" /></td>
-                        </tr>
-                            <td style="background-color: #ADD8E6;">Tax Number:</td>
-                            <td><input type="text" value="@Model.Payroll.TaxNumber" class="form-control" /></td>
-                            <td style="background-color: #ADD8E6;">
-                        <td <button type="submit" style="background-color: darkorange; margin-left:10px; margin-top:10px;" class="btn btn-primary">Save</button> </td>
-                        <td <button type="submit" style="background-color: darkorange; margin-left:10px; margin-top:10px;" class="btn btn-primary">Onboard Employee</button>  </td>
-                    </table>
+                    <form method="post" id="payrollForm">
+                        <table class="table">
+                            <tr>
+                                <td style="background-color: #ADD8E6;">Gross Pay:</td>
+                                <td><input type="text" name="GrossPay" class="form-control" /></td>
+
+                                <td style="background-color: #ADD8E6;">Account Name:</td>
+                                <td><input type="text" name="AccountName" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ADD8E6;">PAYE:</td>
+                                <td><input type="text" name="PAYE" class="form-control" /></td>
+
+                                <td style="background-color: #ADD8E6;">Bank:</td>
+                                <td><input type="text" name="Bank" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ADD8E6;">UIF:</td>
+                                <td><input type="text" name="UIF" value="1%" readonly class="form-control" /></td>
+
+                                <td style="background-color: #ADD8E6;">Bank Account Number:</td>
+                                <td><input type="text" name="BankAccountNumber" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ADD8E6;">Retirement:</td>
+                                <td><input type="text" name="Retirement"  class="form-control" /></td>
+
+                                <td style="background-color: #ADD8E6;">Account Type:</td>
+                                <td>
+                                    <select name="AccountType" class="form-control">
+                                        <option value="">Select Account Type</option>
+                                        <option value="Savings">Savings</option>
+                                        <option value="Current">Current</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ADD8E6;">Payment Date:</td>
+                                <td><input type="text" name="PaymentDate" value="25th" readonly class="form-control" /></td>
+
+                                <td style="background-color: #ADD8E6;">Branch Code:</td>
+                                <td><input type="text" name="BranchCode" class="form-control" /></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: #ADD8E6;">Tax Number:</td>
+                                <td><input type="text" name="TaxNumber" class="form-control" /></td>
+                                <td style="background-color: #ADD8E6;">
+                                    <button type="submit" style="background-color: darkorange; margin-left:10px; margin-top:10px;" class="btn btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form> 
+                    
+                    @*  <button type="submit" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" asp-controller="Employee" asp-action="OnboardEmployee">Onboard Employee</button> *@
+                    <button type="button" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" id="onboardEmployeeButton">Onboard Employee</button>
+
                 </div>
 
-                <!-- Payroll (Editable) -->
-                <div id="payroll" class="tab-pane fade">
-                    <h2>Payroll</h2>
-                    <table class="table">
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Gross Pay :</td>
-                            <td><input type="text" asp-for="Payroll.GrossPay" /></td>
-                            <td style="background-color: #ADD8E6;">Bank :</td>
-                            <td>
-                                <select asp-for="Payroll.Bank">
-                                    <option value="">Select Bank</option>
-                                    <!-- Add bank options here -->
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Net Pay :</td>
-                            <td><input type="text" asp-for="Payroll.NetPay" /></td>
-                            <td style="background-color: #ADD8E6;">Bank Account Number :</td>
-                            <td><input type="text" asp-for="Payroll.BankAccountNumber" /></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Payment Date :</td>
-                            <td><input type="date" asp-for="Payroll.PaymentDate" /></td>
-                            <td style="background-color: #ADD8E6;">Account Type :</td>
-                            <td>
-                                <select asp-for="Payroll.AccountType">
-                                    <option value="">Select Account Type</option>
-                                    <option value="Savings">Savings</option>
-                                    <option value="Current">Current</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #ADD8E6;">Payment Method :</td>
-                            <td>
-                                <select asp-for="Payroll.PaymentMethod">
-                                    <option value="EFT">EFT</option>
-                                    <option value="Cheque">Cheque</option>
-                                    <!-- Add more payment methods if needed -->
-                                </select>
-                            </td>
-                            <td style="background-color: #ADD8E6;">Branch Code :</td>
-                            <td><input type="text" asp-for="Payroll.BranchCode" /></td>
-                        </tr>
-                    </table>
-                </div>
+
+              
             </div>
+
+
         </div>
+        @*  </form> *@
+    </div>
     </div>
 
     <style>
@@ -305,11 +291,163 @@
         }
     </style>
     <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/Employee/GetNextEmployeeId')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the Employee ID field
+                        document.getElementById('employeeId').value = data.employeeId;
+                    } else {
+                        console.error("Error fetching Employee ID:", data.error);
+                    }
+                })
+                .catch(error => console.error("Fetch error:", error));
+        });
+
         function confirmLogout() {
             if (confirm("Are you sure you want to log out?")) {
                 window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
             }
         }
+
+        // Attach the submit event to the form
+        $('#personalInfoForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            // Send the form data to the server via AJAX
+            $.ajax({
+                url: '@Url.Action("PersonalInformationCaptureAJAX", "Employee")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // If the submission was successful, show a success message
+                        alert('Personal information saved successfully!');
+                        // Optionally, you can update the page content or redirect
+                    } else {
+                        // If validation failed, show the error message
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // If there was a problem with the AJAX request
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+        // Attach the submit event to the JobDetails form
+        $('#jobInfoForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            // Send the form data to the server via AJAX
+            $.ajax({
+                url: '@Url.Action("JobInformationCaptureAJAX", "Employee")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // If the submission was successful, show a success message
+                        alert('Job information saved successfully!');
+                        // Optionally, you can update the page content or redirect
+                    } else {
+                        // If validation failed, show the error message
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // If there was a problem with the AJAX request
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+
+        $('#uploadDocumentsForm').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Automatically gathers form data
+
+            $.ajax({
+                url: '@Url.Action("UploadDocumentsAJAX", "Employee")', // URL to the controller action
+                type: 'POST', // POST method
+                data: formData, // The form data
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Ensure content type is multipart/form-data
+                success: function (response) {
+                    if (response.success) {
+                        alert('Uploads saved successfully!');
+                        console.log(response.documentLinks); // Debug: Check uploaded URLs
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while uploading the documents.');
+                }
+            });
+        });
+
+        $('#payrollForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data
+            console.log(formData); // Log the serialized form data to check if all inputs are captured
+
+            $.ajax({
+                url: '@Url.Action("PayrollInformationCaptureAJAX", "Employee")', // URL to the controller action
+                type: 'POST', // POST method
+                data: formData, // Send the serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        alert('Payroll information saved successfully!');
+                    } else {
+                        // Display validation errors
+                        var errorHtml = '<div class="alert alert-danger">Validation failed:</div><ul>';
+                        response.errors.forEach(function (error) {
+                            errorHtml += '<li>' + error + '</li>';
+                        });
+                        errorHtml += '</ul>';
+                        $('#payrollStatus').html(errorHtml);
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // Handle AJAX error
+                    $('#payrollStatus').html('<div class="alert alert-danger">An error occurred while saving payroll information.</div>');
+                }
+            });
+        });
+
+        $('#onboardEmployeeButton').click(function (e) {
+            e.preventDefault(); // Prevent any default action
+
+            // Serialize the form data
+            var formData = $('#personalInformationForm, #jobDetailsForm, #documentUploadForm, #payrollForm').serialize();
+
+            $.ajax({
+                url: '@Url.Action("OnboardEmployee", "Employee")', // The URL to the OnboardEmployee action
+                type: 'POST', // HTTP method
+                data: formData, // Sending all form data
+                success: function (response) {
+                    if (response.success) {
+                        // Show success message
+                        alert(response.message);
+                        window.location.href = '@Url.Action("Details", "Employee")'; // Redirect to the details page
+                    } else {
+                        // Show failure message
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
     </script>
 </body>
 </html>
