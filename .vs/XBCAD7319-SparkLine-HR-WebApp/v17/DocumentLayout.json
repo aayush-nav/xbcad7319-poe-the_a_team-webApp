@@ -3,11 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\",
   "Documents": [
     {
+<<<<<<< HEAD
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\aayus\\source\\repos\\xbcad7319-sparkline-hr-webapp\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+=======
       "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\anjal\\onedrive\\desktop\\xbcad_2024\\final_web_app\\xbcad7319-poe-the_a_team-webapp\\services\\firebaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:services\\firebaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+>>>>>>> main
       "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
@@ -104,6 +116,29 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+<<<<<<< HEAD
+              "Title": "Management.cshtml",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Management.cshtml",
+              "RelativeDocumentMoniker": "Views\\Employee\\Management.cshtml",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Views\\Employee\\Management.cshtml",
+              "RelativeToolTip": "Views\\Employee\\Management.cshtml",
+              "ViewState": "AQIAAF0AAAAAAAAAAAAAAGAAAABTAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-16T18:50:58.97Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwBYAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T18:43:01.974Z",
+=======
               "Title": "FirebaseService.cs",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Services\\FirebaseService.cs",
               "RelativeDocumentMoniker": "Services\\FirebaseService.cs",
@@ -112,11 +147,14 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-16T18:13:26.545Z",
+>>>>>>> main
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+<<<<<<< HEAD
+=======
               "Title": "EmployeeController.cs",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Controllers\\EmployeeController.cs",
               "RelativeDocumentMoniker": "Controllers\\EmployeeController.cs",
@@ -195,18 +233,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+>>>>>>> main
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Views\\Employee\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\Employee\\Details.cshtml",
               "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Views\\Employee\\Details.cshtml",
               "RelativeToolTip": "Views\\Employee\\Details.cshtml",
+<<<<<<< HEAD
+              "ViewState": "AQIAAIoAAAAAAAAAAAAAAO0AAABTAAAA",
+=======
               "ViewState": "AQIAAPMAAAAAAAAAAAAowA8BAAAUAAAA",
+>>>>>>> main
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-15T09:35:01.98Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
+              "DocumentIndex": 4,
+=======
               "DocumentIndex": 3,
               "Title": "EmployeeDetailsViewModelAllFour.cs",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Models\\EmployeeDetailsViewModelAllFour.cs",
@@ -299,6 +345,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 17,
+>>>>>>> main
               "Title": "analytics.css",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\wwwroot\\css\\analytics.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\analytics.css",
@@ -306,12 +353,15 @@
               "RelativeToolTip": "wwwroot\\css\\analytics.css",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-11-15T09:04:55.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-15T09:04:55.629Z"
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
+              "DocumentIndex": 3,
+=======
               "DocumentIndex": 16,
+>>>>>>> main
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\Views\\Analytics\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Analytics\\Index.cshtml",
@@ -319,8 +369,7 @@
               "RelativeToolTip": "Views\\Analytics\\Index.cshtml",
               "ViewState": "AQIAACoAAAAAAAAAAAAowEgAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-15T08:20:48.257Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-15T08:20:48.257Z"
             }
           ]
         }
