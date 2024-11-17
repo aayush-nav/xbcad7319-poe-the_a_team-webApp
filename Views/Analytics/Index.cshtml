@@ -30,122 +30,290 @@
     </div>
 
     <div class="content-wrapper">
-        <!-- Table for Filters and Graph -->
-        <table class="table table-bordered mt-5">
-            <tr>
-                <!-- Filters Section -->
-                <td>
-                    <h4>Filter</h4>
-                    <form id="filterForm" class="form-inline">
+        <!-- Sidebar Container -->
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Management</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-wrapper" style="margin-left: 270px">
+            <!-- Table for Filters and Graphs -->
+            <table class="table table-bordered mt-5">
+                <tr>
+                    <!-- Filters Section -->
+                    <td>
+                        <h4>Filter</h4>
+                        <form id="filterForm" class="form-inline">
+                            <div class="form-group mb-3">
+                                <label for="employeeSelect" class="mr-2">Select Employee:</label>
+                                <select id="employeeSelect" class="form-control">
+                                    <option value="">-- Select Employee --</option>
+                                    <!-- Populate dynamically with employee data -->
+                                    <option value="1">Employee 1</option>
+                                    <option value="2">Employee 2</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="weekPicker" class="mr-2" style="margin-left:5px">Select Week:</label>
+                                <input type="date" id="weekPicker" class="form-control" />
+                            </div>
+                            <button type="button" id="filterButton" class="btn btn-primary" style="margin-left:5px; margin-bottom:15px">Apply Filter</button>
+                        </form>
+                    </td>
+
+                    <!-- Yearly Employee Count Section -->
+                    <td>
+                        <h4>Yearly Employee Count</h4>
+                        <div class="form-group">
+                            <label for="yearSelect">Select Year:</label>
+                            <select id="yearSelect" class="form-control mb-3">
+                                <option value="">-- Select Year --</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="yearlyEmployeeChart"></canvas>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- Daily Hours Worked Graph Section -->
+                    <td>
+                        <h4>Daily Hours Worked</h4>
+                        <div class="chart-container">
+                            <canvas id="hoursWorkedChart"></canvas>
+                        </div>
+                    </td>
+
+                    <!-- Performance Reviews Graph Section -->
+                    <td>
+                        <h4>Performance Reviews</h4>
                         <div class="form-group mb-3">
-                            <label for="employeeSelect" class="mr-2">Select Employee:</label>
-                            <select id="employeeSelect" class="form-control">
+                            <label for="reviewEmployeeSelect">Select Employee:</label>
+                            <select id="reviewEmployeeSelect" class="form-control">
                                 <option value="">-- Select Employee --</option>
                                 <!-- Populate dynamically with employee data -->
                                 <option value="1">Employee 1</option>
                                 <option value="2">Employee 2</option>
                             </select>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="weekPicker" class="mr-2">Select Week:</label>
-                            <input type="date" id="weekPicker" class="form-control" />
+                        <div class="chart-container">
+                            <canvas id="performanceReviewChart"></canvas>
                         </div>
-                        <button type="button" id="filterButton" class="btn btn-primary">Apply Filter</button>
-                    </form>
-                    <div id="totalHoursContainer" class="mt-3">
-                        <h5>Total Hours Worked: <span id="totalHours">0</span></h5>
-                    </div>
-                </td>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-                <!-- Empty Placeholder Cell -->
-                <td rowspan="2"></td>
-            </tr>
-            <tr>
-                <!-- Graph Section -->
-                <td>
-                    <h4>Daily Hours Worked</h4>
-                    <div class="chart-container">
-                        <canvas id="hoursWorkedChart"></canvas>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+        <script>
+            $(document).ready(function () {
+                const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                let hoursWorked = [8, 7.5, 8, 6, 7]; // Sample data (replace with dynamic data as needed)
 
-    <script>
-        $(document).ready(function () {
-            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            let hoursWorked = [8, 7.5, 8, 6, 7, 0, 0]; // Sample data (replace with dynamic data as needed)
+                // Sample data for performance reviews
+                let reviewDates = ['2023-01-15', '2023-02-20', '2023-03-25', '2023-10-18', '2023-12-25']; // Replace with dynamic data
+                let reviewRatings = [1, 3, 4, 2, 3]; // 1: Needs Improvement, 2: Satisfactory, 3: Good, 4: Excellent
 
-            function renderHoursWorkedChart(labels, data) {
-                const ctx = document.getElementById('hoursWorkedChart').getContext('2d');
-                const hoursWorkedChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Hours Worked',
-                            data: data,
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Hours'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Days of the Week'
+                // Render daily hours worked chart
+                function renderHoursWorkedChart(labels, data) {
+                    const ctx = document.getElementById('hoursWorkedChart').getContext('2d');
+                    const hoursWorkedChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Hours Worked',
+                                data: data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Hours'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Days of the Week'
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-            }
-
-            // Initial chart rendering
-            renderHoursWorkedChart(daysOfWeek, hoursWorked);
-
-            // Function to fetch hours for a given week
-            function fetchHoursForWeek(startDate) {
-                $.ajax({
-                    url: '/Attendance/GetHoursForWeek',
-                    type: 'GET',
-                    data: { startDate: startDate.toISOString().split('T')[0] },
-                    success: function (data) {
-                        hoursWorked = data;
-                        renderHoursWorkedChart(daysOfWeek, hoursWorked);
-                    },
-                    error: function () {
-                        alert("Error fetching data for the selected week.");
-                    }
-                });
-            }
-
-            $('#filterWeekButton').click(function () {
-                const selectedDate = new Date($('#weekPicker').val());
-                if (isNaN(selectedDate)) {
-                    alert("Please select a valid date.");
-                    return;
+                    });
                 }
 
-                const startOfWeek = new Date(selectedDate);
-                const dayOfWeek = startOfWeek.getDay();
-                const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-                startOfWeek.setDate(diff);
+                // Render performance reviews chart
+                function renderPerformanceReviewChart(labels, data) {
+                    const ctx = document.getElementById('performanceReviewChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Performance Ratings',
+                                data: data,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderWidth: 2,
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAt: 0,
+                                    ticks: {
+                                        stepSize: 1,
+                                        callback: function (value) {
+                                            const labels = ['Needs Improvement', 'Satisfactory', 'Good', 'Excellent'];
+                                            return labels[value - 1]; // Map ratings to labels
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Ratings'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Review Dates'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
 
-                fetchHoursForWeek(startOfWeek);
+                // Render yearly employee count chart
+                function renderYearlyEmployeeChart() {
+                    const ctx = document.getElementById('yearlyEmployeeChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                            datasets: [{
+                                label: 'Number of Employees',
+                                data: [], // Replace with dynamic data
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderWidth: 2,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Employees',
+                                    },
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Months',
+                                    },
+                                },
+                            },
+                        },
+                    });
+                }
+
+                // Initialize charts
+                renderHoursWorkedChart(daysOfWeek, hoursWorked);
+                renderPerformanceReviewChart(reviewDates, reviewRatings);
+                renderYearlyEmployeeChart();
+
+                // Fetch and update data for the selected year
+                $('#yearSelect').change(function () {
+                    const selectedYear = $(this).val();
+                    if (selectedYear) {
+                        // Fetch data for the selected year
+                        $.ajax({
+                            url: `/Analytics/GetYearlyEmployeeData?year=${selectedYear}`,
+                            method: 'GET',
+                            success: function (data) {
+                                // Update chart with new data (mocked here)
+                                renderYearlyEmployeeChart(data.months, data.employeeCounts);
+                            },
+                            error: function () {
+                                alert('Error fetching data for the selected year.');
+                            },
+                        });
+                    }
+                });
+
+                // Fetch and update performance review data for the selected employee
+                $('#reviewEmployeeSelect').change(function () {
+                    const selectedEmployee = $(this).val();
+                    if (selectedEmployee) {
+                        $.ajax({
+                            url: `/Analytics/GetPerformanceReviews?employeeId=${selectedEmployee}`,
+                            method: 'GET',
+                            success: function (data) {
+                                renderPerformanceReviewChart(data.dates, data.ratings);
+                            },
+                            error: function () {
+                                alert('Error fetching performance review data.');
+                            }
+                        });
+                    }
+                });
+
+                // Function to fetch hours for a given week
+                function fetchHoursForWeek(startDate) {
+                    $.ajax({
+                        url: '/Attendance/GetHoursForWeek',
+                        type: 'GET',
+                        data: { startDate: startDate.toISOString().split('T')[0] },
+                        success: function (data) {
+                            hoursWorked = data;
+                            renderHoursWorkedChart(daysOfWeek, hoursWorked);
+                        },
+                        error: function () {
+                            alert("Error fetching data for the selected week.");
+                        }
+                    });
+                }
+
+                $('#filterWeekButton').click(function () {
+                    const selectedDate = new Date($('#weekPicker').val());
+                    if (isNaN(selectedDate)) {
+                        alert("Please select a valid date.");
+                        return;
+                    }
+
+                    const startOfWeek = new Date(selectedDate);
+                    const dayOfWeek = startOfWeek.getDay();
+                    const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+                    startOfWeek.setDate(diff);
+
+                    fetchHoursForWeek(startOfWeek);
+                });
             });
-        });
 
 
             function confirmLogout() {
@@ -153,7 +321,7 @@
                     window.location.href = '@Url.Action("Logout", "Account")';
                 }
             }
-    </script>
+        </script>
 
     <!-- Include Bootstrap JS at the end of the body -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
