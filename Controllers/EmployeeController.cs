@@ -40,6 +40,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View();
         }
 
+        public IActionResult Management()
+        {
+            return View();
+        }
+
 
         public IActionResult Details()
         {

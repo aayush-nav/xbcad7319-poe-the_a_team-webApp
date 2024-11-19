@@ -309,6 +309,13 @@
             }
         }
 
+        //Method for logout button
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+
         function clearSearch() {
             document.getElementById("searchTerm").value = "";
             searchReviews();
