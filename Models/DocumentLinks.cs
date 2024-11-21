@@ -12,5 +12,16 @@
         public DocumentLinks()
         {
         }
+
+        public DocumentLinks(string iDOrPassport, string cV, string proofOfAddress, string proofOfTaxRegistration, string completedIRP5, string proofOfBank)
+        {
+            IDOrPassport = iDOrPassport;
+            CV = cV;
+            ProofOfAddress = proofOfAddress;
+            ProofOfTaxRegistration = proofOfTaxRegistration;
+            CompletedIRP5 = completedIRP5;
+            ProofOfBank = proofOfBank;
+        }
     }
+
 }

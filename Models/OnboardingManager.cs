@@ -6,5 +6,6 @@
         public static JobDetails _jobDetails;
         public static DocumentLinks _documentLinks;
         public static Payroll _payroll;
+        public static LeaveBalance _leaveBalance;
     }
 }

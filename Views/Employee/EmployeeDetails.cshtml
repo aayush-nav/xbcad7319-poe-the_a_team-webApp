@@ -1,0 +1,530 @@
+﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.EmployeeDetailsViewModelAllFour
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="~/css/employee-details.css" />
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <div class="hr-logo"></div>
+        </div>
+        <h2 class="welcome-text">Employee Onboarding</h2>
+        <h2 class="heading">SparkLine</h2>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="sidebar-container">
+            <div class="sidebar">
+                <h2>Onboarding</h2>
+                <ul class="sidebar-menu">
+                    <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
+                    <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
+                    <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
+                    <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
+                    <li><a href="#" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#personal-info" data-toggle="tab">Personal Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#job-details" data-toggle="tab">Job Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#document-upload" data-toggle="tab">Upload Documents</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#payroll" data-toggle="tab">Payroll</a>
+                </li>
+                <li class="nav-item">
+                    
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#reset-password" data-toggle="tab">Reset Password</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3">
+                <!-- Personal Information -->
+                <div id="personal-info" class="tab-pane fade show active" style="margin-top: 15px;">
+                    <h2>Personal Information</h2>
+                    <div class="card">
+                        <div class="card-header">Edit Personal Information</div>
+                        <div class="card-body">
+                            <form id="personalInfoForm" method="post" )">
+                                @Html.AntiForgeryToken()
+
+                                <dl class="row">
+                                    <dt class="col-sm-3">Name:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Name" class="form-control" value="@Model.employee.Name" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Date of Birth:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="date" name="DateOfBirth" class="form-control" value="@Model.employee.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Contact:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Contact" class="form-control" value="@Model.employee.Contact" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Email:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="email" name="Email" readonly class="form-control" value="@Model.employee.Email" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Address:</dt>
+                                    <dd class="col-sm-9">
+                                        <textarea name="Address" class="form-control">@Model.employee.Address</textarea>
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Name:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmergencyContactName" class="form-control" value="@Model.employee.EmergencyContactName" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Number:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmergencyContactNumber" class="form-control" value="@Model.employee.EmergencyContactNumber" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Emergency Contact Relationship:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmergencyContactRelationship" class="form-control" value="@Model.employee.EmergencyContactRelationship" />
+                                    </dd>
+                                </dl>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Details -->
+                <div id="job-details" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Job Details</h2>
+                    <div class="card">
+                        <div class="card-header">Edit Job Details</div>
+                        <div class="card-body">
+                            <form id="jobInfoForm" method="post" action="@Url.Action("SaveJobDetails", "Employee")">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Employee ID:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmployeeId" class="form-control" value="@Model.jobdetails.EmployeeId" readonly />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Job Title:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="JobTitle" class="form-control" value="@Model.jobdetails.JobTitle" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Department:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Department" class="form-control" value="@Model.jobdetails.Department" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Manager:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Manager" class="form-control" value="@Model.jobdetails.Manager" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Employment Type:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmploymentType" class="form-control" value="@Model.jobdetails.EmploymentType" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Hire Date:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="date" name="HireDate" readonly class="form-control" value="@Model.jobdetails.HireDate.ToString("yyyy-MM-dd")" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Job Description:</dt>
+                                    <dd class="col-sm-9">
+                                        <textarea name="JobDescription" class="form-control">@Model.jobdetails.JobDescription</textarea>
+                                    </dd>
+                                </dl>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Links -->
+                <div id="document-upload" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Upload Documents</h2>
+                    <div class="card">
+                        <div class="card-header">Documents</div>
+                        <div class="card-body">
+                            <form id="uploadDocumentsForm" method="post" enctype="multipart/form-data">
+                                <dl class="row">
+                                    <dt class="col-sm-3">ID/Passport:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="IDOrPassport" value="@Model.documentlinks.IDOrPassport" class="form-control" />
+                                    </dd>
+                                    <dd class="col-sm-3">
+                                        @if (Model.documentlinks.IDOrPassport != null)
+                                        {
+                                            <a href="@Model.documentlinks.IDOrPassport" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">CV:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="CV" class="form-control" value="@Model.documentlinks.CV" />
+                                       
+                                    </dd>
+                                    <dd class="col-sm-3">
+                                        @if (Model.documentlinks.CV != null)
+                                        {
+                                            <a href="@Model.documentlinks.CV" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">Proof of Address:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="ProofOfAddress" class="form-control" value="@Model.documentlinks.ProofOfAddress" />
+                                    </dd>
+                                    <dd class="col-sm-3">
+                                        @if (Model.documentlinks.ProofOfAddress != null)
+                                        {
+                                            <a href="@Model.documentlinks.ProofOfAddress" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">Proof of Tax Registration:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="ProofOfTaxRegistration" class="form-control" value="@Model.documentlinks.ProofOfTaxRegistration" />
+                                    </dd>
+                                     <dd class="col-sm-3">
+                                        @if (Model.documentlinks.ProofOfTaxRegistration != null)
+                                        {
+                                            <a href="@Model.documentlinks.ProofOfTaxRegistration" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">Completed IRP5:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="CompletedIRP5" class="form-control" value="@Model.documentlinks.CompletedIRP5" />
+                                    </dd>
+                                     <dd class="col-sm-3">
+                                        @if (Model.documentlinks.CompletedIRP5 != null)
+                                        {
+                                            <a href="@Model.documentlinks.CompletedIRP5" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+
+                                    <dt class="col-sm-3">Proof of Bank:</dt>
+                                    <dd class="col-sm-6">
+                                        <input type="file" name="ProofOfBank" class="form-control" value="@Model.documentlinks.ProofOfBank" />
+                                    </dd>
+                                    <dd class="col-sm-3">
+                                        @if (Model.documentlinks.ProofOfBank != null)
+                                        {
+                                            <a href="@Model.documentlinks.ProofOfBank" target="_blank">View Document</a>
+                                        }
+                                    </dd>
+                                </dl>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+
+                                <input type="hidden" id="employeeID" name="empID" value="@Model.empID" />  <!-- Hidden field for employee ID -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Payroll -->
+                <div id="payroll" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Payroll Details</h2>
+                    <div class="card">
+                        <div class="card-header">Edit Payroll</div>
+                        <div class="card-body">
+                            <form id="payrollForm" method="post" action="@Url.Action("SavePayroll", "Employee")">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Gross Pay:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="GrossPay" readonly class="form-control" value="@Model.payroll.GrossPay" />
+                                    </dd>
+
+                                   @*  <dt class="col-sm-3">PAYE:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="PAYE" class="form-control" value="@Model.payroll.PAYE" />
+                                    </dd> *@
+
+                                    <dt class="col-sm-3">UIF:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="UIF" readonly class="form-control" value="@Model.payroll.UIF" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Retirement:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Retirement" class="form-control" value="@Model.payroll.Retirement" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Payment Date:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="PaymentDate" readonly class="form-control" value="@Model.payroll.PaymentDate" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Tax Number:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="TaxNumber" class="form-control" value="@Model.payroll.TaxNumber" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Account Name:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="AccountName" class="form-control" value="@Model.payroll.AccountName" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Bank:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="Bank" class="form-control" value="@Model.payroll.Bank" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Bank Account Number:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="BankAccountNumber" class="form-control" value="@Model.payroll.BankAccountNumber" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Account Type:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="AccountType" class="form-control" value="@Model.payroll.AccountType" />
+                                    </dd>
+
+                                    <dt class="col-sm-3">Branch Code:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="BranchCode" class="form-control" value="@Model.payroll.BranchCode" />
+                                    </dd>
+                                </dl>
+
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                        <input type="hidden" id="employeeId" name="empID" value="@Model.empID" />  <!-- Hidden field for employee ID -->
+                        <button type="button" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" id="saveEmployeeButton">Save Details</button>
+                    </div>
+                </div>
+
+
+                <!-- Reset Password -->
+                <div id="reset-password" class="tab-pane fade" style="margin-top: 15px;">
+                    <h2>Reset Password</h2>
+                    <div class="card">
+                        <div class="card-header">Reset Employee Password</div>
+                        <div class="card-body">
+                            <form id="resetPasswordForm" method="post" action="@Url.Action("ResetPassword", "Employee")">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Email:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="email" name="EmailInput" class="form-control" required placeholder="Enter employee email" />
+                                    </dd>
+
+                                   @*  <dt class="col-sm-3">Employee Number:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="text" name="EmployeeNumber" class="form-control" required placeholder="Enter employee number" />
+                                    </dd> *@
+                                </dl>
+                                <input type="hidden" id="Email" name="Email" value="@Model.employee.Email" />  <!-- Hidden field for employee ID -->
+                                <button type="submit" class="btn btn-warning">Reset Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <style>
+        .container {
+            max-width: 1000px; /* Wider container */
+            margin: 0 auto;
+        }
+    </style>
+
+    <script>
+
+       
+
+        function confirmLogout() {
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+            }
+        }
+
+        // Attach the submit event to the form
+        $('#personalInfoForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            $.ajax({
+                url: '@Url.Action("PersonalInformationCaptureAJAX", "Employee")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // If the submission was successful, show a success message
+                        alert('Personal information saved successfully!');
+                    } else {
+                        // If validation failed, show the error message(s)
+                        if (response.errors && response.errors.length > 0) {
+                            alert('Validation errors: ' + response.errors.join(", "));
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    }
+                },
+                error: function () {
+                    // If there was a problem with the AJAX request
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+        // Attach the submit event to the JobDetails form
+        $('#jobInfoForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            // Send the form data to the server via AJAX
+            $.ajax({
+                url: '@Url.Action("JobInformationCaptureAJAX", "Employee")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // If the submission was successful, show a success message
+                        alert('Job information saved successfully!');
+                        // Optionally, you can update the page content or redirect
+                    } else {
+                        // If validation failed, show the error message
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // If there was a problem with the AJAX request
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+
+        $('#uploadDocumentsForm').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Automatically gathers form data
+
+            // Assuming you have the employee ID in a hidden input field or variable
+            var employeeID = $('#employeeID').val(); // Example: fetch from a hidden input field
+
+            // If employeeID is not in a hidden field, and you have it in a JavaScript variable, use that:
+            // var employeeID = someVariableContainingEmployeeID;
+
+            // Append the employee ID to the form data
+            formData.append('employeeID', employeeID);
+
+            $.ajax({
+                url: '@Url.Action("UploadDocumentsAJAX", "Employee")', // URL to the controller action
+                type: 'POST', // POST method
+                data: formData, // The form data
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Ensure content type is multipart/form-data
+                success: function (response) {
+                    if (response.success) {
+                        alert('Uploads saved successfully!');
+                        console.log(response.documentLinks); // Debug: Check uploaded URLs
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while uploading the documents.');
+                }
+            });
+        });
+
+
+        $('#payrollForm').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data
+            console.log(formData); // Log the serialized form data to check if all inputs are captured
+
+            $.ajax({
+                url: '@Url.Action("PayrollInformationCaptureAJAX", "Employee")', // URL to the controller action
+                type: 'POST', // POST method
+                data: formData, // Send the serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        alert('Payroll information saved successfully!');
+                    } else {
+                        // Display validation errors
+                        var errorHtml = '<div class="alert alert-danger">Validation failed:</div><ul>';
+                        response.errors.forEach(function (error) {
+                            errorHtml += '<li>' + error + '</li>';
+                        });
+                        errorHtml += '</ul>';
+                        $('#payrollStatus').html(errorHtml);
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // Handle AJAX error
+                    $('#payrollStatus').html('<div class="alert alert-danger">An error occurred while saving payroll information.</div>');
+                }
+            });
+        });
+
+        $('#saveEmployeeButton').click(function (e) {
+            e.preventDefault(); // Prevent any default action
+
+            // Serialize the form data (including the employee ID)
+            var formData = $('#personalInfoForm, #jobInfoForm, #uploadDocumentsForm, #payrollForm').serialize();
+
+            // Add the employeeId to the formData if it's not already included
+            var employeeId = $('#employeeId').val(); // Get the value of the hidden employeeId field
+            formData += '&employeeId=' + encodeURIComponent(employeeId); // Append employeeId to the form data
+
+            $.ajax({
+                url: '@Url.Action("SaveEmployee", "Employee")', // The URL to the SaveEmployee action
+                type: 'POST', // HTTP method
+                data: formData, // Sending all form data
+                success: function (response) {
+                    if (response.success) {
+                        // Show success message
+                        alert(response.message);
+                        window.location.href = '@Url.Action("Details", "Employee")'; // Redirect to the details page
+                    } else {
+                        // Show failure message
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+
+
+
+    </script>
+
+</body>
+</html>
