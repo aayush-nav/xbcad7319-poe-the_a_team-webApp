@@ -40,10 +40,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View();
         }
 
-        public IActionResult Management()
-        {
-            return View();
-        }
 
 
         public IActionResult Details()
@@ -51,6 +47,56 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View();
         }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> Management()
+        {
+            var employees = await _firebaseService.GetAllEmployeesAsync();
+            return View(employees);
+        }
+
+        public async Task<IActionResult> EmployeeDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound("Employee ID is required");
+            }
+
+            // Call the service method to get employee details by ID
+            var employeeDetails = await _firebaseService.EmployeeDetailsByID(id);
+
+            if (employeeDetails == null)
+            {
+                return NotFound("Employee not found");
+            }
+
+            // Pass the model to the Edit view
+            return View(employeeDetails);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string EmailInput, string Email)
+        {
+            try
+            {
+                // Send onboarding email (or any other process)
+                if (EmailInput.Equals(Email))
+                {
+                    await _onboardingService.OnboardEmployeeAsync(EmailInput);
+                    return Json(new { success = true, message = "Password reset successfully and emailed to the employee." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Incorrect Email." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
+            }
+        }
 
         [HttpPost]
         public JsonResult PersonalInformationCaptureAJAX(Employee model)
@@ -62,10 +108,14 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                 return Json(new { success = true });
             }
 
-            // If validation fails, return an error message
-            return Json(new { success = false, message = "There were validation errors." });
-        }
+            // If validation fails, log the errors
+            var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                           .Select(e => e.ErrorMessage)
+                                           .ToList();
 
+            // Return a failure response with the error messages
+            return Json(new { success = false, message = "There were validation errors.", errors = errors });
+        }
 
 
         [HttpPost]
@@ -85,81 +135,107 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UploadDocumentsAJAX(List<IFormFile> IDOrPassport, List<IFormFile> CV, List<IFormFile> ProofOfAddress, List<IFormFile> ProofOfTaxRegistration, List<IFormFile> CompletedIRP5, List<IFormFile> ProofOfBank)
+        public async Task<JsonResult> UploadDocumentsAJAX(
+        List<IFormFile> IDOrPassport,
+        List<IFormFile> CV,
+        List<IFormFile> ProofOfAddress,
+        List<IFormFile> ProofOfTaxRegistration,
+        List<IFormFile> CompletedIRP5,
+        List<IFormFile> ProofOfBank,
+         string employeeID)
         {
-            var documentFiles = new List<IFormFile>();
-            if (IDOrPassport != null) documentFiles.AddRange(IDOrPassport);
-            if (CV != null) documentFiles.AddRange(CV);
-            if (ProofOfAddress != null) documentFiles.AddRange(ProofOfAddress);
-            if (ProofOfTaxRegistration != null) documentFiles.AddRange(ProofOfTaxRegistration);
-            if (CompletedIRP5 != null) documentFiles.AddRange(CompletedIRP5);
-            if (ProofOfBank != null) documentFiles.AddRange(ProofOfBank);
+            Console.WriteLine("Received employeeID: " + employeeID); // Log the employeeID
 
-            if (documentFiles == null || documentFiles.Count == 0 || documentFiles.Count < 6)
+            var documentLinks = await _firebaseService.GetEmployeeDocumentLinksAsync(employeeID); // Fetch existing links
+            var empID = !string.IsNullOrEmpty(employeeID) ? employeeID : await _onboardingService.GetNextEmployeeIdAsync();
+
+
+            // Validate that at least one file is uploaded
+            var documentFiles = new List<IFormFile>();
+            if (IDOrPassport != null && IDOrPassport.Any()) documentFiles.AddRange(IDOrPassport);
+            if (CV != null && CV.Any()) documentFiles.AddRange(CV);
+            if (ProofOfAddress != null && ProofOfAddress.Any()) documentFiles.AddRange(ProofOfAddress);
+            if (ProofOfTaxRegistration != null && ProofOfTaxRegistration.Any()) documentFiles.AddRange(ProofOfTaxRegistration);
+            if (CompletedIRP5 != null && CompletedIRP5.Any()) documentFiles.AddRange(CompletedIRP5);
+            if (ProofOfBank != null && ProofOfBank.Any()) documentFiles.AddRange(ProofOfBank);
+
+            if (documentFiles.Count == 0)
             {
-                return Json(new { success = false, message = "Please select documents to upload." });
+                // If no document is uploaded, use existing model values
+                documentLinks = documentLinks ?? new DocumentLinks();
+                return Json(new { success = true, message = "No new documents uploaded. Existing links retained.", documentLinks });
             }
 
             try
             {
-                // Debug: Log the file names and sizes
+                // Validate file types and sizes
+                var validExtensions = new[] { ".pdf", ".docx", ".jpg", ".png" };
                 foreach (var documentFile in documentFiles)
                 {
-                    Console.WriteLine($"File: {documentFile.FileName}, Size: {documentFile.Length}");
+                    if (documentFile.Length > 5 * 1024 * 1024) // 5MB size limit
+                    {
+                        return Json(new { success = false, message = $"File {documentFile.FileName} exceeds size limit." });
+                    }
+
+                    if (!validExtensions.Contains(Path.GetExtension(documentFile.FileName)?.ToLower()))
+                    {
+                        return Json(new { success = false, message = $"File {documentFile.FileName} has an invalid format." });
+                    }
                 }
 
-                DocumentLinks documentLinks = new DocumentLinks();
-                var empID = await _onboardingService.GetNextEmployeeIdAsync();
+                // Map files to their respective document types
+                var fileTypeMappings = new Dictionary<int, Action<string>>
+        {
+            { 0, url => documentLinks.IDOrPassport = url },
+            { 1, url => documentLinks.CV = url },
+            { 2, url => documentLinks.ProofOfAddress = url },
+            { 3, url => documentLinks.ProofOfTaxRegistration = url },
+            { 4, url => documentLinks.CompletedIRP5 = url },
+            { 5, url => documentLinks.ProofOfBank = url },
+        };
 
-                int count = 0;
+                // Existing links (from the database or a session variable)
+                var existingLinks = new Dictionary<int, string>
+        {
+            { 0, documentLinks.IDOrPassport },
+            { 1, documentLinks.CV },
+            { 2, documentLinks.ProofOfAddress },
+            { 3, documentLinks.ProofOfTaxRegistration },
+            { 4, documentLinks.CompletedIRP5 },
+            { 5, documentLinks.ProofOfBank }
+        };
 
-                foreach (var documentFile in documentFiles)
+                // Process the uploaded documents and update links
+                foreach (var (index, documentFile) in documentFiles.Select((file, i) => (i, file)))
                 {
-
                     if (documentFile.Length > 0)
                     {
-
+                        // Construct the file path to store the document
                         var filePath = $"employee-documents/{empID}_{documentFile.FileName}";
-
                         var firebaseStorage = new FirebaseStorage("hrappstorage.appspot.com").Child(filePath);
 
-                        // Upload the file
-                        using (var fileStream = documentFile.OpenReadStream())
+                        using var fileStream = documentFile.OpenReadStream();
+                        string downloadUrl = await firebaseStorage.PutAsync(fileStream);
+
+                        // Update the document link if the file is uploaded
+                        if (!string.IsNullOrEmpty(downloadUrl))
                         {
-
-                            string downloadUrl = await firebaseStorage.PutAsync(fileStream);
-                            Console.WriteLine($"Uploaded to: {downloadUrl}");
-
-                            // Map the file to the correct document type
-                            if (count == 0)
-                            {
-                                documentLinks.IDOrPassport = downloadUrl;
-                            }
-                            else if (count == 1)
-                            {
-                                documentLinks.CV = downloadUrl;
-                            }
-                            else if (count == 2)
-                            {
-                                documentLinks.ProofOfAddress = downloadUrl;
-                            }
-                            else if (count == 3)
-                            {
-                                documentLinks.ProofOfTaxRegistration = downloadUrl;
-                            }
-                            else if (count == 4)
-                            {
-                                documentLinks.CompletedIRP5 = downloadUrl;
-                            }
-                            else if (count == 5)
-                            {
-                                documentLinks.ProofOfBank = downloadUrl;
-                            }
+                            fileTypeMappings[index](downloadUrl);
+                        }
+                        else
+                        {
+                            // Retain the existing link if file upload fails
+                            fileTypeMappings[index](existingLinks[index]);
                         }
                     }
-                    count++;
+                    else
+                    {
+                        // If no file uploaded for this field, retain the existing document link
+                        fileTypeMappings[index](existingLinks[index]);
+                    }
                 }
 
+                // Save updated document links
                 OnboardingManager._documentLinks = documentLinks;
 
                 return Json(new { success = true, message = "Documents uploaded successfully.", documentLinks });
@@ -203,11 +279,18 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                 {
                     // Generate Employee ID
                     var empID = await _onboardingService.GetNextEmployeeIdAsync();
+
+                    LeaveBalance leave = new LeaveBalance();
+
                     // Create the Employee Details ViewModel
-                    EmployeeDetailsViewModelAllFour employeeDetailsViewModel = new EmployeeDetailsViewModelAllFour(empID, OnboardingManager._employee, OnboardingManager._jobDetails, OnboardingManager._documentLinks, OnboardingManager._payroll);
+                    EmployeeDetailsViewModelAllFour employeeDetailsViewModel = new EmployeeDetailsViewModelAllFour(empID, OnboardingManager._employee,
+                        OnboardingManager._jobDetails, OnboardingManager._documentLinks, OnboardingManager._payroll, leave);
+
+
 
                     // Save the employee to Firebase
                     await _firebaseService.SaveEmployee(empID, employeeDetailsViewModel);
+                    // await _firebaseService.SaveEmployeeLeave(empID, leave);
 
                     // Send onboarding email (or any other process)
                     string email = OnboardingManager._employee.Email;
@@ -226,5 +309,47 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             // Return failure response if model state is not valid
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveEmployee(string employeeId)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    OnboardingManager._leaveBalance = await _firebaseService.GetEmployeeLeaveBalanceAsync(employeeId);
+                    // Get the employee data using the employeeId
+                    var employeeDetailsViewModel = new EmployeeDetailsViewModelAllFour(
+                        employeeId,
+                        OnboardingManager._employee,
+                        OnboardingManager._jobDetails,
+                        OnboardingManager._documentLinks,
+                        OnboardingManager._payroll,
+                        OnboardingManager._leaveBalance
+                    );
+
+                    // Save the employee to Firebase
+                    await _firebaseService.SaveEmployee(employeeId, employeeDetailsViewModel);
+
+                    // Optionally send an onboarding email (or any other process)
+                    // string email = OnboardingManager._employee.Email;
+                    // await _onboardingService.OnboardEmployeeAsync(email);
+
+                    // Return success response with a message
+                    return Json(new { success = true, message = "Employee updated successfully." });
+                }
+                catch (Exception ex)
+                {
+                    // Return failure response if an error occurs
+                    return Json(new { success = false, message = $"Error during onboarding: {ex.Message}" });
+                }
+            }
+
+            // Return failure response if model state is not valid
+            return Json(new { success = false, message = "Invalid data. Please check the fields." });
+        }
+
     }
 }

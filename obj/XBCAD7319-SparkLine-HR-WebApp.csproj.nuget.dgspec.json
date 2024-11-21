@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\XBCAD7319-SparkLine-HR-WebApp.csproj": {}
+    "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\XBCAD7319-SparkLine-HR-WebApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\XBCAD7319-SparkLine-HR-WebApp.csproj": {
+    "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\XBCAD7319-SparkLine-HR-WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\XBCAD7319-SparkLine-HR-WebApp.csproj",
+        "projectUniqueName": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\XBCAD7319-SparkLine-HR-WebApp.csproj",
         "projectName": "XBCAD7319-SparkLine-HR-WebApp",
-        "projectPath": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\XBCAD7319-SparkLine-HR-WebApp.csproj",
-        "packagesPath": "C:\\Users\\aayus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aayus\\source\\repos\\XBCAD7319-SparkLine-HR-WebApp\\obj\\",
+        "projectPath": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\XBCAD7319-SparkLine-HR-WebApp.csproj",
+        "packagesPath": "C:\\Users\\anjal\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\aayus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\anjal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

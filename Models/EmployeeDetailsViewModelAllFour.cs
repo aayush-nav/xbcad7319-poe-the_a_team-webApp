@@ -9,14 +9,25 @@
         public DocumentLinks documentlinks { get; set; }
 
         public Payroll payroll { get; set; }
+        public LeaveBalance leavebalance { get; set; }
 
-        public EmployeeDetailsViewModelAllFour(string empID, Employee employee, JobDetails jobdetails, DocumentLinks documentlinks, Payroll payroll)
+        //public EmployeeDetailsViewModelAllFour(string empID, Employee employee, JobDetails jobdetails, DocumentLinks documentlinks, Payroll payroll)
+        //{
+        //    this.empID = empID;
+        //    this.employee = employee;
+        //    this.jobdetails = jobdetails;
+        //    this.documentlinks = documentlinks;
+        //    this.payroll = payroll;
+        //}
+
+        public EmployeeDetailsViewModelAllFour(string empID, Employee employee, JobDetails jobdetails, DocumentLinks documentlinks, Payroll payroll, LeaveBalance leave)
         {
             this.empID = empID;
             this.employee = employee;
             this.jobdetails = jobdetails;
             this.documentlinks = documentlinks;
             this.payroll = payroll;
+            this.leavebalance = leave;
         }
     }
 }

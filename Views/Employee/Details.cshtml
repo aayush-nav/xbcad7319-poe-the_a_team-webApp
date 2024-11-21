@@ -214,6 +214,7 @@
                 </div>
 
                 <!-- Payroll-->
+                <!-- Payroll-->
                 <div id="payroll" class="tab-pane fade" style="margin-top: 15px;">
                     <h2>Payroll</h2>
                     <form method="post" id="payrollForm">
@@ -226,22 +227,33 @@
                                 <td><input type="text" name="AccountName" class="form-control" /></td>
                             </tr>
                             <tr>
-                                <td style="background-color: #ADD8E6;">PAYE:</td>
-                                <td><input type="text" name="PAYE" class="form-control" /></td>
+                                @*  <td style="background-color: #ADD8E6;">PAYE:</td>
+                                <td><input type="text" name="PAYE" class="form-control" /></td> *@
+                                <td style="background-color: #ADD8E6;">UIF (%):</td>
+                                <td><input type="text" name="UIF" value="1" readonly class="form-control" /></td>
 
                                 <td style="background-color: #ADD8E6;">Bank:</td>
                                 <td><input type="text" name="Bank" class="form-control" /></td>
                             </tr>
                             <tr>
-                                <td style="background-color: #ADD8E6;">UIF:</td>
-                                <td><input type="text" name="UIF" value="1%" readonly class="form-control" /></td>
+                                <td style="background-color: #ADD8E6;">Retirement (%):</td>
+                                <td>
+                                    <input type="number"
+                                           name="Retirement"
+                                           class="form-control"
+                                           min="1"
+                                           max="10"
+                                           step="1"
+                                           value="1" />
+                                </td>
+
 
                                 <td style="background-color: #ADD8E6;">Bank Account Number:</td>
                                 <td><input type="text" name="BankAccountNumber" class="form-control" /></td>
                             </tr>
                             <tr>
-                                <td style="background-color: #ADD8E6;">Retirement:</td>
-                                <td><input type="text" name="Retirement"  class="form-control" /></td>
+                                <td style="background-color: #ADD8E6;">Payment Date:</td>
+                                <td><input type="text" name="PaymentDate" value="25th" readonly class="form-control" /></td>
 
                                 <td style="background-color: #ADD8E6;">Account Type:</td>
                                 <td>
@@ -253,15 +265,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td style="background-color: #ADD8E6;">Payment Date:</td>
-                                <td><input type="text" name="PaymentDate" value="25th" readonly class="form-control" /></td>
+                                <td style="background-color: #ADD8E6;">Tax Number:</td>
+                                <td><input type="text" name="TaxNumber" class="form-control" /></td>
 
                                 <td style="background-color: #ADD8E6;">Branch Code:</td>
                                 <td><input type="text" name="BranchCode" class="form-control" /></td>
                             </tr>
                             <tr>
-                                <td style="background-color: #ADD8E6;">Tax Number:</td>
-                                <td><input type="text" name="TaxNumber" class="form-control" /></td>
+
                                 <td style="background-color: #ADD8E6;">
                                     <button type="submit" style="background-color: darkorange; margin-left:10px; margin-top:10px;" class="btn btn-primary">Save</button>
                                 </td>
@@ -269,19 +280,20 @@
                         </table>
                     </form> 
                     
+                    
                     @*  <button type="submit" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" asp-controller="Employee" asp-action="OnboardEmployee">Onboard Employee</button> *@
                     <button type="button" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" id="onboardEmployeeButton">Onboard Employee</button>
 
                 </div>
 
 
-              
+
+               
             </div>
 
 
         </div>
         @*  </form> *@
-    </div>
     </div>
 
     <style>
