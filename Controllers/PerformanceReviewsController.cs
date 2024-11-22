@@ -23,6 +23,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             //_onboardingManager = onboardingManager;
         }
 
+        // Get the employee name and number to display in the dropdown list
         public async Task<IActionResult> CreateReview()
         {
             // Initialize Firebase client
@@ -150,25 +151,87 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         //    return RedirectToAction("CreateReview");
         //}
 
-        // POST: Save Training
+        //// POST: Save Training
+        //[HttpPost]
+        //public IActionResult SaveTraining(string EmployeeName, string CourseName, string CourseLink, DateTime CompletionDate)
+        //{
+        //    // Create a new training record
+        //    var newTraining = new Training
+        //    {
+        //        EmployeeName = EmployeeName,
+        //        CourseName = CourseName,
+        //        CourseLink = CourseLink,
+        //        CompletionDate = CompletionDate,
+        //        Status = true // Set status logic as needed (e.g., completed or incomplete)
+        //    };
+
+        //    // Add the new training record to the static list
+        //    Trainings.Add(newTraining);
+
+        //    // Redirect to the same CreateReview view to show updated list
+        //    return RedirectToAction("CreateReview");
+        //}
+
+
         [HttpPost]
-        public IActionResult SaveTraining(string EmployeeName, string CourseName, string CourseLink, DateTime CompletionDate)
+        public async Task<JsonResult> SubmitTrainingAJAX(Training training)
         {
-            // Create a new training record
-            var newTraining = new Training
+            if (ModelState.IsValid)
             {
-                EmployeeName = EmployeeName,
-                CourseName = CourseName,
-                CourseLink = CourseLink,
-                CompletionDate = CompletionDate,
-                Status = true // Set status logic as needed (e.g., completed or incomplete)
-            };
+                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
 
-            // Add the new training record to the static list
-            Trainings.Add(newTraining);
+                string childPerf = training.EmployeeNumber + "," + training.CompletionDate.ToString("yyyy-MM-dd");
 
-            // Redirect to the same CreateReview view to show updated list
-            return RedirectToAction("CreateReview");
+                // Save the review under "performanceReviews" with a custom path
+                await firebase
+                    .Child("trainings")
+                    .Child(childPerf)  // Use the custom key based on EmployeeNumber and ReviewDate
+                    .PutAsync(new
+                    {
+                        EmployeeNumber = training.EmployeeNumber,
+                        CourseName = training.CourseName,
+                        CourseLink = training.CourseLink,
+                        CompletionDate = training.CompletionDate.ToString("yyyy-MM-dd")
+                    });
+
+                TempData["SuccessMessage"] = "Training saved successfully!";
+                return Json(new { success = true });
+            }
+
+            // Return failure response if model state is not valid
+            return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetPastTrainings()
+        {
+            try
+            {
+                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var trainings = await firebase
+                    .Child("trainings")
+                    .OnceAsync<Training>();
+
+                // Use lowercase keys to match JavaScript expectations
+                var trainingList = trainings.Select(r => new
+                {
+                    employeeNumber = r.Object.EmployeeNumber, // Lowercase keys
+                    courseName = r.Object.CourseName,
+                    courseLink = r.Object.CourseLink,
+                    completionDate = r.Object.CompletionDate.ToString("yyyy-MM-dd")
+                }).ToList();
+
+                // Log to verify structure
+                Console.WriteLine(JsonConvert.SerializeObject(trainingList));
+
+                return Json(new { success = true, data = trainingList });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
     }
 }

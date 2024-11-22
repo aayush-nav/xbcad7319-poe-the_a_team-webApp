@@ -157,7 +157,7 @@
                     <div class="card">
                         <div class="card-header">Create Training</div>
                         <div class="card-body">
-                            <form asp-action="SaveTraining" method="post">
+                            <form id="trainingsubmit" method="post">
                                 <!-- Select Employee Dropdown -->
                                 <div class="form-group">
                                     <label for="EmployeeName">Select Employee</label>
@@ -207,12 +207,12 @@
                                     <thead>
                                         <tr>
                                             <th class="employee-column">Employee</th>
-                                            <th class="course-column">Course</th>
+                                            <th class="name-column">Course Name</th>
+                                            <th class="link-column">Course Link</th>
                                             <th class="date-column">Completion Date</th>
-                                            <th class="status-column">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="trainingTableBody">
                                         @*  @foreach (var training in (List<XBCAD7319_SparkLine_HR_WebApp.Models.Training>)ViewData["Trainings"])
                                         {
                                         <tr>
@@ -337,7 +337,6 @@
         }
 
         // Attach the submit event to the form
-        // Attach the submit event to the form
         $('#reviewsubmit').submit(function (e) {
             e.preventDefault(); // Prevent the default form submission
 
@@ -401,6 +400,16 @@
             });
         }
 
+        $(document).ready(function () {
+            if ($('#view-trainings').hasClass('active')) {
+                fetchTraining(); // Call the function if the tab is active on page load
+            }
+
+            $('#view-trainings-tab').on('shown.bs.tab', function () {
+                fetchTraining(); // Call the function when the tab is activated
+            });
+        });
+
 
 
         // Search functionality
@@ -430,6 +439,69 @@
         // Fetch reviews on page load
         document.addEventListener('DOMContentLoaded', fetchReviews);
 
+        // Attach the submit event to the form
+        $('#trainingsubmit').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            // Send the form data to the server via AJAX
+            $.ajax({
+                url: '@Url.Action("SubmitTrainingAJAX", "PerformanceReviews")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // Show a success message
+                        alert('Training submitted successfully!');
+
+                        // Clear the form
+                        //$('#reviewsubmit')[0].reset();
+                    } else {
+                        // Show an error message
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // Handle AJAX request errors
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+
+        function fetchTraining() {
+            const tableBody = document.getElementById('trainingTableBody');
+            tableBody.innerHTML = ''; // Clear the table
+
+            $.ajax({
+                url: '@Url.Action("GetPastTrainings", "PerformanceReviews")', // Controller action URL
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        const trainings = response.data; // Data received from the server
+                        trainings.forEach((training) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="employee-column">${training.employeeNumber || 'N/A'}</td>
+                                <td class="name-column">${training.courseName || 'N/A'}</td>
+                                <td class="link-column"><a href="${training.courseLink || '#'}" target="_blank">View Course</a></td>
+                                <td class="date-column">${training.completionDate || 'N/A'}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td colspan="4" class="text-center">No training found.</td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                },
+                error: function () {
+                    alert('Error fetching trainings. Please try again later.');
+                }
+            });
+        }
 
 
     </script>
