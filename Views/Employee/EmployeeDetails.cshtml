@@ -175,7 +175,7 @@
                                 <dl class="row">
                                     <dt class="col-sm-3">ID/Passport:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="IDOrPassport" value="@Model.documentlinks.IDOrPassport" class="form-control" />
+                                        <input type="file" name="IDOrPassport" value="@Model.documentlinks.IDOrPassport" class="form-control" accept=".pdf,.doc,.docx" />
                                     </dd>
                                     <dd class="col-sm-3">
                                         @if (Model.documentlinks.IDOrPassport != null)
@@ -186,7 +186,7 @@
 
                                     <dt class="col-sm-3">CV:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="CV" class="form-control" value="@Model.documentlinks.CV" />
+                                        <input type="file" name="CV" class="form-control" value="@Model.documentlinks.CV" accept=".pdf,.doc,.docx" />
                                        
                                     </dd>
                                     <dd class="col-sm-3">
@@ -198,7 +198,7 @@
 
                                     <dt class="col-sm-3">Proof of Address:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="ProofOfAddress" class="form-control" value="@Model.documentlinks.ProofOfAddress" />
+                                        <input type="file" name="ProofOfAddress" class="form-control" value="@Model.documentlinks.ProofOfAddress" accept=".pdf,.doc,.docx" />
                                     </dd>
                                     <dd class="col-sm-3">
                                         @if (Model.documentlinks.ProofOfAddress != null)
@@ -209,7 +209,7 @@
 
                                     <dt class="col-sm-3">Proof of Tax Registration:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="ProofOfTaxRegistration" class="form-control" value="@Model.documentlinks.ProofOfTaxRegistration" />
+                                        <input type="file" name="ProofOfTaxRegistration" class="form-control" value="@Model.documentlinks.ProofOfTaxRegistration" accept=".pdf,.doc,.docx" />
                                     </dd>
                                      <dd class="col-sm-3">
                                         @if (Model.documentlinks.ProofOfTaxRegistration != null)
@@ -220,7 +220,7 @@
 
                                     <dt class="col-sm-3">Completed IRP5:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="CompletedIRP5" class="form-control" value="@Model.documentlinks.CompletedIRP5" />
+                                        <input type="file" name="CompletedIRP5" class="form-control" value="@Model.documentlinks.CompletedIRP5"  accept=".pdf,.doc,.docx" />
                                     </dd>
                                      <dd class="col-sm-3">
                                         @if (Model.documentlinks.CompletedIRP5 != null)
@@ -231,7 +231,7 @@
 
                                     <dt class="col-sm-3">Proof of Bank:</dt>
                                     <dd class="col-sm-6">
-                                        <input type="file" name="ProofOfBank" class="form-control" value="@Model.documentlinks.ProofOfBank" />
+                                        <input type="file" name="ProofOfBank" class="form-control" value="@Model.documentlinks.ProofOfBank" accept=".pdf,.doc,.docx" />
                                     </dd>
                                     <dd class="col-sm-3">
                                         @if (Model.documentlinks.ProofOfBank != null)
