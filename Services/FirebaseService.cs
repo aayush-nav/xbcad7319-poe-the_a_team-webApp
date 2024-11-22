@@ -13,13 +13,14 @@ public class FirebaseService
 
     public FirebaseService()
     {
-        _firebaseClient = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/"); // Replace with your Firebase Realtime Database URL
+        _firebaseClient = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/"); // Replace with your Firebase Realtime Database URL
         _firebaseStorage = new FirebaseStorage("hrappstorage.appspot.com");
     }
 
     public async Task SaveEmployee(string employeeId, EmployeeDetailsViewModelAllFour employeeDetails)
     {
         await _firebaseClient
+            .Child("SparkLineHR")
             .Child("employees_sparkline")
             .Child(employeeId)
             .PutAsync(employeeDetails);
@@ -36,7 +37,7 @@ public class FirebaseService
     //}
     public async Task<List<EmployeeDetailsViewModelAllFour>> GetAllEmployeesAsync()
     {
-        var snapshot = await _firebaseClient.Child("employees_sparkline").OnceAsync<object>();
+        var snapshot = await _firebaseClient.Child("SparkLineHR").Child("employees_sparkline").OnceAsync<object>();
         var employees = new List<EmployeeDetailsViewModelAllFour>();
 
         foreach (var item in snapshot)
@@ -72,30 +73,35 @@ public class FirebaseService
     {
         // Fetch data from Firebase Realtime Database
         var employee = await _firebaseClient
+            .Child("SparkLineHR")
             .Child("employees_sparkline")
             .Child(empID)
             .Child("employee")
             .OnceSingleAsync<Employee>();
 
         var jobDetails = await _firebaseClient
+            .Child("SparkLineHR")
             .Child("employees_sparkline")
             .Child(empID)
             .Child("jobdetails")
             .OnceSingleAsync<JobDetails>();
 
         var documentLinks = await _firebaseClient
+            .Child("SparkLineHR")
             .Child("employees_sparkline")
             .Child(empID)
             .Child("documentlinks")
             .OnceSingleAsync<DocumentLinks>();
 
         var payroll = await _firebaseClient
+            .Child("SparkLineHR")
             .Child("employees_sparkline")
             .Child(empID)
             .Child("payroll")
             .OnceSingleAsync<Payroll>();
 
         var leave = await _firebaseClient
+            .Child("SparkLineHR")
            .Child("employees_sparkline")
            .Child(empID)
            .Child("leavebalance")
@@ -114,6 +120,7 @@ public class FirebaseService
         {
             // Assuming _firebaseDatabase is your Firebase Realtime Database reference
             var documentSnapshot = await _firebaseClient
+                .Child("SparkLineHR")
                 .Child("employees_sparkline") // Root node where employee data is stored
                 .Child(employeeId) // Employee ID node
                 .Child("documentlinks") // Document links for the specific employee
@@ -134,6 +141,7 @@ public class FirebaseService
         {
             // Assuming _firebaseDatabase is your Firebase Realtime Database reference
             var leaveSnapshot = await _firebaseClient
+                .Child("SparkLineHR")
                 .Child("employees_sparkline") // Root node where employee data is stored
                 .Child(employeeId) // Employee ID node
                 .Child("leavebalance") // Document links for the specific employee
