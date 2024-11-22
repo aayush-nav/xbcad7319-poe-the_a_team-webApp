@@ -15,7 +15,7 @@
         <div class="logo-container">
             <div class="hr-logo"></div>
         </div>
-        <h2 class="welcome-text">Employee Onboarding</h2>
+        <h2 class="welcome-text">Edit Employee Details</h2>
         <h2 class="heading">SparkLine</h2>
     </div>
 
@@ -68,7 +68,7 @@
                                 @Html.AntiForgeryToken()
 
                                 <dl class="row">
-                                    <dt class="col-sm-3">Name:</dt>
+                                    <dt class="col-sm-3">Full Name:</dt>
                                     <dd class="col-sm-9">
                                         <input type="text" name="Name" class="form-control" value="@Model.employee.Name" />
                                     </dd>
@@ -138,7 +138,7 @@
                                         <input type="text" name="Department" class="form-control" value="@Model.jobdetails.Department" />
                                     </dd>
 
-                                    <dt class="col-sm-3">Manager:</dt>
+                                    <dt class="col-sm-3">Manager Name:</dt>
                                     <dd class="col-sm-9">
                                         <input type="text" name="Manager" class="form-control" value="@Model.jobdetails.Manager" />
                                     </dd>
@@ -268,14 +268,22 @@
                                         <input type="text" name="PAYE" class="form-control" value="@Model.payroll.PAYE" />
                                     </dd> *@
 
-                                    <dt class="col-sm-3">UIF:</dt>
+                                    <dt class="col-sm-3">UIF (%):</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="UIF" readonly class="form-control" value="@Model.payroll.UIF" />
+                                        <input type="number" name="UIF" readonly class="form-control" value="@Model.payroll.UIF" />
                                     </dd>
 
-                                    <dt class="col-sm-3">Retirement:</dt>
+                                    <dt class="col-sm-3">Retirement (%):</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="Retirement" class="form-control" value="@Model.payroll.Retirement" />
+                                        <input type="number"
+                                               name="Retirement"
+                                               class="form-control"
+                                               min="1"
+                                               max="10"
+                                               step="1"
+                                               value="@Model.payroll.Retirement"
+                                                />
+                                        @* <input type="input" name="Retirement" class="form-control" value="@Model.payroll.Retirement" /> *@
                                     </dd>
 
                                     <dt class="col-sm-3">Payment Date:</dt>
@@ -285,10 +293,10 @@
 
                                     <dt class="col-sm-3">Tax Number:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="TaxNumber" class="form-control" value="@Model.payroll.TaxNumber" />
+                                        <input type="number" name="TaxNumber" class="form-control" value="@Model.payroll.TaxNumber" />
                                     </dd>
 
-                                    <dt class="col-sm-3">Account Name:</dt>
+                                    <dt class="col-sm-3">Account Holder Name:</dt>
                                     <dd class="col-sm-9">
                                         <input type="text" name="AccountName" class="form-control" value="@Model.payroll.AccountName" />
                                     </dd>
@@ -300,7 +308,7 @@
 
                                     <dt class="col-sm-3">Bank Account Number:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="BankAccountNumber" class="form-control" value="@Model.payroll.BankAccountNumber" />
+                                        <input type="number" name="BankAccountNumber" class="form-control" value="@Model.payroll.BankAccountNumber" />
                                     </dd>
 
                                     <dt class="col-sm-3">Account Type:</dt>
@@ -310,7 +318,7 @@
 
                                     <dt class="col-sm-3">Branch Code:</dt>
                                     <dd class="col-sm-9">
-                                        <input type="text" name="BranchCode" class="form-control" value="@Model.payroll.BranchCode" />
+                                        <input type="number" name="BranchCode" class="form-control" value="@Model.payroll.BranchCode" />
                                     </dd>
                                 </dl>
 
