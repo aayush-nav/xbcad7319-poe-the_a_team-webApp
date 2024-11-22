@@ -86,6 +86,12 @@ C:\Users\CCC\Desktop\Varsity College\VC - BCAD 3 (2024)\Semester 2\Modules\Progr
 C:\Users\CCC\Desktop\Varsity College\VC - BCAD 3 (2024)\Semester 2\Modules\Programming 3B (PROG7312)\POE\Part 3\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.pdb
 C:\Users\CCC\Desktop\Varsity College\VC - BCAD 3 (2024)\Semester 2\Modules\Programming 3B (PROG7312)\POE\Part 3\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.genruntimeconfig.cache
 C:\Users\CCC\Desktop\Varsity College\VC - BCAD 3 (2024)\Semester 2\Modules\Programming 3B (PROG7312)\POE\Part 3\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\ref\XBCAD7319-SparkLine-HR-WebApp.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\Firebase.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\Firebase.Storage.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\LiteDB.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\RestSharp.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\System.Reactive.dll
+C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\System.Runtime.InteropServices.WindowsRuntime.dll
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\appsettings.json
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.staticwebassets.runtime.json
@@ -136,9 +142,3 @@ C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_tea
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.pdb
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.genruntimeconfig.cache
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\ref\XBCAD7319-SparkLine-HR-WebApp.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\Firebase.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\Firebase.Storage.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\LiteDB.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\RestSharp.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\System.Reactive.dll
-C:\Users\aayus\source\repos\XBCAD7319-SparkLine-HR-WebApp\bin\Debug\net8.0\System.Runtime.InteropServices.WindowsRuntime.dll
