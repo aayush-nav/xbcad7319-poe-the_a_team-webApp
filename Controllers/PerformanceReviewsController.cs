@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firebase.Database;
+using Firebase.Database.Query;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using XBCAD7319_SparkLine_HR_WebApp.Models;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
@@ -8,49 +12,143 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         // Static list to hold past training records
         private static List<Training> Trainings = new List<Training>();
 
-        // Display the Create Review form with past reviews and past trainings
-        public IActionResult CreateReview(string searchTerm = "")
+        private readonly OnboardingService _onboardingService;
+        private readonly FirebaseService _firebaseService;
+        //private readonly OnboardingManager _onboardingManager;
+
+        public PerformanceReviewsController()
         {
-            var model = new PerformanceReview
-            {
-                ReviewDate = DateTime.Now
-            };
-
-            // Filter past reviews based on the search term
-            XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews = string.IsNullOrEmpty(searchTerm)
-                ? PerformanceReview.PastReviews
-                : PerformanceReview.PastReviews
-                    .Where(r => r.EmployeeName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-            // Pass the trainings list to the view using ViewData
-            ViewData["Trainings"] = Trainings;
-
-            return View(model);
+            _onboardingService = new OnboardingService();
+            _firebaseService = new FirebaseService();
+            //_onboardingManager = onboardingManager;
         }
 
-        // Save the review and add it to the past reviews list
+        public async Task<IActionResult> CreateReview()
+        {
+            // Initialize Firebase client
+            var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+
+            // Fetch employee data
+            var employees = await firebase
+                .Child("employees_sparkline")
+                .OnceAsync<dynamic>();
+
+            // Map data for dropdown
+            ViewData["EmployeeList"] = employees.Select(e => new SelectListItem
+            {
+                Value = e.Object["empID"], // empID as the value
+                Text = e.Object["employee"]["Name"] // Name for display
+            }).ToList();
+
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult SaveReview(PerformanceReview model)
+        public async Task<JsonResult> SubmitReviewAJAX(PerformanceReview review)
         {
             if (ModelState.IsValid)
             {
-                // Add the current review to the list of past reviews
-                PerformanceReview.PastReviews.Add(new PerformanceReview
-                {
-                    EmployeeName = model.EmployeeName,
-                    ReviewDate = model.ReviewDate,
-                    PerformanceRating = model.PerformanceRating,
-                    Feedback = model.Feedback,
-                });
+                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
 
-                // Clear the form fields after saving
-                ModelState.Clear();
+                string childPerf = review.EmployeeNumber + "," + review.ReviewDate.ToString("yyyy-MM-dd");
+
+                // Save the review under "performanceReviews" with a custom path
+                await firebase
+                    .Child("performanceReviews")
+                    .Child(childPerf)  // Use the custom key based on EmployeeNumber and ReviewDate
+                    .PutAsync(new
+                    {
+                        EmployeeNumber = review.EmployeeNumber,
+                        ReviewDate = review.ReviewDate,
+                        PerformanceRating = review.PerformanceRating,
+                        Feedback = review.Feedback
+                    });
+
+                TempData["SuccessMessage"] = "Review saved successfully!";
+                return Json(new { success = true });
             }
 
-            // Return to the view with the updated model containing past reviews
-            return RedirectToAction("CreateReview");
+            // Return failure response if model state is not valid
+            return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetPastReviews()
+        {
+            try
+            {
+                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var reviews = await firebase
+                    .Child("performanceReviews")
+                    .OnceAsync<PerformanceReview>();
+
+                // Use lowercase keys to match JavaScript expectations
+                var reviewList = reviews.Select(r => new
+                {
+                    employeeNumber = r.Object.EmployeeNumber, // Lowercase keys
+                    reviewDate = r.Object.ReviewDate.ToString("yyyy-MM-dd"),
+                    performanceRating = r.Object.PerformanceRating,
+                    feedback = r.Object.Feedback
+                }).ToList();
+
+                // Log to verify structure
+                Console.WriteLine(JsonConvert.SerializeObject(reviewList));
+
+                return Json(new { success = true, data = reviewList });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+
+
+        // Display the Create Review form with past reviews and past trainings
+        //public IActionResult CreateReview(string searchTerm = "")
+        //{
+        //    var model = new PerformanceReview
+        //    {
+        //        ReviewDate = DateTime.Now
+        //    };
+
+        //    // Filter past reviews based on the search term
+        //    XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews = string.IsNullOrEmpty(searchTerm)
+        //        ? PerformanceReview.PastReviews
+        //        : PerformanceReview.PastReviews
+        //            .Where(r => r.EmployeeName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+        //            .ToList();
+
+        //    // Pass the trainings list to the view using ViewData
+        //    ViewData["Trainings"] = Trainings;
+
+        //    return View(model);
+        //}
+
+        // Save the review and add it to the past reviews list
+        //[HttpPost]
+        //public IActionResult SaveReview(PerformanceReview model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Add the current review to the list of past reviews
+        //        PerformanceReview.PastReviews.Add(new PerformanceReview
+        //        {
+        //            EmployeeName = model.EmployeeName,
+        //            ReviewDate = model.ReviewDate,
+        //            PerformanceRating = model.PerformanceRating,
+        //            Feedback = model.Feedback,
+        //        });
+
+        //        // Clear the form fields after saving
+        //        ModelState.Clear();
+        //    }
+
+        //    // Return to the view with the updated model containing past reviews
+        //    return RedirectToAction("CreateReview");
+        //}
 
         // POST: Save Training
         [HttpPost]

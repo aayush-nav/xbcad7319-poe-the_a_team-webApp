@@ -65,28 +65,30 @@
                     <div class="card">
                         <div class="card-header">Create Review</div>
                         <div class="card-body">
-                            <form asp-action="SaveReview" method="post">
+                            <form id="reviewsubmit" method="post">
                                 <!-- Employee Dropdown -->
                                 <div class="form-group-employee-list">
                                     <label for="EmployeeName">Employee</label>
-                                    <select asp-for="EmployeeName" class="form-control">
+                                    <select name="EmployeeNumber" class="form-control">
                                         <option value="">Select Employee</option>
-                                        <option value="Mike Thompson">Mike Thompson</option>
-                                        <option value="Jane Doe">Jane Doe</option>
-                                        <option value="John Smith">John Smith</option>
+                                        @foreach (var employee in ViewData["EmployeeList"] as List<SelectListItem>)
+                                        {
+                                            <option value="@employee.Value">@employee.Text  (@employee.Value)</option>
+                                        }
                                     </select>
+
                                 </div>
 
                                 <!-- Review Date (Editable) -->
                                 <div class="form-group">
                                     <label for="ReviewDate">Review Date</label>
-                                    <input asp-for="ReviewDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <input asp-for="ReviewDate" name="ReviewDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                                 </div>
 
                                 <!-- Performance Rating -->
                                 <div class="form-group">
                                     <label for="PerformanceRating">Performance Rating</label>
-                                    <select asp-for="PerformanceRating" class="form-control">
+                                    <select asp-for="PerformanceRating" name="PerformanceRating" class="form-control">
                                         <option value="Excellent">Excellent</option>
                                         <option value="Good">Good</option>
                                         <option value="Satisfactory">Satisfactory</option>
@@ -97,7 +99,7 @@
                                 <!-- Feedback Section -->
                                 <div class="form-group">
                                     <label for="Feedback">Feedback</label>
-                                    <textarea asp-for="Feedback" class="form-control" rows="4" placeholder="Provide feedback..."></textarea>
+                                    <textarea asp-for="Feedback" name="Feedback" class="form-control" rows="4" placeholder="Provide feedback..."></textarea>
                                 </div>
 
                                 <!-- Save Review Button -->
@@ -134,15 +136,15 @@
                                         </tr>
                                     </thead>
                                     <tbody id="reviewTableBody">
-                                        @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
+                                        @*  @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
                                         {
-                                            <tr>
-                                                <td class="employee-column">@review.EmployeeName</td>
-                                                <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
-                                                <td class="rating-column">@review.PerformanceRating</td>
-                                                <td class="feedback-column">@review.Feedback</td>
-                                            </tr>
-                                        }
+                                        <tr>
+                                        <td class="employee-column">@review.EmployeeName</td>
+                                        <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
+                                        <td class="rating-column">@review.PerformanceRating</td>
+                                        <td class="feedback-column">@review.Feedback</td>
+                                        </tr>
+                                        } *@
                                     </tbody>
                                 </table>
                             </div>
@@ -159,11 +161,12 @@
                                 <!-- Select Employee Dropdown -->
                                 <div class="form-group">
                                     <label for="EmployeeName">Select Employee</label>
-                                    <select id="EmployeeName" class="form-control" name="EmployeeName">
+                                    <select name="EmployeeNumber" class="form-control">
                                         <option value="">Select Employee</option>
-                                        <option value="Mike Thompson">Mike Thompson</option>
-                                        <option value="Jane Doe">Jane Doe</option>
-                                        <option value="John Smith">John Smith</option>
+                                        @foreach (var employee in ViewData["EmployeeList"] as List<SelectListItem>)
+                                        {
+                                            <option value="@employee.Value">@employee.Text  (@employee.Value)</option>
+                                        }
                                     </select>
                                 </div>
 
@@ -210,15 +213,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var training in (List<XBCAD7319_SparkLine_HR_WebApp.Models.Training>)ViewData["Trainings"])
+                                        @*  @foreach (var training in (List<XBCAD7319_SparkLine_HR_WebApp.Models.Training>)ViewData["Trainings"])
                                         {
-                                            <tr>
-                                                <td>@training.EmployeeName</td>
-                                                <td>@(training.Status ? "Completed" : "Incomplete")</td>
-                                                <td><a href="@training.CourseLink" target="_blank">View Document</a></td>
-                                                <td>@training.CompletionDate.ToString("yyyy-MM-dd")</td>
-                                            </tr>
-                                        }
+                                        <tr>
+                                        <td>@training.EmployeeName</td>
+                                        <td>@(training.Status ? "Completed" : "Incomplete")</td>
+                                        <td><a href="@training.CourseLink" target="_blank">View Document</a></td>
+                                        <td>@training.CompletionDate.ToString("yyyy-MM-dd")</td>
+                                        </tr>
+                                        } *@
                                     </tbody>
                                 </table>
                             </div>
@@ -326,12 +329,109 @@
             let tableBody = document.getElementById("trainingTableBody");
             let newRow = tableBody.insertRow();
             newRow.innerHTML = `
-                        <td>${trainingData.EmployeeName}</td>
-                        <td>${trainingData.Status ? "Complete" : "Incomplete"}</td>
-                        <td><a href="${trainingData.CourseLink}" target="_blank">View Document</a></td>
-                        <td>${trainingData.CompletionDate}</td>
-                    `;
+                                <td>${trainingData.EmployeeName}</td>
+                                <td>${trainingData.Status ? "Complete" : "Incomplete"}</td>
+                                <td><a href="${trainingData.CourseLink}" target="_blank">View Document</a></td>
+                                <td>${trainingData.CompletionDate}</td>
+                            `;
         }
+
+        // Attach the submit event to the form
+        // Attach the submit event to the form
+        $('#reviewsubmit').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize(); // Serialize the form data for submission
+
+            // Send the form data to the server via AJAX
+            $.ajax({
+                url: '@Url.Action("SubmitReviewAJAX", "PerformanceReviews")', // URL of the controller action
+                type: 'POST', // Use POST method
+                data: formData, // The serialized form data
+                success: function (response) {
+                    if (response.success) {
+                        // Show a success message
+                        alert('Review submitted successfully!');
+
+                        // Clear the form
+                        $('#reviewsubmit')[0].reset();
+                    } else {
+                        // Show an error message
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function () {
+                    // Handle AJAX request errors
+                    alert('An error occurred while saving the data.');
+                }
+            });
+        });
+
+        function fetchReviews() {
+            const tableBody = document.getElementById('reviewTableBody');
+            tableBody.innerHTML = ''; // Clear the table
+
+            $.ajax({
+                url: '@Url.Action("GetPastReviews", "PerformanceReviews")', // Controller action URL
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        const reviews = response.data; // Data received from the server
+                        reviews.forEach((review) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                        <td class="employee-column">${review.employeeNumber || 'N/A'}</td> <!-- Use lowercase keys -->
+                                        <td class="date-column">${review.reviewDate || 'N/A'}</td>
+                                        <td class="rating-column">${review.performanceRating || 'N/A'}</td>
+                                        <td class="feedback-column">${review.feedback || 'N/A'}</td>
+                                    `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                                    <td colspan="4" class="text-center">No reviews found.</td>
+                                `;
+                        tableBody.appendChild(row);
+                    }
+                },
+                error: function () {
+                    alert('Error fetching reviews. Please try again later.');
+                }
+            });
+        }
+
+
+
+        // Search functionality
+        function searchReviews() {
+            const searchTerm = document.getElementById('searchTerm').value.trim().toLowerCase();
+            const tableRows = document.querySelectorAll('#reviewTableBody tr');
+
+            tableRows.forEach((row) => {
+                const employeeName = row.querySelector('.employee-column').textContent.toLowerCase();
+                if (employeeName.includes(searchTerm)) {
+                    row.style.display = ''; // Show row
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+        }
+
+        // Clear search filter
+        function clearSearch() {
+            document.getElementById('searchTerm').value = ''; // Clear the search input
+            const tableRows = document.querySelectorAll('#reviewTableBody tr');
+            tableRows.forEach((row) => {
+                row.style.display = ''; // Show all rows
+            });
+        }
+
+        // Fetch reviews on page load
+        document.addEventListener('DOMContentLoaded', fetchReviews);
+
+
+
     </script>
 </body>
 </html>
