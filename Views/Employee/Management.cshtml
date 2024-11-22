@@ -54,7 +54,7 @@
                 <!-- Employee List Heading -->
                 <h2 class="employee-list-heading">Employee List</h2>
 
-                <!-- Search and Filter Section -->
+@*                 <!-- Search and Filter Section -->
                 <div class="search-filter-container">
                     <input type="text" class="search-bar" placeholder="Search Employee" />
                     <div class="filters">
@@ -69,7 +69,7 @@
                             <option>Analyst</option>
                         </select>
                     </div>
-                </div>
+                </div> *@
 
                 <!-- Employee Table -->
                 <table class="employee-table">
@@ -90,10 +90,17 @@
                                 <td>@emp.jobdetails.JobTitle</td>
                                 <td>@emp.jobdetails.Department</td>
                                 <td><span class="status active">Active</span></td>
-                                <td>
+@*                                 <td>
                                     <a style="margin-bottom: 5px" asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@emp.empID" class="btn btn-primary">Edit</a>
                                     <button class="remove-btn" style="margin-inline" onclick="removeEmployee(this)">Remove</button>
+                                </td> *@
+                                <td>
+                                    <div style="display: flex; gap: 10px;">
+                                        <a asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@emp.empID" class="btn btn-primary">Edit</a>
+                                        <button class="remove-btn btn btn-danger" onclick="removeEmployee(this)">Remove</button>
+                                    </div>
                                 </td>
+
                             </tr>
                         }
                     </tbody>
