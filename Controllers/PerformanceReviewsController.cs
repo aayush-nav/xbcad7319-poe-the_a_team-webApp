@@ -27,10 +27,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         public async Task<IActionResult> CreateReview()
         {
             // Initialize Firebase client
-            var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
 
             // Fetch employee data
             var employees = await firebase
+                .Child("SparkLineHR")
                 .Child("employees_sparkline")
                 .OnceAsync<dynamic>();
 
@@ -49,12 +50,13 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
 
                 string childPerf = review.EmployeeNumber + "," + review.ReviewDate.ToString("yyyy-MM-dd");
 
                 // Save the review under "performanceReviews" with a custom path
                 await firebase
+                    .Child("SparkLineHR")
                     .Child("performanceReviews")
                     .Child(childPerf)  // Use the custom key based on EmployeeNumber and ReviewDate
                     .PutAsync(new
@@ -79,8 +81,9 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         {
             try
             {
-                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
                 var reviews = await firebase
+                    .Child("SparkLineHR")
                     .Child("performanceReviews")
                     .OnceAsync<PerformanceReview>();
 
@@ -178,12 +181,13 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
 
                 string childPerf = training.EmployeeNumber + "," + training.CompletionDate.ToString("yyyy-MM-dd");
 
                 // Save the review under "performanceReviews" with a custom path
                 await firebase
+                    .Child("SparkLineHR")
                     .Child("trainings")
                     .Child(childPerf)  // Use the custom key based on EmployeeNumber and ReviewDate
                     .PutAsync(new
@@ -208,8 +212,9 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         {
             try
             {
-                var firebase = new FirebaseClient("https://mvc-hr-demo-default-rtdb.firebaseio.com/");
+                var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
                 var trainings = await firebase
+                    .Child("SparkLineHR")
                     .Child("trainings")
                     .OnceAsync<Training>();
 
