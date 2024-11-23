@@ -393,6 +393,7 @@
                     }
                 });
             }
+
             function fetchPayslipData(empID) {
                 console.log("Fetching payslip data for employee:", empID);
 
@@ -401,16 +402,10 @@
                     type: 'GET',
                     data: { empID: empID },
                     success: function (response) {
-                        console.log("API Response Data:", response);  // Log the full response
-                        console.log("Response from server:", response);
-
-                        //const hireDate = new Date(response.data.jobdetails.HireDate);  // Adjust this path according to your actual response structure
-                        // console.log("Parsed Hire Date:", hireDate);
+                        console.log("API Response Data:", response);
 
                         if (response.success) {
-                            console.log("Hire Date from response:", response.data) // Log the raw hire date
-
-                            const hireDate = new Date(response.data);  // Ensure the date is parsed correctly
+                            const hireDate = new Date(response.data); // Parse the hire date
                             console.log("Parsed Hire Date:", hireDate);
 
                             const currentDate = new Date();
@@ -419,40 +414,55 @@
                             const tableBody = $('#payslipTable tbody');
                             tableBody.empty();
 
-                            let tempDate = new Date(hireDate);
-                            tempDate.setDate(25); // Set to 25th of the month
-                            console.log("First Payslip Date (25th of Hire Month):", tempDate);
+                            // Ensure the hireDate is always the 25th of the month
+                            hireDate.setDate(25);
+                            console.log("Adjusted Hire Date (25th of Hire Month):", hireDate);
 
-                            // Loop through each month from the hire date to the current date
-                            while (tempDate <= currentDate) {
+                            // Ensure the current date is the 25th of the current month for comparison
+                            let tempDate = new Date(currentDate);
+                            tempDate.setDate(25);
+
+                            // Loop in reverse: current date back to the hire date
+                            while (tempDate >= hireDate) {
+                                // Skip the current month if today's date is before the 25th
+                                if (tempDate.getFullYear() === currentDate.getFullYear() &&
+                                    tempDate.getMonth() === currentDate.getMonth() &&
+                                    currentDate.getDate() < 25) {
+                                    console.log("Skipping current month because today is before the 25th.");
+                                    tempDate.setMonth(tempDate.getMonth() - 1);
+                                    continue;
+                                }
+
                                 const monthYear = tempDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-                                console.log("Month Year for row:", monthYear); // Log each month being processed
+                                console.log("Month-Year being added:", monthYear);
 
+                                // Append the current month to the table
                                 tableBody.append(`
-                                                <tr>
-                                                    <td>${monthYear}</td>
+                                    <tr>
+                                        <td>${monthYear}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="releasePayslip('${empID}', '${monthYear}')">Release Payslip</button>
+                                        </td>
+                                    </tr>
+                                `);
 
-                                                    <td>
-                                                        <button class="btn btn-primary" onclick="releasePayslip('${empID}', '${monthYear}')">Release Payslip</button>
-                                                    </td>
-                                                </tr>
-                                            `);
-
-                                // Move to next month
-                                tempDate.setMonth(tempDate.getMonth() + 1);
+                                // Move to the previous month
+                                tempDate.setMonth(tempDate.getMonth() - 1);
                             }
 
-                            $('#payslipSection').show();
+                            $('#payslipSection').show(); // Show the payslip section after populating
                         } else {
+                            console.error("Error in response data:", response);
                             alert('Failed to fetch employee details.');
                         }
-
                     },
                     error: function () {
                         alert('An error occurred while fetching payslip data.');
                     }
                 });
             }
+
+
 
             function releasePayslip(empID, monthYear) {
                 console.log("Releasing payslip for:", empID, monthYear);
