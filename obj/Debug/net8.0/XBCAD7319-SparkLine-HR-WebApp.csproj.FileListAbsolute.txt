@@ -142,3 +142,8 @@ C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_tea
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.pdb
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\XBCAD7319-SparkLine-HR-WebApp.genruntimeconfig.cache
 C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\obj\Debug\net8.0\ref\XBCAD7319-SparkLine-HR-WebApp.dll
+C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\anjal\OneDrive\Desktop\XBCAD_2024\FINAL_WEB_APP\xbcad7319-poe-the_a_team-webApp\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
