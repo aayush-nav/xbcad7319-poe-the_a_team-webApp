@@ -31,7 +31,7 @@
                 <ul class="sidebar-menu">
                     <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
                     <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
-                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Requests</a></li>
                     <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
                     <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
                     <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
@@ -47,6 +47,8 @@
                 <div class="tab-link active" data-tab="employee-list">Employee List</div>
                 <div class="tab-link" data-tab="previous-employees">Previous Employees</div>
                 <div class="tab-link" data-tab="payslips">Release Payslips</div>
+                <!--Anjali add this line -->
+                <div class="tab-link" data-tab="view-incident">View Incident</div>
             </div>
 
             <!-- Aslam Updated -->
@@ -157,10 +159,129 @@
                     </table>
                 </div>
             </div>
+
+            <div class="tab-content" id="view-incident" style="display:none;">
+                <h3 class="incident-list-heading">Incident Reports</h3>
+                <!-- Incident Table -->
+                <table class="incident-table">
+                    <thead>
+                        <tr>
+                            <th>Employee Number</th>
+                            <th>Incident Title</th>
+                            <th>Description</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated dynamically via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+
         </div>
 
+        <style>
+            /* Style the table container */
+            .incident-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 16px;
+                text-align: left;
+            }
+
+                /* Table header styling */
+                .incident-table thead tr {
+                    background-color: #f2f2f2;
+                    color: #333;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+
+                /* Table row styling */
+                .incident-table tbody tr {
+                    border-bottom: 1px solid #ddd;
+                }
+
+                    /* Hover effect for rows */
+                    .incident-table tbody tr:hover {
+                        background-color: #f9f9f9;
+                    }
+
+                /* Cell padding */
+                .incident-table th, .incident-table td {
+                    padding: 12px 15px;
+                }
+
+                /* Alternate row colors */
+                .incident-table tbody tr:nth-of-type(even) {
+                    background-color: #f8f8f8;
+                }
+
+                /* Adjust column widths */
+                .incident-table td:nth-child(1) {
+                    width: 15%;
+                }
+
+                .incident-table td:nth-child(2) {
+                    width: 25%;
+                }
+
+                .incident-table td:nth-child(3) {
+                    width: 40%;
+                }
+
+                .incident-table td:nth-child(4) {
+                    width: 20%;
+                }
+        </style>
         <!-- Confirm Logout script -->
         <script>
+
+            // incident Reports functions
+            function fetchIncidentReports() {
+                console.log("Fetching incident reports...");
+                $.ajax({
+                    url: '@Url.Action("GetIncidentReports", "Employee")',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            populateIncidentTable(response.data);
+                        } else {
+                            alert('Failed to fetch incident reports: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while fetching incident reports.');
+                    }
+                });
+            }
+
+            function populateIncidentTable(incidentReports) {
+                const tableBody = $('.incident-table tbody');
+                tableBody.empty(); // Clear existing rows
+
+                incidentReports.forEach(report => {
+                    const row = `
+                                    <tr>
+                                        <td>${report.employeeNumber}</td>
+                                        <td>${report.title}</td>
+                                        <td>${report.description}</td>
+                                        <td>${report.dateSubmitted}</td>
+                                    </tr>
+                                `;
+                    tableBody.append(row);
+                });
+            }
+
+            // Call fetchIncidentReports on page load
+            $(document).ready(function () {
+                fetchIncidentReports();
+            });
+
+
+
             function confirmLogout() {
                 if (confirm("Are you sure you want to log out?")) {
                     window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
@@ -308,14 +429,14 @@
                                 console.log("Month Year for row:", monthYear); // Log each month being processed
 
                                 tableBody.append(`
-                                    <tr>
-                                        <td>${monthYear}</td>
+                                                <tr>
+                                                    <td>${monthYear}</td>
 
-                                        <td>
-                                            <button class="btn btn-primary" onclick="releasePayslip('${empID}', '${monthYear}')">Release Payslip</button>
-                                        </td>
-                                    </tr>
-                                `);
+                                                    <td>
+                                                        <button class="btn btn-primary" onclick="releasePayslip('${empID}', '${monthYear}')">Release Payslip</button>
+                                                    </td>
+                                                </tr>
+                                            `);
 
                                 // Move to next month
                                 tempDate.setMonth(tempDate.getMonth() + 1);

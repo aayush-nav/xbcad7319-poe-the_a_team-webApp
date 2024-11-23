@@ -454,13 +454,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true });
         }
 
-        //private string GetPayslipPeriod(string monthYear)
-        //{
-        //    var firstDay = DateTime.ParseExact("01-" + monthYear, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-        //    var lastDay = new DateTime(firstDay.Year, firstDay.Month, DateTime.DaysInMonth(firstDay.Year, firstDay.Month));
-        //    return $"{firstDay:dd-MM-yyyy} - {lastDay:dd-MM-yyyy}";
-        //}
-
 
         private string GetPayslipPeriod(string monthYear)
         {
@@ -476,7 +469,34 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        public async Task<IActionResult> GetIncidentReports()
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
 
+            try
+            {
+                // Fetch all incident reports
+                var issueReports = await firebase
+                    .Child("SparkLineHR")
+                    .Child("IssueReports")
+                    .OnceAsync<IncidentDBModel>();
+
+                // Map Firebase data to a view model
+                var incidentReportsList = issueReports.Select(report => new IncidentReportViewModel
+                {
+                    EmployeeNumber = report.Key.Split(',')[0],
+                    Title = report.Object.passTitle,
+                    Description = report.Object.passDesc,
+                    DateSubmitted = report.Key.Split(',')[1]
+                }).ToList();
+
+                return Json(new { success = true, data = incidentReportsList });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Failed to fetch incident reports.", error = ex.Message });
+            }
+        }
 
 
 
