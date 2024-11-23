@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Firebase.Database;
+using Firebase.Database.Query;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text;
 using XBCAD7319_SparkLine_HR_WebApp.Models;
+using XBCAD7319_SparkLine_HR_WebApp.ViewModel;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 {
@@ -150,5 +155,145 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 
             return Json(result);
         }
+
+
+        // Anjali Work
+        [HttpGet]
+        public async Task<IActionResult> GetPendingLeaveRequests()
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+            var pendingLeaves = await firebase
+                .Child("SparkLineHR")
+                .Child("Pending Leave Requests")
+                .OnceAsync<LeaveRequestViewModel>();
+
+            var leaveRequests = new List<LeaveRequestViewModel>();
+
+            foreach (var leave in pendingLeaves)
+            {
+                var parts = leave.Key.Split(',');
+                var empId = parts[0];
+                var fromDate = DateTime.Parse(parts[1]);
+
+                // Fetch employee details
+                var employee = await firebase
+                    .Child("SparkLineHR")
+                    .Child("employees_sparkline")
+                    .Child(empId)
+                    .OnceSingleAsync<EmployeeDetailsViewModel>();
+
+                leaveRequests.Add(new LeaveRequestViewModel
+                {
+                    EmployeeId = empId,
+                    EmployeeName = employee.Employee.Name,
+                    FromDate = leave.Object.FromDate,
+                    ToDate = leave.Object.ToDate,
+                    LeaveType = leave.Object.LeaveType,
+                    Document = leave.Object.Document,
+                    Status = "Pending", // All fetched records are pending
+                    NumofDays = (DateTime.Parse(leave.Object.ToDate) - DateTime.Parse(leave.Object.FromDate)).Days,
+                });
+            }
+
+            return Json(new { success = true, data = leaveRequests });
+        }
+        [HttpPost]
+        public async Task<IActionResult> ProcessLeaveRequest([FromBody] LeaveProcessRequest request)
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+
+            // Construct the key for the pending leave request
+            var leaveKey = $"{request.EmpId},{request.FromDate}";
+
+            try
+            {
+                // Fetch the pending leave request
+                var pendingLeave = await firebase
+                    .Child("SparkLineHR")
+                    .Child("Pending Leave Requests")
+                    .Child(leaveKey)
+                    .OnceSingleAsync<LeaveRequestViewModel>();
+
+                if (pendingLeave == null)
+                {
+                    return Json(new { success = false, message = "Leave request not found." });
+                }
+
+                // Create the processed leave request with updated status
+                var processedLeave = new
+                {
+                    pendingLeave.Document,
+                    pendingLeave.FromDate,
+                    pendingLeave.ToDate,
+                    pendingLeave.LeaveType,
+                    status = request.Status, // Approved or Declined
+                    processedDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    empID = request.EmpId
+                };
+
+                // Save the processed leave request to the appropriate node
+                var statusNode = request.Status.ToLower() == "approved" ? "Approved Leave Requests" : "Declined Leave Requests";
+
+                await firebase
+                    .Child("SparkLineHR")
+                    .Child(statusNode)
+                    .Child(leaveKey)
+                    .PutAsync(processedLeave);
+
+                // Remove the pending leave request
+                await firebase
+                    .Child("SparkLineHR")
+                    .Child("Pending Leave Requests")
+                    .Child(leaveKey)
+                    .DeleteAsync();
+
+                // Fetch employee details
+                var employee = await firebase
+                    .Child("SparkLineHR")
+                    .Child("employees_sparkline")
+                    .Child(request.EmpId)
+                    .OnceSingleAsync<EmployeeDetailsViewModel>();
+
+                if (employee == null)
+                {
+                    return Json(new { success = false, message = "Employee details not found." });
+                }
+
+                // Send email notification
+                var emailPayload = new
+                {
+                    email = employee.Employee.Email,
+                    name = employee.Employee.Name,
+                    subjectType = "leave",
+                    status = request.Status.ToLower(),
+                    date = pendingLeave.FromDate
+                };
+
+                using (var client = new HttpClient())
+                {
+                    var emailResponse = await client.PostAsJsonAsync("https://email-sparklineapi-a-team.onrender.com/send-email", emailPayload);
+
+                    if (!emailResponse.IsSuccessStatusCode)
+                    {
+                        return Json(new { success = false, message = "Leave processed but email notification failed." });
+                    }
+                }
+
+                return Json(new { success = true, message = $"Leave request {request.Status.ToLower()} successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while processing the leave request.", error = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
     }
 }
