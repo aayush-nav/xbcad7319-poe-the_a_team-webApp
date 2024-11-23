@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management</title>
     <link rel="stylesheet" href="~/css/employee-management.css" />
-    <link rel="stylesheet" href="@Url.Content("~/css/payroll-info.css")"/>
-    <link rel="stylesheet" href="@Url.Content("~/css/employee-management.css")"/>
+    <link rel="stylesheet" href="@Url.Content("~/css/payroll-info.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/employee-management.css")" />
 </head>
 <body>
 
@@ -46,38 +46,30 @@
             <div class="tabs">
                 <div class="tab-link active" data-tab="employee-list">Employee List</div>
                 <div class="tab-link" data-tab="previous-employees">Previous Employees</div>
+                <div class="tab-link" data-tab="payslips">Release Payslips</div>
             </div>
 
             <!-- Aslam Updated -->
             <!-- Employee List Content -->
             <div class="tab-content" id="employee-list" style="display:block;">
                 <!-- Employee List Heading -->
-                <h2 class="employee-list-heading">Employee List</h2>
+                <h3 class="employee-list-heading">Employee List</h3>
 
-@*                 <!-- Search and Filter Section -->
+                @*       <!-- Search and Filter Section -->
                 <div class="search-filter-container">
-                    <input type="text" class="search-bar" placeholder="Search Employee" />
-                    <div class="filters">
-                        <select>
-                            <option>Department</option>
-                            <option>IT</option>
-                            <option>HR</option>
-                        </select>
-                        <select>
-                            <option>Role</option>
-                            <option>Developer</option>
-                            <option>Analyst</option>
-                        </select>
-                    </div>
-                </div> *@
-@* 
-                <div class="form-group">
-                    <label for="searchTerm">Search Employee</label>
-                    <input type="text" id="searchTerm" class="form-control" placeholder="Enter employee name..." />
+                <input type="text" class="search-bar" placeholder="Search Employee" />
+                <div class="filters">
+                <select>
+                <option>Department</option>
+                <option>IT</option>
+                <option>HR</option>
+                </select>
+                <select>
+                <option>Role</option>
+                <option>Developer</option>
+                <option>Analyst</option>
+                </select>
                 </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-secondary" onclick="searchReviews()">Search</button>
-                    <button type="button" class="btn btn-light" onclick="clearSearch()">Clear</button>
                 </div> *@
 
                 <!-- Employee Table -->
@@ -99,27 +91,22 @@
                                 <td>@emp.jobdetails.JobTitle</td>
                                 <td>@emp.jobdetails.Department</td>
                                 <td><span class="status active">Active</span></td>
-@*                                 <td>
-                                    <a style="margin-bottom: 5px" asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@emp.empID" class="btn btn-primary">Edit</a>
-                                    <button class="remove-btn" style="margin-inline" onclick="removeEmployee(this)">Remove</button>
-                                </td> *@
                                 <td>
                                     <div style="display: flex; gap: 10px;">
                                         <a asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@emp.empID" class="btn btn-primary">Edit</a>
                                         <button class="remove-btn btn btn-danger" onclick="removeEmployee(this)">Remove</button>
                                     </div>
                                 </td>
-
                             </tr>
                         }
                     </tbody>
                 </table>
 
-@*                 <!-- Actions Container -->
+                @*                 <!-- Actions Container -->
                 <div class="actions-container">
-                    <button class="add-btn" asp-controller="Employee" asp-action="Detaiils">
-                        Add new Employee
-                    </button>
+                <button class="add-btn" asp-controller="Employee" asp-action="Detaiils">
+                Add new Employee
+                </button>
                 </div> *@
             </div>
 
@@ -143,92 +130,235 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Payslips Content -->
+            <div class="tab-content" id="payslips" style="display:none;">
+                <h3>Release Payslips</h3>
+
+                <!-- Employee Selection -->
+                <div class="form-group">
+                    <label for="employeeDropdown">Select Employee:</label>
+                    <select id="employeeDropdown" class="form-control">
+                        <option value="" selected disabled>Select an Employee</option>
+                    </select>
+                </div>
+
+                <!-- Payslip Table -->
+                <div id="payslipSection" style="display:none;">
+                    <table class="table table-striped" id="payslipTable">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Confirm Logout script -->
-    <script>
-
-
-
-        function confirmLogout() {
-            if (confirm("Are you sure you want to log out?")) {
-                window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+        <!-- Confirm Logout script -->
+        <script>
+            function confirmLogout() {
+                if (confirm("Are you sure you want to log out?")) {
+                    window.location.href = '@Url.Action("Login", "Account")'; // Adjust this path as needed
+                }
             }
-        }
 
-        // Tab switching logic
-        document.addEventListener("DOMContentLoaded", function () {
-            const tabLinks = document.querySelectorAll(".tab-link");
-            const tabContents = document.querySelectorAll(".tab-content");
+            // Tab switching logic
+            document.addEventListener("DOMContentLoaded", function () {
+                const tabLinks = document.querySelectorAll(".tab-link");
+                const tabContents = document.querySelectorAll(".tab-content");
 
-            tabLinks.forEach(link => {
-                link.addEventListener("click", function () {
-                    const tabId = this.getAttribute("data-tab");
+                tabLinks.forEach(link => {
+                    link.addEventListener("click", function () {
+                        const tabId = this.getAttribute("data-tab");
 
-                    // Hide all tab content
-                    tabContents.forEach(content => content.style.display = "none");
+                        // Hide all tab content
+                        tabContents.forEach(content => content.style.display = "none");
 
-                    // Remove active class from all tabs
-                    tabLinks.forEach(tab => tab.classList.remove("active"));
+                        // Remove active class from all tabs
+                        tabLinks.forEach(tab => tab.classList.remove("active"));
 
-                    // Show the selected tab content
-                    document.getElementById(tabId).style.display = "block";
+                        // Show the selected tab content
+                        document.getElementById(tabId).style.display = "block";
 
-                    // Add active class to the clicked tab
-                    this.classList.add("active");
+                        // Add active class to the clicked tab
+                        this.classList.add("active");
+                    });
                 });
             });
-        });
 
-        //Aslam Updated
+            //Aslam Updated
 
-        // Function to remove an employee and add to previous employees
-        function removeEmployee(button) {
-            const row = button.closest("tr");
-            const employeeTable = document.getElementById("previousEmployeesTable");
+            // Function to remove an employee and add to previous employees
+            function removeEmployee(button) {
+                const row = button.closest("tr");
+                const employeeTable = document.getElementById("previousEmployeesTable");
 
-            // Get current date for termination
-            const terminationDate = new Date().toLocaleDateString();
+                // Get current date for termination
+                const terminationDate = new Date().toLocaleDateString();
 
-            // Change status to "Removed" for previous employee table
-            row.querySelector(".status").textContent = "Removed";
+                // Change status to "Removed" for previous employee table
+                row.querySelector(".status").textContent = "Removed";
 
-            // Remove the 'Remove' button in the row and add "Rehire" button
-            const actionCell = row.querySelector("td:last-child");
-            actionCell.innerHTML = '<button class="rehire-btn" onclick="rehireEmployee(this)">Rehire</button>';
+                // Remove the 'Remove' button in the row and add "Rehire" button
+                const actionCell = row.querySelector("td:last-child");
+                actionCell.innerHTML = '<button class="rehire-btn" onclick="rehireEmployee(this)">Rehire</button>';
 
-            // Add the termination date to the new cell
-            const terminationDateCell = document.createElement("td");
-            terminationDateCell.textContent = terminationDate;
-            row.insertBefore(terminationDateCell, actionCell);
+                // Add the termination date to the new cell
+                const terminationDateCell = document.createElement("td");
+                terminationDateCell.textContent = terminationDate;
+                row.insertBefore(terminationDateCell, actionCell);
 
-            // Move row to Previous Employees
-            employeeTable.appendChild(row);
-        }
+                // Move row to Previous Employees
+                employeeTable.appendChild(row);
+            }
 
-        //Aslam Updated
+            //Aslam Updated
 
-        // Function to rehire an employee
-        function rehireEmployee(button) {
-            const row = button.closest("tr");
-            const employeeListTable = document.getElementById("employeeListTable");
+            // Function to rehire an employee
+            function rehireEmployee(button) {
+                const row = button.closest("tr");
+                const employeeListTable = document.getElementById("employeeListTable");
 
-            // Remove the termination date cell
-            row.removeChild(row.querySelector("td:nth-last-child(2)")); // Adjust to match "Termination Date" position
+                // Remove the termination date cell
+                row.removeChild(row.querySelector("td:nth-last-child(2)")); // Adjust to match "Termination Date" position
 
-            // Update the status to "Active"
-            row.querySelector(".status").textContent = "Active";
+                // Update the status to "Active"
+                row.querySelector(".status").textContent = "Active";
 
-            // Replace "Rehire" button with "Edit" and "Remove" buttons
-            const actionCell = row.querySelector("td:last-child");
-            actionCell.innerHTML = '<button class="edit-btn">Edit</button> <button class="remove-btn" onclick="removeEmployee(this)">Remove</button>';
+                // Replace "Rehire" button with "Edit" and "Remove" buttons
+                const actionCell = row.querySelector("td:last-child");
+                actionCell.innerHTML = '<button class="edit-btn">Edit</button> <button class="remove-btn" onclick="removeEmployee(this)">Remove</button>';
 
-            // Move the row back to the Employee List
-            employeeListTable.appendChild(row);
-        }
-    </script>
+                // Move the row back to the Employee List
+                employeeListTable.appendChild(row);
+            }
+
+            // Payslip stuff
+            $(document).ready(function () {
+                // Initialize employees for dropdown on page load
+                fetchEmployees();
+
+                // Populate payslip months when an employee is selected
+                $('#employeeDropdown').change(function () {
+                    const empID = $(this).val();
+                    if (empID) {
+                        fetchPayslipData(empID);
+                    }
+                });
+            });
+
+            function fetchEmployees() {
+                $.ajax({
+                    url: '@Url.Action("GetEmployees", "Employee")',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            const dropdown = $('#employeeDropdown');
+                            dropdown.empty().append('<option value="" selected disabled>Select an Employee</option>');
+
+                            response.data.forEach(emp => {
+                                console.log(emp); // Log each employee object
+                                dropdown.append(`<option value="${emp.empID}">${emp.empID} - ${emp.name}</option>`);
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to fetch employee data.');
+                    }
+                });
+            }
+            function fetchPayslipData(empID) {
+                console.log("Fetching payslip data for employee:", empID);
+
+                $.ajax({
+                    url: '@Url.Action("GetEmployeeDetails", "Employee")',
+                    type: 'GET',
+                    data: { empID: empID },
+                    success: function (response) {
+                        console.log("API Response Data:", response);  // Log the full response
+                        console.log("Response from server:", response);
+
+                        //const hireDate = new Date(response.data.jobdetails.HireDate);  // Adjust this path according to your actual response structure
+                        // console.log("Parsed Hire Date:", hireDate);
+
+                        if (response.success) {
+                            console.log("Hire Date from response:", response.data) // Log the raw hire date
+
+                            const hireDate = new Date(response.data);  // Ensure the date is parsed correctly
+                            console.log("Parsed Hire Date:", hireDate);
+
+                            const currentDate = new Date();
+                            console.log("Current Date:", currentDate);
+
+                            const tableBody = $('#payslipTable tbody');
+                            tableBody.empty();
+
+                            let tempDate = new Date(hireDate);
+                            tempDate.setDate(25); // Set to 25th of the month
+                            console.log("First Payslip Date (25th of Hire Month):", tempDate);
+
+                            // Loop through each month from the hire date to the current date
+                            while (tempDate <= currentDate) {
+                                const monthYear = tempDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+                                console.log("Month Year for row:", monthYear); // Log each month being processed
+
+                                tableBody.append(`
+                                    <tr>
+                                        <td>${monthYear}</td>
+
+                                        <td>
+                                            <button class="btn btn-primary" onclick="releasePayslip('${empID}', '${monthYear}')">Release Payslip</button>
+                                        </td>
+                                    </tr>
+                                `);
+
+                                // Move to next month
+                                tempDate.setMonth(tempDate.getMonth() + 1);
+                            }
+
+                            $('#payslipSection').show();
+                        } else {
+                            alert('Failed to fetch employee details.');
+                        }
+
+                    },
+                    error: function () {
+                        alert('An error occurred while fetching payslip data.');
+                    }
+                });
+            }
+
+            function releasePayslip(empID, monthYear) {
+                console.log("Releasing payslip for:", empID, monthYear);
+
+                $.ajax({
+                    url: '@Url.Action("ReleasePayslip", "Employee")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ empID: empID, monthYear: monthYear }),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(`Payslip for ${monthYear} released successfully!`);
+                            fetchPayslipData(empID); // Refresh payslip data
+                        } else if (response.message === "Payslip already exists") {
+                            alert(`Payslip for ${monthYear} has already been released.`);
+                        } else {
+                            alert('Failed to release payslip.');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while releasing the payslip.');
+                    }
+                });
+            }
+
+
+        </script>
 </body>
 </html>
-
 
