@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using System;
 using System.Globalization;
 using XBCAD7319_SparkLine_HR_WebApp.Models;
+using XBCAD7319_SparkLine_HR_WebApp.Token;
 
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
@@ -25,6 +26,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             //_onboardingManager = onboardingManager;
         }
 
+        [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<JsonResult> GetNextEmployeeId()
         {
@@ -39,20 +41,21 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        [TokenAuthorizationFilter]
         public IActionResult Index()
         {
             return View();
         }
 
 
-
+        [TokenAuthorizationFilter]
         public IActionResult Details()
         {
             return View();
         }
 
 
-
+        [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> Management()
         {
@@ -60,6 +63,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View(employees);
         }
 
+        [TokenAuthorizationFilter]
         public async Task<IActionResult> EmployeeDetails(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -80,6 +84,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         }
 
 
+        [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(string EmailInput, string Email)
         {
@@ -102,6 +107,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult PersonalInformationCaptureAJAX(Employee model)
         {
@@ -121,7 +127,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "There were validation errors.", errors = errors });
         }
 
-
+        [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult JobInformationCaptureAJAX(JobDetails jobDetails)
         {
@@ -138,6 +144,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "There were validation errors." });
         }
 
+        [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> UploadDocumentsAJAX(
         List<IFormFile> IDOrPassport,
@@ -251,7 +258,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
-
+        [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult PayrollInformationCaptureAJAX(Payroll payroll)
         {
@@ -273,7 +280,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Failed to save payroll information.", errors = errorMessages });
         }
 
-
+        [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> OnboardEmployee()
         {
@@ -314,6 +321,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
 
+        [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> SaveEmployee(string employeeId)
         {
@@ -355,7 +363,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 
 
         // For Payslip
-
+        [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
@@ -373,7 +381,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true, data = employeeList });
         }
 
-
+        [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetEmployeeDetails(string empID)
         {
@@ -387,7 +395,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         }
 
 
-
+        [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<IActionResult> ReleasePayslip([FromBody] PayslipRequest request)
         {
@@ -418,19 +426,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                 return Json(new { success = false, message = "Employee not found" });
             }
 
-            //var grossSalary = employee.payroll.GrossPay;
-            //var company = "SparkLine";
-            //var empName = employee.employee.Name;
-            //var empNum = employee.jobdetails.EmployeeId;
-            //var empPos = employee.jobdetails.JobTitle;
-            //var issueDate = DateTime.Now.ToString("yyyy-MM-dd");
-            //var payslipPeriod = GetPayslipPeriod(request.MonthYear);
-            //var pensionPercent = employee.payroll.Retirement;
-            //var taxNum = employee.payroll.TaxNumber;
-            //  var uifPercent = employee.payroll.UIF;
-
-
-
             // Generate payslip data
             var payslipData = new
             {
@@ -454,7 +449,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true });
         }
 
-
+        [TokenAuthorizationFilter]
         private string GetPayslipPeriod(string monthYear)
         {
             try
@@ -469,6 +464,7 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        [TokenAuthorizationFilter]
         public async Task<IActionResult> GetIncidentReports()
         {
             var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");

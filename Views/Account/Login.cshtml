@@ -9,13 +9,49 @@
 </head>
 <body>
     <div class="container">
-        <div class="heading">Sign In</div>
-        <form asp-action="Login" asp-controller="Account" method="post" class="form">
+        <div class="heading">Log In</div>
+        <form id="loginForm" asp-action="Login" asp-controller="Account" method="post" class="form">
             <input required class="input" type="email" name="email" id="email" placeholder="E-mail">
             <input required class="input" type="password" name="password" id="password" placeholder="Password">
-            <span class="forgot-password"><a href="#">Forgot Password?</a></span>
-            <input class="login-button" type="submit" value="Sign In">
+            @* <span class="forgot-password"><a href="#">Forgot Password?</a></span> *@
+            <input class="login-button" type="submit" value="Log In">
         </form>
     </div>
+
+
+    <script>
+        // Handle login form submission
+        $("#loginForm").submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            // Capture form input values
+            var username = $("#email").val();
+            var password = $("#password").val();
+
+            // Send AJAX request to login endpoint
+            $.ajax({
+                url: '/Account/Login', // The controller action to handle login
+                method: 'POST', // Ensure this is a POST request
+                data: { username: username, password: password },
+                success: function (response) {
+                    if (response.success) {
+                        // Store the token in localStorage
+                        localStorage.setItem('jwtToken', response.token);
+
+                        // Redirect to the Dashboard page
+                        window.location.href = '/Home/MainDashboard'; // Redirect to the Dashboard after successful login
+                    } else {
+                        alert(response.message); // Show error message
+                    }
+                },
+                error: function () {
+                    alert("An error occurred during login.");
+                }
+            });
+        });
+
+
+    </script>
+
 </body>
 </html>
