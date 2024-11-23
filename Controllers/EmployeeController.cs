@@ -1,7 +1,11 @@
-﻿using Firebase.Storage;
+﻿using Firebase.Database;
+using Firebase.Database.Query;
+using Firebase.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using System;
+using System.Globalization;
 using XBCAD7319_SparkLine_HR_WebApp.Models;
 
 
@@ -313,8 +317,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveEmployee(string employeeId)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -350,6 +352,130 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             // Return failure response if model state is not valid
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
+
+
+        // For Payslip
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployees()
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+            var employees = await firebase.Child("SparkLineHR").Child("employees_sparkline").OnceAsync<EmployeeDetailsViewModelAllFour>();
+
+            var employeeList = employees.Select(e => new
+            {
+                empID = e.Key,
+                employee = e.Object.employee,
+                name = e.Object.employee.Name
+
+            }).ToList();
+
+            return Json(new { success = true, data = employeeList });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeeDetails(string empID)
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+            var employee = await firebase.Child("SparkLineHR").Child("employees_sparkline").Child(empID).OnceSingleAsync<EmployeeDetailsViewModelAllFour>();
+
+            var hireDate = employee.jobdetails.HireDate;
+
+
+            return Json(new { success = true, data = hireDate });
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ReleasePayslip([FromBody] PayslipRequest request)
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+            var payslipPath = $"SparkLineHR/payslips/{request.EmpId}/{request.MonthYear}";
+
+            // Check if payslip already exists
+            var existingPayslip = await firebase
+                .Child(payslipPath)
+                .OnceSingleAsync<object>();
+
+            if (existingPayslip != null)
+            {
+                return Json(new { success = false, message = "Payslip already exists" });
+            }
+
+            // Get employee details
+            var employee = await firebase
+                .Child("SparkLineHR")
+                .Child("employees_sparkline")
+                .Child(request.EmpId)
+                .OnceSingleAsync<EmployeeDetailsViewModelAllFour>();
+
+            //string montheyear = request.MonthYear;
+
+            if (employee == null)
+            {
+                return Json(new { success = false, message = "Employee not found" });
+            }
+
+            //var grossSalary = employee.payroll.GrossPay;
+            //var company = "SparkLine";
+            //var empName = employee.employee.Name;
+            //var empNum = employee.jobdetails.EmployeeId;
+            //var empPos = employee.jobdetails.JobTitle;
+            //var issueDate = DateTime.Now.ToString("yyyy-MM-dd");
+            //var payslipPeriod = GetPayslipPeriod(request.MonthYear);
+            //var pensionPercent = employee.payroll.Retirement;
+            //var taxNum = employee.payroll.TaxNumber;
+            //  var uifPercent = employee.payroll.UIF;
+
+
+
+            // Generate payslip data
+            var payslipData = new
+            {
+                grossSalary = employee.payroll.GrossPay,
+                company = "SparkLine",
+                empName = employee.employee.Name,
+                empNum = employee.jobdetails.EmployeeId,
+                empPos = employee.jobdetails.JobTitle,
+                issueDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                payslipPeriod = GetPayslipPeriod(request.MonthYear),
+                pensionPercent = employee.payroll.Retirement,
+                taxNum = employee.payroll.TaxNumber,
+                uifPercent = employee.payroll.UIF
+            };
+
+            // Save payslip to Firebase
+            await firebase
+                .Child(payslipPath)
+                .PutAsync(payslipData);
+
+            return Json(new { success = true });
+        }
+
+        //private string GetPayslipPeriod(string monthYear)
+        //{
+        //    var firstDay = DateTime.ParseExact("01-" + monthYear, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+        //    var lastDay = new DateTime(firstDay.Year, firstDay.Month, DateTime.DaysInMonth(firstDay.Year, firstDay.Month));
+        //    return $"{firstDay:dd-MM-yyyy} - {lastDay:dd-MM-yyyy}";
+        //}
+
+
+        private string GetPayslipPeriod(string monthYear)
+        {
+            try
+            {
+                var firstDay = DateTime.ParseExact("01-" + monthYear, "dd-MMMM yyyy", CultureInfo.InvariantCulture);
+                var lastDay = new DateTime(firstDay.Year, firstDay.Month, DateTime.DaysInMonth(firstDay.Year, firstDay.Month));
+                return $"{firstDay:yyyy-MM-dd} - {lastDay:yyyy-MM-dd}";
+            }
+            catch
+            {
+                return "Invalid period"; // Fallback for unexpected parsing issues
+            }
+        }
+
 
 
 
