@@ -287,6 +287,155 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        public async Task<IActionResult> GetOvertimeRequests()
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+
+            try
+            {
+                // Fetch all overtime requests
+                var overtimeRequests = await firebase
+                    .Child("SparkLineHR")
+                    .Child("Overtime Requests")
+                    .OnceAsync<OvertimeRequestViewModel>();
+
+                // Map Firebase data to a view model
+                var overtimeRequestsList = overtimeRequests.Select(req => new OvertimeRequestViewModel
+                {
+                    EmpId = req.Key.Split(',')[0],
+                    Date = req.Key.Split(',')[1],
+                    EmployeeName = "Loading...", // Placeholder, fetch employee details later
+                    FriHours = req.Object.FriHours,
+                    MonHours = req.Object.MonHours,
+                    TueHours = req.Object.TueHours,
+                    WedHours = req.Object.WedHours,
+                    ThuHours = req.Object.ThuHours,
+                    TotalHours = req.Object.FriHours + req.Object.MonHours +
+                                 req.Object.TueHours + req.Object.WedHours +
+                                 req.Object.ThuHours,
+                    Status = "Pending"
+                }).ToList();
+
+                // Fetch employee names for each overtime request
+                foreach (var req in overtimeRequestsList)
+                {
+                    var employee = await firebase
+                        .Child("SparkLineHR")
+                        .Child("employees_sparkline")
+                        .Child(req.EmpId)
+                        .OnceSingleAsync<EmployeeDetailsViewModel>();
+
+                    req.EmployeeName = employee?.Employee?.Name ?? "Unknown";
+                }
+
+                return Json(new { success = true, data = overtimeRequestsList });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Failed to fetch overtime requests.", error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProcessOvertimeRequest([FromBody] OvertimeProcessRequest request)
+        {
+            var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+
+            // Construct the key for the overtime request
+            var overtimeKey = $"{request.EmpId},{request.Date}";
+
+            try
+            {
+                // Fetch the overtime request
+                var overtimeRequest = await firebase
+                    .Child("SparkLineHR")
+                    .Child("Overtime Requests")
+                    .Child(overtimeKey)
+                    .OnceSingleAsync<OvertimeRequestViewModel>();
+
+                if (overtimeRequest == null)
+                {
+                    return Json(new { success = false, message = "Overtime request not found." });
+                }
+
+                // Calculate total hours worked (sum up all the weekday hours)
+                var totalHours = overtimeRequest.FriHours + overtimeRequest.MonHours +
+                                 overtimeRequest.TueHours + overtimeRequest.WedHours +
+                                 overtimeRequest.ThuHours;
+
+                // Prepare the processed overtime request
+                var processedOvertime = new
+                {
+                    overtimeRequest.FriHours,
+                    overtimeRequest.MonHours,
+                    overtimeRequest.TueHours,
+                    overtimeRequest.WedHours,
+                    overtimeRequest.ThuHours,
+                    totalHours,
+                    status = request.Status, // Approved or Declined
+                    processedDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                    empID = request.EmpId
+                };
+
+                // Save the processed overtime request to the appropriate node
+                var statusNode = request.Status.ToLower() == "approved" ? "Approved Overtime" : "Declined Overtime";
+
+                await firebase
+                    .Child("SparkLineHR")
+                    .Child(statusNode)
+                    .Child(overtimeKey)
+                    .PutAsync(processedOvertime);
+
+                // Remove the overtime request from the pending node
+                await firebase
+                    .Child("SparkLineHR")
+                    .Child("Overtime Requests")
+                    .Child(overtimeKey)
+                    .DeleteAsync();
+
+                // Fetch employee details
+                var employee = await firebase
+                    .Child("SparkLineHR")
+                    .Child("employees_sparkline")
+                    .Child(request.EmpId)
+                    .OnceSingleAsync<EmployeeDetailsViewModel>();
+
+                if (employee == null)
+                {
+                    return Json(new { success = false, message = "Employee details not found." });
+                }
+
+                // Send email notification
+                var emailPayload = new
+                {
+                    email = employee.Employee.Email,
+                    name = employee.Employee.Name,
+                    subjectType = "overtime",
+                    status = request.Status.ToLower(),
+                    date = request.Date
+                };
+
+                using (var client = new HttpClient())
+                {
+                    var emailResponse = await client.PostAsJsonAsync("https://email-sparklineapi-a-team.onrender.com/send-email", emailPayload);
+
+                    if (!emailResponse.IsSuccessStatusCode)
+                    {
+                        return Json(new { success = false, message = "Overtime processed but email notification failed." });
+                    }
+                }
+
+                return Json(new { success = true, message = $"Overtime request {request.Status.ToLower()} successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while processing the overtime request.", error = ex.Message });
+            }
+        }
+
+
+
+
 
 
 
