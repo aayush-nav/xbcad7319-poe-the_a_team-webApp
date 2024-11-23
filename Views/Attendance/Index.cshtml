@@ -24,7 +24,7 @@
         <div class="logo-container">
             <div class="hr-logo"></div>
         </div>
-        <h2 class="welcome-text">Employee Attendance</h2>
+        <h2 class="welcome-text">Employee Requests</h2>
         <h2 class="heading">SparkLine</h2>
     </div>
 
@@ -36,7 +36,7 @@
                 <ul class="sidebar-menu">
                     <li><a asp-controller="Home" asp-action="MainDashboard">Dashboard</a></li>
                     <li><a asp-controller="Employee" asp-action="Management">Employee Management</a></li>
-                    <li><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                    <li><a asp-controller="Attendance" asp-action="Index">Requests</a></li>
                     <li><a asp-controller="Analytics" asp-action="Index">Analytics</a></li>
                     <li><a asp-controller="Employee" asp-action="Details">Onboarding</a></li>
                     <li><a asp-controller="PerformanceReviews" asp-action="CreateReview">Performance</a></li>
@@ -48,11 +48,11 @@
         <div class="container">
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs" id="attendanceTabs" role="tablist">
-                <li class="nav-item">
+               @*  <li class="nav-item">
                     <a class="nav-link active" id="attendance-log-tab" data-toggle="tab" href="#attendance-log" role="tab" aria-controls="attendance-log" aria-selected="true">Attendance</a>
-                </li>
+                </li> *@
                 <li class="nav-item">
-                    <a class="nav-link" id="leave-requests-tab" data-toggle="tab" href="#leave-requests" role="tab" aria-controls="leave-requests" aria-selected="false">Leave Requests</a>
+                    <a class="nav-link" id="leave-requests-tab" data-toggle="tab" href="#leave-requests" role="tab" aria-controls="leave-requests" aria-selected="true">Leave Requests</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="overtime-approval-tab" data-toggle="tab" href="#overtime-approval" role="tab" aria-controls="overtime-approval" aria-selected="false">Overtime Approval</a>
@@ -62,7 +62,7 @@
             <!-- Tab Content -->
             <div class="tab-content mt-4" id="attendanceTabsContent">
                 <!-- Attendance Log Tab -->
-                <div class="tab-pane fade show active" id="attendance-log" role="tabpanel" aria-labelledby="attendance-log-tab">
+              @*   <div class="tab-pane fade show active" id="attendance-log" role="tabpanel" aria-labelledby="attendance-log-tab">
                     <!-- Search Section -->
                     <div class="search-container mb-3">
                         <input type="text" id="employeeSearch" class="form-control" placeholder="Search for an employee..." />
@@ -126,7 +126,7 @@
                         <h3>Daily Hours Worked</h3>
                         <canvas id="hoursWorkedChart"></canvas>
                     </div>
-                </div>
+                </div> *@
 
                 <!-- Leave Requests Tab -->
                 <div class="tab-pane fade" id="leave-requests" role="tabpanel" aria-labelledby="leave-requests-tab">
@@ -137,37 +137,37 @@
                                 <th>Employee</th>
                                 <th>Date</th>
                                 <th>Leave Type</th>
-                                <th>Reason</th>
+                                <th>Duration</th>
                                 <th>Document</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var leaveRequest in Model.LeaveRequests)
+                            @*  @foreach (var leaveRequest in Model.LeaveRequests)
                             {
-                                <tr>
-                                    <td>@leaveRequest.EmployeeName</td>
-                                    <td>@leaveRequest.Date.ToString("dd/MM/yyyy")</td>
-                                    <td>@leaveRequest.LeaveType</td>
-                                    <td>@leaveRequest.Reason</td>
-                                    <td>
-                                        @if (leaveRequest.Document != null)
-                                        {
-                                            <a href="@Url.Content("~/uploads/" + leaveRequest.Document)" target="_blank">View Doc</a>
-                                        }
-                                        else
-                                        {
-                                            <span>N/A</span>
-                                        }
-                                    </td>
-                                    <td>@leaveRequest.Status</td>
-                                    <td>
-                                        <button class="btn btn-success">Approve</button>
-                                        <button class="btn btn-danger">Reject</button>
-                                    </td>
-                                </tr>
+                            <tr>
+                            <td>@leaveRequest.EmployeeName</td>
+                            <td>@leaveRequest.Date.ToString("dd/MM/yyyy")</td>
+                            <td>@leaveRequest.LeaveType</td>
+                            <td>@leaveRequest.Reason</td>
+                            <td>
+                            @if (leaveRequest.Document != null)
+                            {
+                            <a href="@Url.Content("~/uploads/" + leaveRequest.Document)" target="_blank">View Doc</a>
                             }
+                            else
+                            {
+                            <span>N/A</span>
+                            }
+                            </td>
+                            <td>@leaveRequest.Status</td>
+                            <td>
+                            <button class="btn btn-success">Approve</button>
+                            <button class="btn btn-danger">Reject</button>
+                            </td>
+                            </tr>
+                            } *@
                         </tbody>
                     </table>
                 </div>
@@ -206,6 +206,76 @@
         </div>
 
         <script>
+
+            function fetchLeaveRequests() {
+                console.log('Fetching leave requests...'); // Ensure this is logged
+                $.ajax({
+                    url: '@Url.Action("GetPendingLeaveRequests", "Attendance")',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            const tableBody = $('#leaveRequestTable tbody');
+                            tableBody.empty();
+
+                            response.data.forEach(request => {
+                                const documentLink = request.document
+                                    ? `<a href="${request.document}" target="_blank">View Doc</a>`
+                                    : '<span>N/A</span>';
+                                console.log(request);
+
+                                tableBody.append(`
+                                                <tr>
+                                                    <td>${request.employeeName}</td>
+                                                    <td>${request.fromDate} to ${request.toDate}</td>
+                                                    <td>${request.leaveType}</td>
+                                                    <td>${request.numofDays}</td>
+                                                    <td>${documentLink}</td>
+                                                    <td>${request.status}</td>
+                                                    <td>
+                                                        <button class="btn btn-success" onclick="processLeave('${request.employeeId}', '${request.fromDate}', 'approved')">Approve</button>
+                                                        <button class="btn btn-danger" onclick="processLeave('${request.employeeId}', '${request.fromDate}', 'declined')">Reject</button>
+                                                    </td>
+                                                </tr>
+                                            `);
+                            });
+                        } else {
+                            alert('Failed to fetch leave requests.');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while fetching leave requests.');
+                    }
+                });
+            }
+
+
+
+            $('#leave-requests-tab').on('click', function () {
+                console.log('Leave Requests tab clicked'); // Check if this logs
+                fetchLeaveRequests();
+            });
+
+            function processLeave(empId, fromDate, status) {
+                $.ajax({
+                    url: '@Url.Action("ProcessLeaveRequest", "Attendance")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ empId, fromDate, status }),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(`Leave request ${status}.`);
+                            fetchLeaveRequests(); // Refresh the table
+                        } else {
+                            alert('Failed to process leave request.');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while processing leave request.');
+                    }
+                });
+            }
+
+
             $(document).ready(function () {
                 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                 let hoursWorked = [8, 7.5, 8, 6, 7, 0, 0]; // Sample data (replace with dynamic data as needed)
