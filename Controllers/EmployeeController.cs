@@ -12,20 +12,28 @@ using XBCAD7319_SparkLine_HR_WebApp.Token;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 {
+    /// <summary>
+    ///  Employee controller - handles all the methods for the related to employee 
+    ///  onboarding a new employee
+    ///  managing existing employees details
+    ///  makes use of the TokenAuthorizationFilter for all the methods to block the routes
+    /// </summary>
     public class EmployeeController : Controller
     {
-
+        // Initialized the service to onboard an employees and to connect to the database
         private readonly OnboardingService _onboardingService;
         private readonly FirebaseService _firebaseService;
-        //private readonly OnboardingManager _onboardingManager;
 
         public EmployeeController()
         {
             _onboardingService = new OnboardingService();
             _firebaseService = new FirebaseService();
-            //_onboardingManager = onboardingManager;
         }
 
+        /// <summary>
+        /// Use the onboarding service api to get the next employee id
+        /// </summary>
+        /// <returns>next employee id</returns>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<JsonResult> GetNextEmployeeId()
@@ -41,20 +49,27 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        // <summary>
+        /// Returns the Index View
+        /// </summary>
         [TokenAuthorizationFilter]
         public IActionResult Index()
         {
             return View();
         }
 
-
+        /// <summary>
+        /// Returns the details View
+        /// </summary>
         [TokenAuthorizationFilter]
         public IActionResult Details()
         {
             return View();
         }
 
-
+        /// <summary>
+        /// Returns the Management View with a list of all the employees
+        /// </summary>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> Management()
@@ -63,6 +78,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View(employees);
         }
 
+        /// <summary>
+        /// search the employees list to get the details of the one with the same id
+        /// </summary>
+        /// <param name="id">employee id</param>
+        /// <returns>The employee details</returns>
         [TokenAuthorizationFilter]
         public async Task<IActionResult> EmployeeDetails(string id)
         {
@@ -83,7 +103,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View(employeeDetails);
         }
 
-
+        /// <summary>
+        /// Method to reset the password incase the otp expires
+        /// </summary>
+        /// <param name="EmailInput">email the user inputs</param>
+        /// <param name="Email">email of the account the user is managing</param>
+        /// <returns>json message of the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(string EmailInput, string Email)
@@ -107,6 +132,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to read the data from the personal information form 
+        /// store in the employee model and saved to the employee onboarding manager 
+        /// </summary>
+        /// <param name="model">Employee model</param>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult PersonalInformationCaptureAJAX(Employee model)
@@ -127,6 +158,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "There were validation errors.", errors = errors });
         }
 
+        /// <summary>
+        /// Method to read the data from the job details form 
+        /// store in the Job details model and saved to the job details onboarding manager 
+        /// </summary>
+        /// <param name="model">Job details model</param>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult JobInformationCaptureAJAX(JobDetails jobDetails)
@@ -144,6 +181,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "There were validation errors." });
         }
 
+        /// <summary>
+        /// Method to get the uploaded documents and store them in firebase storage 
+        /// once stored get a link of the document and save to the document model
+        /// store in the document links model and saved to the document links onboarding manager 
+        /// </summary>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> UploadDocumentsAJAX(
@@ -258,6 +301,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to read the data from the payroll information form 
+        /// store in the payroll model and saved to the payroll onboarding manager 
+        /// </summary>
+        /// <param name="model">payroll model</param>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public JsonResult PayrollInformationCaptureAJAX(Payroll payroll)
@@ -280,6 +329,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Failed to save payroll information.", errors = errorMessages });
         }
 
+
+        /// <summary>
+        /// This methoed takes all the objects stored in the onboarding manager and passes them to the save employees method in the firebase service
+        /// </summary>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> OnboardEmployee()
@@ -296,8 +350,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                     // Create the Employee Details ViewModel
                     EmployeeDetailsViewModelAllFour employeeDetailsViewModel = new EmployeeDetailsViewModelAllFour(empID, OnboardingManager._employee,
                         OnboardingManager._jobDetails, OnboardingManager._documentLinks, OnboardingManager._payroll, leave);
-
-
 
                     // Save the employee to Firebase
                     await _firebaseService.SaveEmployee(empID, employeeDetailsViewModel);
@@ -321,6 +373,13 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
 
+        /// <summary>
+        /// this method is called when changing an existing employees details
+        /// works similar to the onboarding except this method stores the already existing data and only
+        /// override the new data that is changed when updating the inforamtion
+        /// </summary>
+        /// <param name="employeeId">Employee id of the employees whose details are being changed</param>
+        /// <returns>json message with the result</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> SaveEmployee(string employeeId)
@@ -343,10 +402,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                     // Save the employee to Firebase
                     await _firebaseService.SaveEmployee(employeeId, employeeDetailsViewModel);
 
-                    // Optionally send an onboarding email (or any other process)
-                    // string email = OnboardingManager._employee.Email;
-                    // await _onboardingService.OnboardEmployeeAsync(email);
-
                     // Return success response with a message
                     return Json(new { success = true, message = "Employee updated successfully." });
                 }
@@ -361,8 +416,10 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
 
-
-        // For Payslip
+        /// <summary>
+        /// This method gets a list of all the emplyes that are in the database
+        /// </summary>
+        /// <returns>List of the employees</returns>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
@@ -381,6 +438,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true, data = employeeList });
         }
 
+        /// <summary>
+        /// Method to get eh hiredate of the employee
+        /// </summary>
+        /// <param name="empID">Employee id</param>
+        /// <returns>Hiredate of the employee</returns>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetEmployeeDetails(string empID)
@@ -394,11 +456,16 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true, data = hireDate });
         }
 
-
+        /// <summary>
+        /// The method is called when the admin releases the payslip of the employee for a specific month
+        /// </summary>
+        /// <param name="request">payslip request</param>
+        /// <returns>json message</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<IActionResult> ReleasePayslip([FromBody] PayslipRequest request)
         {
+            // Firebase connection
             var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
             var payslipPath = $"SparkLineHR/payslips/{request.EmpId}/{request.MonthYear}";
 
@@ -449,6 +516,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = true });
         }
 
+        /// <summary>
+        /// Merthod to egt the payslip period for the month the payslip is release for
+        /// </summary>
+        /// <param name="monthYear">name of the month and the year </param>
+        /// <returns>Period</returns>
         [TokenAuthorizationFilter]
         private string GetPayslipPeriod(string monthYear)
         {
@@ -464,9 +536,14 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to retrieve the incident reports from the database
+        /// </summary>
+        /// <returns>list of incident reports</returns>
         [TokenAuthorizationFilter]
         public async Task<IActionResult> GetIncidentReports()
         {
+            // Firebase connection
             var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
 
             try
@@ -493,8 +570,6 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
                 return Json(new { success = false, message = "Failed to fetch incident reports.", error = ex.Message });
             }
         }
-
-
 
     }
 }
