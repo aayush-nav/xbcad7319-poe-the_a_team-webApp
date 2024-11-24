@@ -57,23 +57,6 @@
                 <!-- Employee List Heading -->
                 <h3 class="employee-list-heading">Employee List</h3>
 
-                @*       <!-- Search and Filter Section -->
-                <div class="search-filter-container">
-                <input type="text" class="search-bar" placeholder="Search Employee" />
-                <div class="filters">
-                <select>
-                <option>Department</option>
-                <option>IT</option>
-                <option>HR</option>
-                </select>
-                <select>
-                <option>Role</option>
-                <option>Developer</option>
-                <option>Analyst</option>
-                </select>
-                </div>
-                </div> *@
-
                 <!-- Employee Table -->
                 <table class="employee-table">
                     <thead>
@@ -103,13 +86,7 @@
                         }
                     </tbody>
                 </table>
-
-                @*                 <!-- Actions Container -->
-                <div class="actions-container">
-                <button class="add-btn" asp-controller="Employee" asp-action="Detaiils">
-                Add new Employee
-                </button>
-                </div> *@
+              
             </div>
 
             <!-- Aslam Updated -->
@@ -383,7 +360,7 @@
                             dropdown.empty().append('<option value="" selected disabled>Select an Employee</option>');
 
                             response.data.forEach(emp => {
-                                console.log(emp); // Log each employee object
+                                //console.log(emp); // Log each employee object
                                 dropdown.append(`<option value="${emp.empID}">${emp.empID} - ${emp.name}</option>`);
                             });
                         }
@@ -487,7 +464,6 @@
                     }
                 });
             }
-
 
         </script>
 </body>

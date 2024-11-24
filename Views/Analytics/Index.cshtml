@@ -65,6 +65,7 @@
                         <div class="form-group mb-3">
                             <label for="reviewEmployeeSelect">Select Employee:</label>
                             <select id="reviewEmployeeSelect" class="form-control">
+
                                 <!-- Populate dynamically with employee data -->
                             </select>
                         </div>
@@ -82,8 +83,8 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script>
-            console.log('@Url.Action("GetYearlyEmployeeCount", "Analytics")');
-            console.log('@Url.Action("GetPerformanceReviews", "Analytics")');
+            // console.log('@Url.Action("GetYearlyEmployeeCount", "Analytics")');
+            // console.log('@Url.Action("GetPerformanceReviews", "Analytics")');
 
             // Call the function on page load
             $(document).ready(function () {
@@ -92,7 +93,6 @@
 
 
             // Yearly Employee Count
-
             $(document).ready(function () {
                 // Automatically fetch and render the chart on page load
                 fetchYearlyEmployeeCount();
@@ -103,7 +103,7 @@
                     url: '@Url.Action("GetYearlyEmployeeCount", "Analytics")',
                     type: 'GET',
                     success: function (response) {
-                        console.log("Yearly count data:", response); // Log for debugging
+                        // console.log("Yearly count data:", response); // Log for debugging
                         if (response.success) {
                             renderYearlyEmployeeCountGraph(response);
                         } else {
@@ -120,7 +120,7 @@
             function renderYearlyEmployeeCountGraph(response) {
                 const data = response.data; // Extract the data part
 
-                console.log("Rendering yearly graph with data:", data);
+                // console.log("Rendering yearly graph with data:", data);
 
                 if (!data || Object.keys(data).length === 0) {
                     alert('No data available for the past 12 months.');
@@ -141,15 +141,15 @@
                     // Format the date key to match the backend data (YYYY-MM-DD)
                     const formattedDateKey = d.toISOString().split('T')[0].slice(0, 7); // YYYY-MM
 
-                    console.log("Formatted Date Key for this month:", formattedDateKey); // Debug log
+                    // console.log("Formatted Date Key for this month:", formattedDateKey); // Debug log
 
                     // Now check all keys in the data and log them
                     const count = Object.keys(data).reduce((sum, key) => {
-                        console.log("Checking key:", key); // Debug log to see all keys
+                        // console.log("Checking key:", key); // Debug log to see all keys
 
                         // Check if the key starts with the formattedDateKey (ignoring time)
                         if (key.startsWith(formattedDateKey)) {
-                            console.log(`Match found for ${key}: ${data[key]}`); // Debug log for match
+                            // console.log(`Match found for ${key}: ${data[key]}`); // Debug log for match
                             return sum + data[key];
                         }
                         return sum;
@@ -159,8 +159,8 @@
                     counts.push(count);
                 }
 
-                console.log("Final labels:", labels);
-                console.log("Final counts:", counts);
+                // console.log("Final labels:", labels);
+                // console.log("Final counts:", counts);
 
                 // Render the chart
                 new Chart(document.getElementById('yearlyEmployeeChart'), {
@@ -188,8 +188,6 @@
                 });
             }
 
-
-
             $(document).ready(function () {
                 $.ajax({
                     url: '@Url.Action("GetEmployees", "Analytics")',
@@ -197,8 +195,9 @@
                     success: function (response) {
                         if (response.success) {
                             const employeeSelect = $('#reviewEmployeeSelect');
+
                             response.data.forEach(employee => {
-                                console.log("KeyVALUE:", employee.key);
+                                // console.log("KeyVALUE:", employee.key);
                                 employeeSelect.append(
                                     `<option value="${employee.Key}">${employee.name}</option>`
                                 );
@@ -206,7 +205,7 @@
 
                             // Automatically fetch the first employee's reviews
                             if (response.data.length > 0) {
-                                console.log("ResponseKEY", response.data[0].key);
+                                // console.log("ResponseKEY", response.data[0].key);
                                 fetchPerformanceReviews(response.data[0].key);
                             }
                         } else {
@@ -314,7 +313,7 @@
                     data: { employeeId: employeeId },
                     success: function (response) {
                         if (response.success) {
-                            console.log('Performance Reviews:', response.data); // Debugging the data
+                            // console.log('Performance Reviews:', response.data); // Debugging the data
                             renderPerformanceReviewGraph(response.data);
                         } else {
                             alert('Failed to fetch performance reviews.');
@@ -325,9 +324,6 @@
                     }
                 });
             }
-
-
-
 
             function confirmLogout() {
                 if (confirm("Are you sure you want to log out?")) {

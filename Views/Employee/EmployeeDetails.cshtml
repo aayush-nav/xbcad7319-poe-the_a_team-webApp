@@ -263,11 +263,6 @@
                                         <input type="text" name="GrossPay" readonly class="form-control" value="@Model.payroll.GrossPay" />
                                     </dd>
 
-                                   @*  <dt class="col-sm-3">PAYE:</dt>
-                                    <dd class="col-sm-9">
-                                        <input type="text" name="PAYE" class="form-control" value="@Model.payroll.PAYE" />
-                                    </dd> *@
-
                                     <dt class="col-sm-3">UIF (%):</dt>
                                     <dd class="col-sm-9">
                                         <input type="number" name="UIF" readonly class="form-control" value="@Model.payroll.UIF" />
@@ -283,7 +278,6 @@
                                                step="1"
                                                value="@Model.payroll.Retirement"
                                                 />
-                                        @* <input type="input" name="Retirement" class="form-control" value="@Model.payroll.Retirement" /> *@
                                     </dd>
 
                                     <dt class="col-sm-3">Payment Date:</dt>
@@ -343,11 +337,6 @@
                                     <dd class="col-sm-9">
                                         <input type="email" name="EmailInput" class="form-control" required placeholder="Enter employee email" />
                                     </dd>
-
-                                   @*  <dt class="col-sm-3">Employee Number:</dt>
-                                    <dd class="col-sm-9">
-                                        <input type="text" name="EmployeeNumber" class="form-control" required placeholder="Enter employee number" />
-                                    </dd> *@
                                 </dl>
                                 <input type="hidden" id="Email" name="Email" value="@Model.employee.Email" />  <!-- Hidden field for employee ID -->
                                 <button type="submit" class="btn btn-warning">Reset Password</button>
@@ -529,8 +518,6 @@
                 }
             });
         });
-
-
 
     </script>
 

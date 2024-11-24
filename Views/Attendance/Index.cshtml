@@ -48,9 +48,6 @@
         <div class="container">
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs" id="attendanceTabs" role="tablist">
-               @*  <li class="nav-item">
-                    <a class="nav-link active" id="attendance-log-tab" data-toggle="tab" href="#attendance-log" role="tab" aria-controls="attendance-log" aria-selected="true">Attendance</a>
-                </li> *@
                 <li class="nav-item">
                     <a class="nav-link" id="leave-requests-tab" data-toggle="tab" href="#leave-requests" role="tab" aria-controls="leave-requests" aria-selected="true">Leave Requests</a>
                 </li>
@@ -61,73 +58,6 @@
 
             <!-- Tab Content -->
             <div class="tab-content mt-4" id="attendanceTabsContent">
-                <!-- Attendance Log Tab -->
-              @*   <div class="tab-pane fade show active" id="attendance-log" role="tabpanel" aria-labelledby="attendance-log-tab">
-                    <!-- Search Section -->
-                    <div class="search-container mb-3">
-                        <input type="text" id="employeeSearch" class="form-control" placeholder="Search for an employee..." />
-                        <button id="searchButton" class="btn btn-primary mt-2">Search</button>
-                        <button id="clearButton" class="btn btn-secondary mt-2">Clear</button>
-                    </div>
-
-                    <!-- Attendance Log Section -->
-                    <h2>Attendance Log</h2>
-                    <table class="table table-bordered table-striped" id="attendanceLogTable">
-                        <thead>
-                            <tr>
-                                <th>Employee</th>
-                                <th>Date</th>
-                                <th>Check-In</th>
-                                <th>Check-Out</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var log in Model.AttendanceLogs)
-                            {
-                                <tr>
-                                    <td>
-                                        <a href="#" class="employee-name" data-employee="@log.EmployeeName">@log.EmployeeName</a>
-                                    </td>
-                                    <td>@log.Date.ToString("dd/MM/yyyy")</td>
-                                    <td>@log.CheckIn</td>
-                                    <td>@log.CheckOut</td>
-                                    <td>@log.Status</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                    <!-- Placeholder for Calendar View -->
-                    <div id="calendar-view-placeholder" class="mt-4">
-                        <!-- Calendar will be loaded here when an employee is clicked -->
-                    </div>
-
-                    <!-- Attendance Summary Section -->
-                    <div class="attendance-summary mt-4">
-                        <h2>Attendance Summary</h2>
-                        <ul>
-                            <li>Present: @Model.AttendanceSummary.PresentDays days</li>
-                            <li>Absent: @Model.AttendanceSummary.AbsentDays days</li>
-                            <li>Leaves: @Model.AttendanceSummary.LeaveDays days</li>
-                            <li>Holidays: @Model.AttendanceSummary.HolidayDays days</li>
-                        </ul>
-                    </div>
-
-                    <!-- Week Picker for Selecting a Work Week -->
-                    <div class="week-picker-container mb-3">
-                        <label for="weekPicker">Select Week (starting Monday):</label>
-                        <input type="date" id="weekPicker" class="form-control" />
-                        <button id="filterWeekButton" class="btn btn-primary mt-2">Filter</button>
-                    </div>
-
-                    <!-- Chart Container -->
-                    <div class="attendance-chart-container mt-5">
-                        <h3>Daily Hours Worked</h3>
-                        <canvas id="hoursWorkedChart"></canvas>
-                    </div>
-                </div> *@
-
                 <!-- Leave Requests Tab -->
                 <div class="tab-pane fade" id="leave-requests" role="tabpanel" aria-labelledby="leave-requests-tab">
                     <h2>Leave Requests</h2>
@@ -217,11 +147,6 @@
             $(document).ready(function () {
                 fetchLeaveRequests();
             });
-
-            // $('#leave-requests-tab').on('click', function () {
-            //     console.log('Leave Requests tab clicked'); // Check if this logs
-            //     fetchLeaveRequests();
-            // });
 
             function processLeave(empId, fromDate, status) {
                 $.ajax({
