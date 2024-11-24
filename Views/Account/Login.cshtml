@@ -1,23 +1,144 @@
-﻿@model XBCAD7319_SparkLine_HR_WebApp.Models.LoginViewModel
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="~/css/login.css" />
+    <title>SparkLine - Login</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        /* Global container */
+        .container {
+            display: flex;
+            width: 900px;
+            max-width: 100%;
+            height: 500px;
+        }
+
+        /* Left Panel (Logo Section) */
+        .logo-panel {
+            flex: 1;
+            background: #ffffff; /* White background for the logo section */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+            .logo-panel img {
+                max-width: 100%; /* Make the image fill the available width */
+                max-height: 100%; /* Ensure the image maintains its aspect ratio */
+                object-fit: cover; /* Ensure the logo fits inside without distortion */
+            }
+
+        /* Right Panel (Login Form Section) */
+        .login-panel {
+            flex: 1;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+            .login-panel .heading {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+                color: #ff6600; /* Orange from the logo */
+                font-weight: bold;
+                text-align: center;
+            }
+
+        .form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            width: 100%;
+            border: 1.5px solid #a1d1f2; /* Blue border */
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .input:focus {
+                border-color: #ff6600; /* Orange border on focus */
+                box-shadow: 0 0 8px rgba(255, 102, 0, 0.5); /* Orange glow */
+            }
+
+        .login-button {
+            background: linear-gradient(45deg, #ff6600, #ff4081); /* Orange-to-pink gradient */
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            width: 100%;
+        }
+
+            .login-button:hover {
+                background: linear-gradient(45deg, #ff4081, #ff6600); /* Reverse gradient */
+                transform: scale(1.05); /* Slight zoom effect */
+            }
+
+        .forgot-password {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+            .forgot-password a {
+                color: #004a80; /* Deep blue link */
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: bold;
+                transition: color 0.3s ease;
+            }
+
+                .forgot-password a:hover {
+                    color: #ff4081; /* Pink hover effect */
+                }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="heading">Log In</div>
-        <form id="loginForm" asp-action="Login" asp-controller="Account" method="post" class="form">
-            <input required class="input" type="email" name="email" id="email" placeholder="E-mail">
-            <input required class="input" type="password" name="password" id="password" placeholder="Password">
-            @* <span class="forgot-password"><a href="#">Forgot Password?</a></span> *@
-            <input class="login-button" type="submit" value="Log In">
-        </form>
-    </div>
+        <!-- Left Panel (Logo Section) -->
+        <div class="logo-panel">
+            <img src="@Url.Content("~/images/LoginLogo.jpg")" alt="SparkLine Logo" />
+        </div>
 
+        <!-- Right Panel (Login Form Section) -->
+        <div class="login-panel">
+            <div class="heading">SparkLine HR Login</div>
+            <form id="loginForm" asp-action="Login" asp-controller="Account" method="post" class="form">
+                <input required class="input" type="email" name="email" id="email" placeholder="E-mail">
+                <input required class="input" type="password" name="password" id="password" placeholder="Password">
+                <input class="login-button" type="submit" value="Log In">
+            </form>
+        </div>
+    </div>
 
     <script>
         // Handle login form submission

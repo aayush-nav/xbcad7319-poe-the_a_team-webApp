@@ -6,21 +6,31 @@ using XBCAD7319_SparkLine_HR_WebApp.Token;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 {
+    // Account Controller - holds all the methods for receiving the information to and from the Views files
     public class AccountController : Controller
     {
         private readonly FirebaseAuthService _firebaseAuthService;
 
+        // Initialize the Firebase Authentication Service
         public AccountController()
         {
             _firebaseAuthService = new FirebaseAuthService();
         }
 
+        // Returns the View for this controller
         public ActionResult Login()
         {
             return View();
         }
 
-
+        // Post Method
+        /// <summary>
+        /// This method takes the user name and password and validates it with the 
+        /// values in the firebase for the admin credentials
+        /// </summary>
+        /// <param name="username">Username of the admin</param>
+        /// <param name="password">password of the admin</param>
+        /// <returns>Json format success or failure message</returns>
         [HttpPost]
         public async Task<ActionResult> Login(string username, string password)
         {
@@ -50,6 +60,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid credentials" });
         }
 
+        /// <summary>
+        /// This method takes the value of the password and hashes it to match the value in the database
+        /// </summary>
+        /// <param name="password">the normal password</param>
+        /// <returns>the hashed password</returns>
         public static string HashPassword(string password)
         {
             using (var sha256 = System.Security.Cryptography.SHA256.Create())
@@ -59,7 +74,12 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
-
+        // Get Method
+        /// <summary>
+        /// triggered when a user logs out and deletes the token that was generated when 
+        /// the user was logged in
+        /// </summary>
+        /// <returns>Back to the login Page</returns>
         [HttpGet]
         [Route("Account/Logout")]
         public ActionResult Logout()
@@ -81,9 +101,5 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             // Redirect to login page
             return RedirectToAction("Login", "Account");
         }
-
-
-
-      
     }
 }

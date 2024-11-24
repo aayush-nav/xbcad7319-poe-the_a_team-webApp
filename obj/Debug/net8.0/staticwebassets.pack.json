@@ -185,6 +185,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\wwwroot\\images\\LoginLogo.JPG",
+      "PackagePath": "staticwebassets\\images\\LoginLogo.JPG"
+    },
+    {
+      "Id": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\wwwroot\\images\\SparkLine_Icon_Title_4.jpeg",
+      "PackagePath": "staticwebassets\\images\\SparkLine_Icon_Title_4.jpeg"
+    },
+    {
       "Id": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP\\xbcad7319-poe-the_a_team-webApp\\wwwroot\\images\\hr-app-logo-no-wording.jpg",
       "PackagePath": "staticwebassets\\images\\hr-app-logo-no-wording.jpg"
     },
