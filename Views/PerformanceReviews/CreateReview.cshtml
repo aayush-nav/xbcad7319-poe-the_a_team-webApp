@@ -136,15 +136,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="reviewTableBody">
-                                        @*  @foreach (var review in XBCAD7319_SparkLine_HR_WebApp.Models.PerformanceReview.PastReviews)
-                                        {
-                                        <tr>
-                                        <td class="employee-column">@review.EmployeeName</td>
-                                        <td class="date-column">@review.ReviewDate.ToString("yyyy-MM-dd")</td>
-                                        <td class="rating-column">@review.PerformanceRating</td>
-                                        <td class="feedback-column">@review.Feedback</td>
-                                        </tr>
-                                        } *@
+                                      @* populate the info from the javascript code *@
                                     </tbody>
                                 </table>
                             </div>
@@ -213,15 +205,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="trainingTableBody">
-                                        @*  @foreach (var training in (List<XBCAD7319_SparkLine_HR_WebApp.Models.Training>)ViewData["Trainings"])
-                                        {
-                                        <tr>
-                                        <td>@training.EmployeeName</td>
-                                        <td>@(training.Status ? "Completed" : "Incomplete")</td>
-                                        <td><a href="@training.CourseLink" target="_blank">View Document</a></td>
-                                        <td>@training.CompletionDate.ToString("yyyy-MM-dd")</td>
-                                        </tr>
-                                        } *@
+                                        @* populate the info from the javascript code *@
                                     </tbody>
                                 </table>
                             </div>
@@ -510,7 +494,6 @@
                 }
             });
         }
-
 
     </script>
 </body>

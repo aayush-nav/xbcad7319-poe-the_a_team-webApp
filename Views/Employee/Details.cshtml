@@ -58,7 +58,6 @@
             </ul>
 
             <!-- Personal Information (Editable) -->
-            @*  <form method="post" asp-controller="Employee" asp-action="OnboardEmployee"> *@
             <div class="tab-content mt-3">
                 <div id="personal-info" class="tab-pane fade show active" style="margin-top: 15px;">
                     <h2>Personal Information</h2>
@@ -227,8 +226,6 @@
                                 <td><input type="text" name="AccountName" class="form-control" /></td>
                             </tr>
                             <tr>
-                                @*  <td style="background-color: #ADD8E6;">PAYE:</td>
-                                <td><input type="text" name="PAYE" class="form-control" /></td> *@
                                 <td style="background-color: #ADD8E6;">UIF (%):</td>
                                 <td><input type="text" name="UIF" value="1" readonly class="form-control" /></td>
 
@@ -279,21 +276,14 @@
                             </tr>
                         </table>
                     </form> 
-                    
-                    
-                    @*  <button type="submit" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" asp-controller="Employee" asp-action="OnboardEmployee">Onboard Employee</button> *@
+
                     <button type="button" style="background-color: forestgreen; float:right; margin:30px;" class="btn btn-primary" id="onboardEmployeeButton">Onboard Employee</button>
 
                 </div>
-
-
-
                
             </div>
 
-
         </div>
-        @*  </form> *@
     </div>
 
     <style>
