@@ -1,9 +1,9 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Model for the Payroll
     public class Payroll
     {
         public string GrossPay { get; set; }
-        //public string PAYE { get; set; }
         public string UIF { get; set; }
         public string Retirement { get; set; }
         public string PaymentDate { get; set; }
@@ -13,9 +13,5 @@
         public string BankAccountNumber { get; set; }
         public string AccountType { get; set; }
         public string BranchCode { get; set; }
-
-        public Payroll()
-        {
-        }
     }
 }

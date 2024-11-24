@@ -11,12 +11,21 @@ public class FirebaseService
     private readonly FirebaseClient _firebaseClient;
     private readonly FirebaseStorage _firebaseStorage;
 
+    /// <summary>
+    /// Initialize the firebase client and the storage
+    /// </summary>
     public FirebaseService()
     {
         _firebaseClient = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/"); // Replace with your Firebase Realtime Database URL
         _firebaseStorage = new FirebaseStorage("hrappstorage.appspot.com");
     }
 
+    /// <summary>
+    /// Method to save the employees to the database
+    /// </summary>
+    /// <param name="employeeId">Employee id </param>
+    /// <param name="employeeDetails">employee deatils</param>
+    /// <returns></returns>
     public async Task SaveEmployee(string employeeId, EmployeeDetailsViewModelAllFour employeeDetails)
     {
         await _firebaseClient
@@ -26,15 +35,10 @@ public class FirebaseService
             .PutAsync(employeeDetails);
     }
 
-
-    //public async Task SaveEmployeeLeave(string employeeId, LeaveBalance leave)
-    //{
-    //    await _firebaseClient
-    //        .Child("employees_sparkline")
-    //        .Child(employeeId)
-    //        .Child("leavebalance")
-    //        .PutAsync(leave);
-    //}
+    /// <summary>
+    /// Method to get all the employees
+    /// </summary>
+    /// <returns>List of all the employees</returns>
     public async Task<List<EmployeeDetailsViewModelAllFour>> GetAllEmployeesAsync()
     {
         var snapshot = await _firebaseClient.Child("SparkLineHR").Child("employees_sparkline").OnceAsync<object>();
@@ -46,7 +50,6 @@ public class FirebaseService
             {
                 var empId = item.Key;
 
-
                 // Attempt to directly deserialize to EmployeeDetailsViewModelAllFour
                 var record = JsonConvert.DeserializeObject<EmployeeDetailsViewModelAllFour>(item.Object.ToString());
                 if (record != null)
@@ -54,7 +57,6 @@ public class FirebaseService
                     employees.Add(record);
                     continue;
                 }
-
 
             }
             catch (Exception ex)
@@ -66,9 +68,11 @@ public class FirebaseService
         return employees;
     }
 
-
-
-
+    /// <summary>
+    /// Method to get the details of the specific employee
+    /// </summary>
+    /// <param name="empID">Employee id</param>
+    /// <returns>Details of the employee</returns>
     public async Task<EmployeeDetailsViewModelAllFour> EmployeeDetailsByID(string empID)
     {
         // Fetch data from Firebase Realtime Database
@@ -113,7 +117,11 @@ public class FirebaseService
         return (viewModel);
     }
 
-
+    /// <summary>
+    /// Get the list of the deocuments stored for a specific employee
+    /// </summary>
+    /// <param name="employeeId">Employee ID</param>
+    /// <returns>List of the documents snapshots</returns>
     public async Task<DocumentLinks> GetEmployeeDocumentLinksAsync(string employeeId)
     {
         try
@@ -135,6 +143,11 @@ public class FirebaseService
         }
     }
 
+    /// <summary>
+    /// Get the info of the leave balance of a specific employee
+    /// </summary>
+    /// <param name="employeeId">employee id</param>
+    /// <returns>Leave balance</returns>
     public async Task<LeaveBalance> GetEmployeeLeaveBalanceAsync(string employeeId)
     {
         try
@@ -155,13 +168,6 @@ public class FirebaseService
             return new LeaveBalance(); // Return empty if any error occurs
         }
     }
-
-
-
-
-
-
-
 
 }
 

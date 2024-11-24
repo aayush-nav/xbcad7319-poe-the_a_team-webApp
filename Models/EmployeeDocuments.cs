@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    /// <summary>
+    /// Model for the Employee Documnets 
+    /// </summary>
     public class EmployeeDocuments
     {
         [Display(Name = "ID or Passport")]

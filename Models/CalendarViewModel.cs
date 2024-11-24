@@ -1,5 +1,6 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Models for the Calender Views
     public class CalendarViewModel
     {
         public List<WeekViewModel> Weeks { get; set; }

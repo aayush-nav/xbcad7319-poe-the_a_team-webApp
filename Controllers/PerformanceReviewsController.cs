@@ -8,25 +8,30 @@ using XBCAD7319_SparkLine_HR_WebApp.Token;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
 {
+    /// <summary>
+    ///  Performance Reviews controller - handles all the methods for the reviews and the trainings
+    ///  makes use of the TokenAuthorizationFilter for all the methods to block the routes
+    /// </summary>
     public class PerformanceReviewsController : Controller
     {
         // Static list to hold past training records
         private static List<Training> Trainings = new List<Training>();
 
+        // Initialized the service to onboard an employees and to connect to the database
         private readonly OnboardingService _onboardingService;
         private readonly FirebaseService _firebaseService;
-        //private readonly OnboardingManager _onboardingManager;
-
 
         public PerformanceReviewsController()
         {
             _onboardingService = new OnboardingService();
             _firebaseService = new FirebaseService();
-            //_onboardingManager = onboardingManager;
         }
 
+        /// <summary>
+        /// Get the employee name and number to display in the dropdown list
+        /// </summary>
+        /// <returns>View</returns>
         [TokenAuthorizationFilter]
-        // Get the employee name and number to display in the dropdown list
         public async Task<IActionResult> CreateReview()
         {
             // Initialize Firebase client
@@ -48,6 +53,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Method to submit the review for the employee
+        /// </summary>
+        /// <param name="review">Review Model</param>
+        /// <returns>json message</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> SubmitReviewAJAX(PerformanceReview review)
@@ -79,6 +89,10 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
 
+        /// <summary>
+        /// Method to get a list of the past reviews that were submitted
+        /// </summary>
+        /// <returns>List of the past reviews</returns>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetPastReviews()
@@ -111,6 +125,11 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to submit the training for the employee
+        /// </summary>
+        /// <param name="training">Training Model</param>
+        /// <returns>json message</returns>
         [TokenAuthorizationFilter]
         [HttpPost]
         public async Task<JsonResult> SubmitTrainingAJAX(Training training)
@@ -142,6 +161,10 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             return Json(new { success = false, message = "Invalid data. Please check the fields." });
         }
 
+        /// <summary>
+        /// Method to get a list of the past trainings that were submitted
+        /// </summary>
+        /// <returns>List of the past trainings</returns>
         [TokenAuthorizationFilter]
         [HttpGet]
         public async Task<IActionResult> GetPastTrainings()

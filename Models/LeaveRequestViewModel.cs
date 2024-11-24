@@ -1,5 +1,6 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Model for the leave request - matching the field in the database
     public class LeaveRequestViewModel
     {
         public string EmployeeId { get; set; }

@@ -1,5 +1,7 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Model for the onboadring manager which stored the values of the 4 objects when saving the user details 
+    // used in onboarding and updating the employee
     public class OnboardingManager
     {
         public static Employee _employee;

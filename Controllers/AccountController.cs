@@ -17,7 +17,9 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             _firebaseAuthService = new FirebaseAuthService();
         }
 
-        // Returns the View for this controller
+        /// <summary>
+        /// Returns the Login View
+        /// </summary>
         public ActionResult Login()
         {
             return View();
