@@ -1,5 +1,6 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Model for the reviews-
     public class Review
     {
         public int Id { get; set; }

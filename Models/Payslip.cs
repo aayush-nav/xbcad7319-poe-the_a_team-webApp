@@ -1,5 +1,6 @@
 ﻿namespace XBCAD7319_SparkLine_HR_WebApp.Models
 {
+    // Model for the payslip structure that it needs to be stred in firebase
     public class Payslip
     {
         public decimal GrossSalary { get; set; } // e.g., 93000
@@ -13,7 +14,6 @@
         public string TaxNum { get; set; } // Tax number
         public int UIFPercent { get; set; } // e.g., 1
     }
-
 
     public class PayslipRequest
     {

@@ -5,13 +5,21 @@ using System.Text;
 
 namespace XBCAD7319_SparkLine_HR_WebApp.Token
 {
+    /// <summary>
+    /// Helper class for generating and validating JWT tokens.
+    /// Used for managing authentication and securing user sessions.
+    /// </summary>
     public class TokenHelper
     {
         private const string SecretKey = "thisIsmySecretKeyAndWeHaveBuiltThisAppForSparkLineHR"; // Replace with your secret key
         private const string Issuer = "SparklineHR";
         private const string Audience = "SparkLineEmployees";
 
-        // Method to generate a token
+        /// <summary>
+        /// Generates a JWT token for a given username.
+        /// </summary>
+        /// <param name="username">The username to include in the token.</param>
+        /// <returns>A signed JWT token as a string.</returns>
         public static string GenerateToken(string username)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
@@ -33,34 +41,13 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Token
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        // Method to validate a token
-        //    public static ClaimsPrincipal ValidateToken(string token)
-        //    {
-        //        var tokenHandler = new JwtSecurityTokenHandler();
-        //        var key = Encoding.UTF8.GetBytes(SecretKey);
-
-        //        try
-        //        {
-        //            var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
-        //            {
-        //                ValidateIssuer = true,
-        //                ValidateAudience = true,
-        //                ValidateLifetime = true,
-        //                ValidIssuer = Issuer,
-        //                ValidAudience = Audience,
-        //                IssuerSigningKey = new SymmetricSecurityKey(key)
-        //            }, out SecurityToken validatedToken);
-
-        //            return principal;
-        //        }
-        //        catch
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
-
-        // Method to validate the token and return ClaimsPrincipal
+        /// <summary>
+        /// Validates a JWT token and returns the associated ClaimsPrincipal if valid.
+        /// </summary>
+        /// <param name="token">The JWT token to validate.</param>
+        /// <returns>
+        /// A ClaimsPrincipal object if the token is valid; otherwise, null.
+        /// </returns>
         public static ClaimsPrincipal ValidateToken(string token)
         {
             try
