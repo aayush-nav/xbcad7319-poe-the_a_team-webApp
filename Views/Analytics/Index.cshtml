@@ -232,11 +232,10 @@
                 const ratings = data.map(review => {
                     console.log(review.performanceRating)
                     switch (review.performanceRating) {
-                        case 'Excellent': return 5;
-                        case 'Good': return 4;
-                        case 'Average': return 3;
-                        case 'Below Average': return 2;
-                        case 'Poor': return 1;
+                        case 'Excellent': return 4;
+                        case 'Good': return 3;
+                        case 'Satisfactory': return 2;
+                        case 'Needs Improvement': return 1;
                         default: return 0;
                     }
                 });
@@ -266,11 +265,10 @@
                                     label: function (context) {
                                         const ratingValue = context.raw;
                                         const ratingText = {
-                                            5: 'Excellent',
-                                            4: 'Good',
-                                            3: 'Average',
-                                            2: 'Below Average',
-                                            1: 'Poor'
+                                            4: 'Excellent',
+                                            3: 'Good',
+                                            2: 'Satifactory',
+                                            1: 'Needs Improvement'
                                         }[ratingValue] || 'Unknown';
                                         return `${ratingText} (${ratingValue})`;
                                     }
@@ -287,11 +285,10 @@
                                     stepSize: 1,
                                     callback: function (value) {
                                         return {
-                                            5: 'Excellent',
-                                            4: 'Good',
-                                            3: 'Average',
-                                            2: 'Below Average',
-                                            1: 'Poor',
+                                            4: 'Excellent',
+                                            3: 'Good',
+                                            2: 'Satifactory',
+                                            1: 'Needs Improvement',
                                             0: ''
                                         }[value];
                                     }
