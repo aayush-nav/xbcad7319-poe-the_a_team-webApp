@@ -331,7 +331,7 @@
                     <div class="card">
                         <div class="card-header">Reset Employee Password</div>
                         <div class="card-body">
-                            <form id="resetPasswordForm" method="post" action="@Url.Action("ResetPassword", "Employee")">
+                          @*   <form id="resetPasswordForm" method="post" action="@Url.Action("ResetPassword", "Employee")">
                                 <dl class="row">
                                     <dt class="col-sm-3">Email:</dt>
                                     <dd class="col-sm-9">
@@ -340,7 +340,18 @@
                                 </dl>
                                 <input type="hidden" id="Email" name="Email" value="@Model.employee.Email" />  <!-- Hidden field for employee ID -->
                                 <button type="submit" class="btn btn-warning">Reset Password</button>
+                            </form> *@
+                            <form id="resetPasswordForm">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Email:</dt>
+                                    <dd class="col-sm-9">
+                                        <input type="email" name="EmailInput" class="form-control" required placeholder="Enter employee email" />
+                                    </dd>
+                                </dl>
+                                <input type="hidden" id="Email" name="Email" value="@Model.employee.Email" />
+                                <button type="button" id="resetPasswordButton" class="btn btn-warning">Reset Password</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -357,6 +368,33 @@
     </style>
 
     <script>
+
+        $(document).ready(function () {
+            $('#resetPasswordButton').on('click', function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const formData = {
+                    EmailInput: $('input[name="EmailInput"]').val(),
+                    Email: $('#Email').val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("ResetPassword", "Employee")',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message); // Show success alert
+                        } else {
+                            alert(`Error: ${response.message}`); // Show error alert
+                        }
+                    },
+                    error: function () {
+                        alert('An unexpected error occurred while resetting the password.');
+                    }
+                });
+            });
+        });
 
        
 
