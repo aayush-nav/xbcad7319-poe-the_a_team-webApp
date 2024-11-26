@@ -147,6 +147,8 @@
                             <th>Incident Title</th>
                             <th>Description</th>
                             <th>Date Submitted</th>
+                            <th>Actions</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -241,16 +243,51 @@
 
                 incidentReports.forEach(report => {
                     const row = `
-                                    <tr>
-                                        <td>${report.employeeNumber}</td>
-                                        <td>${report.title}</td>
-                                        <td>${report.description}</td>
-                                        <td>${report.dateSubmitted}</td>
-                                    </tr>
-                                `;
+                        <tr>
+                            <td>${report.employeeNumber}</td>
+                            <td>${report.title}</td>
+                            <td>${report.description}</td>
+                            <td>${report.dateSubmitted}</td>
+                            <td>
+                                <button class="btn btn-danger close-incident-btn" data-employee="${report.employeeNumber}" data-date="${report.dateSubmitted}">
+                                    Close
+                                </button>
+                            </td>
+                        </tr>
+                    `;
                     tableBody.append(row);
                 });
+
+                // Attach event listener for the "Close" buttons
+                $('.close-incident-btn').on('click', function () {
+                    const employeeNumber = $(this).data('employee');
+                    const dateSubmitted = $(this).data('date');
+                    closeIncident(employeeNumber, dateSubmitted);
+                });
             }
+
+
+            function closeIncident(employeeNumber, dateSubmitted) {
+                if (confirm('Are you sure you want to close this incident?')) {
+                    $.ajax({
+                        url: '@Url.Action("CloseIncident", "Employee")',
+                        type: 'POST',
+                        data: { employeeNumber: employeeNumber, dateSubmitted: dateSubmitted },
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Incident closed successfully.');
+                                fetchIncidentReports(); // Refresh the table
+                            } else {
+                                alert('Failed to close the incident: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while closing the incident.');
+                        }
+                    });
+                }
+            }
+
 
             // Call fetchIncidentReports on page load
             $(document).ready(function () {

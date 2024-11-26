@@ -571,5 +571,32 @@ namespace XBCAD7319_SparkLine_HR_WebApp.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CloseIncident(string employeeNumber, string dateSubmitted)
+        {
+            try
+            {
+                // Firebase connection
+                var firebase = new FirebaseClient("https://hrappstorage-default-rtdb.firebaseio.com/");
+
+                // Construct the Firebase key for the incident
+                string incidentKey = $"{employeeNumber},{dateSubmitted}";
+
+                // Delete the incident from Firebase
+                await firebase
+                    .Child("SparkLineHR")
+                    .Child("IssueReports")
+                    .Child(incidentKey)
+                    .DeleteAsync();
+
+                return Json(new { success = true, message = "Incident closed successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Failed to close the incident.", error = ex.Message });
+            }
+        }
+
+
     }
 }
