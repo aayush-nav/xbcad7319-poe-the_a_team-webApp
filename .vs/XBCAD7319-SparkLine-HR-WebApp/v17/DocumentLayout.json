@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\employee\\management.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\anjal\\onedrive\\desktop\\xbcad_2024\\final_web_app_25_11\\xbcad7319-poe-the_a_team-webapp\\views\\analytics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:views\\analytics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|c:\\users\\anjal\\onedrive\\desktop\\xbcad_2024\\final_web_app_25_11\\xbcad7319-poe-the_a_team-webapp\\controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F15C842-5BA4-439B-9817-D21DBEB9ED3A}|XBCAD7319-SparkLine-HR-WebApp.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,55 +26,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Views\\Analytics\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Analytics\\Index.cshtml",
-              "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Views\\Analytics\\Index.cshtml",
-              "RelativeToolTip": "Views\\Analytics\\Index.cshtml",
-              "ViewState": "AQIAAKgAAAAAAAAAAAAgwNIAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-26T02:57:55.394Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "AnalyticsController.cs",
               "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\AnalyticsController.cs",
               "RelativeDocumentMoniker": "Controllers\\AnalyticsController.cs",
               "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\AnalyticsController.cs",
               "RelativeToolTip": "Controllers\\AnalyticsController.cs",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAAwGkAAAAJAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAAwCwAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T02:56:47.519Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EmployeeController.cs",
-              "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\EmployeeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EmployeeController.cs",
-              "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\EmployeeController.cs",
-              "RelativeToolTip": "Controllers\\EmployeeController.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAAAB4AAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-24T06:41:04.362Z",
+              "WhenOpened": "2024-11-26T17:20:17.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Management.cshtml",
-              "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Views\\Employee\\Management.cshtml",
-              "RelativeDocumentMoniker": "Views\\Employee\\Management.cshtml",
-              "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Views\\Employee\\Management.cshtml",
-              "RelativeToolTip": "Views\\Employee\\Management.cshtml",
-              "ViewState": "AQIAAPEAAAAAAAAAAAAIwCMBAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-24T06:39:53.808Z",
-              "EditorCaption": ""
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\anjal\\OneDrive\\Desktop\\XBCAD_2024\\FINAL_WEB_APP_25_11\\xbcad7319-poe-the_a_team-webApp\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T16:48:14.863Z"
             }
           ]
         }
