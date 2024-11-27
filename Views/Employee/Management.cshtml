@@ -45,7 +45,7 @@
         <div class="main-content">
             <div class="tabs">
                 <div class="tab-link active" data-tab="employee-list">Employee List</div>
-                <div class="tab-link" data-tab="previous-employees">Previous Employees</div>
+                @* <div class="tab-link" data-tab="previous-employees">Previous Employees</div> *@
                 <div class="tab-link" data-tab="payslips">Release Payslips</div>
                 <!--Anjali add this line -->
                 <div class="tab-link" data-tab="view-incident">View Incident</div>
@@ -79,7 +79,7 @@
                                 <td>
                                     <div style="display: flex; gap: 10px;">
                                         <a asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@emp.empID" class="btn btn-primary">Edit</a>
-                                        <button class="remove-btn btn btn-danger" onclick="removeEmployee(this)">Remove</button>
+                                        @* <button class="remove-btn btn btn-danger" onclick="removeEmployee(this)">Remove</button> *@
                                     </div>
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@
               
             </div>
 
-            <!-- Aslam Updated -->
+           @*  <!-- Aslam Updated -->
             <!-- Previous Employees Content -->
             <div class="tab-content" id="previous-employees" style="display:none;">
                 <h3>Previous Employees</h3>
@@ -108,7 +108,7 @@
                         <!-- Removed employees will appear here -->
                     </tbody>
                 </table>
-            </div>
+            </div> *@
 
             <!-- Payslips Content -->
             <div class="tab-content" id="payslips" style="display:none;">
